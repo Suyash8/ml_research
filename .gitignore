@@ -5,3 +5,4 @@ data/*
 !data/preprocessed/
 !data/preprocessed/**/*
 !data/preprocessed*
+!data/model_outputs/

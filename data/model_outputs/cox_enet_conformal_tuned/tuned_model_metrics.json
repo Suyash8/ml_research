@@ -1,0 +1,23 @@
+{
+  "input_file": "/home/illionar/Projects/ml_research/data/preprocessed_cleaned/patient_multiomic_cleaned.parquet",
+  "best_params": {
+    "alpha": 3.0,
+    "l1_ratio": 0.7
+  },
+  "cv_best_mean_c_index": 0.7284946400840597,
+  "cv_best_std_c_index": 0.022788880376024088,
+  "n_total": 1620,
+  "n_train": 972,
+  "n_calibration": 324,
+  "n_test": 324,
+  "events_train": 568,
+  "events_calibration": 190,
+  "events_test": 189,
+  "c_index_train": 0.7550797978476882,
+  "c_index_calibration": 0.7446651949963208,
+  "c_index_test": 0.7455690860863274,
+  "conformal_alpha": 0.1,
+  "conformal_qhat_log_months": 1.2670393978511738,
+  "conformal_coverage_test_events_only": 0.8306878306878307,
+  "conformal_mean_interval_width_months_test": 83.47855602225026
+}

@@ -1,0 +1,28 @@
+{
+  "input_file": "/home/illionar/Projects/ml_research/data/preprocessed_cleaned/patient_multiomic_cleaned.parquet",
+  "n_total": 1620,
+  "n_train": 972,
+  "n_calibration": 324,
+  "n_test": 324,
+  "events_train": 568,
+  "events_calibration": 190,
+  "events_test": 189,
+  "cox_enet": {
+    "alpha": 0.8,
+    "l1_ratio": 0.3,
+    "optimizer_success": true,
+    "optimizer_message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+    "n_iter": 94,
+    "c_index_train": 0.7549926054106261,
+    "c_index_calibration": 0.7373068432671082,
+    "c_index_test": 0.7438208343380757
+  },
+  "conformal": {
+    "alpha": 0.1,
+    "target_interval": "90%",
+    "qhat_abs_residual_log_months": 1.2816138918736741,
+    "empirical_coverage_test_events_only": 0.8518518518518519,
+    "mean_interval_width_months_test": 86.59564300327814,
+    "notes": "Coverage is computed on uncensored test events only due to right-censoring constraints in split-conformal regression."
+  }
+}
