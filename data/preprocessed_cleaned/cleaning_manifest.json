@@ -1,0 +1,62 @@
+{
+  "source_dir": "/home/illionar/Projects/ml_research/data/preprocessed",
+  "output_dir": "/home/illionar/Projects/ml_research/data/preprocessed_cleaned",
+  "files": [
+    {
+      "source_file": "clinical_all_clean.parquet",
+      "output_file": "clinical_all_clean_cleaned.parquet",
+      "rows": 1628,
+      "before_columns": 57,
+      "after_columns": 46,
+      "dropped_count": 11,
+      "dropped_columns": [
+        "HISTORY_LGG_DX_OF_BRAIN_TISSUE",
+        "PERFORMANCE_STATUS_TIMING",
+        "PHARMACEUTICAL_TX_ADJUVANT",
+        "FAMILY_HISTORY_OF_CANCER",
+        "HISTORY_HEPATO_CARCINOMA_RISK_FACTORS",
+        "DEFINITIVE_SURGICAL_PROCEDURE",
+        "PRIMARY_MELANOMA_KNOWN_DX",
+        "PRIMARY_MULTIPLE_AT_DX",
+        "SUBMITTED_TUMOR_DX_DAYS_TO",
+        "TUMOR_SITE",
+        "PRIMARY_MELANOMA_SKIN_TYPE"
+      ],
+      "declared_but_missing_columns": []
+    },
+    {
+      "source_file": "patient_multiomic.parquet",
+      "output_file": "patient_multiomic_cleaned.parquet",
+      "rows": 1628,
+      "before_columns": 1060,
+      "after_columns": 1049,
+      "dropped_count": 11,
+      "dropped_columns": [
+        "HISTORY_LGG_DX_OF_BRAIN_TISSUE",
+        "PERFORMANCE_STATUS_TIMING",
+        "PHARMACEUTICAL_TX_ADJUVANT",
+        "FAMILY_HISTORY_OF_CANCER",
+        "HISTORY_HEPATO_CARCINOMA_RISK_FACTORS",
+        "DEFINITIVE_SURGICAL_PROCEDURE",
+        "PRIMARY_MELANOMA_KNOWN_DX",
+        "PRIMARY_MULTIPLE_AT_DX",
+        "SUBMITTED_TUMOR_DX_DAYS_TO",
+        "TUMOR_SITE",
+        "PRIMARY_MELANOMA_SKIN_TYPE"
+      ],
+      "declared_but_missing_columns": []
+    },
+    {
+      "source_file": "sample_omic_long.parquet",
+      "output_file": "sample_omic_long_cleaned.parquet",
+      "rows": 1256,
+      "before_columns": 614,
+      "after_columns": 613,
+      "dropped_count": 1,
+      "dropped_columns": [
+        "DAYS_TO_SPECIMEN_COLLECTION"
+      ],
+      "declared_but_missing_columns": []
+    }
+  ]
+}
