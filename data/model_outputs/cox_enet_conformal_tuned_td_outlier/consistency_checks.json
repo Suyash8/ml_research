@@ -1,0 +1,79 @@
+{
+  "input_file": "/home/illionar/Projects/ml_research/data/preprocessed_cleaned/patient_multiomic_cleaned.parquet",
+  "rows_before_outlier_filter": 1620,
+  "rows_after_outlier_filter": 1538,
+  "outlier_report": {
+    "initial_rows": 1620,
+    "iqr_multiplier": 3.0,
+    "rules": [
+      {
+        "column": "OS_MONTHS",
+        "q1": 9.5825,
+        "q3": 35.665,
+        "iqr": 26.0825,
+        "lower_bound": -68.665,
+        "upper_bound": 113.9125,
+        "removed_rows": 82,
+        "skipped": false
+      },
+      {
+        "column": "AGE",
+        "q1": 51.0,
+        "q3": 70.0,
+        "iqr": 19.0,
+        "lower_bound": -6.0,
+        "upper_bound": 127.0,
+        "removed_rows": 0,
+        "skipped": false
+      }
+    ],
+    "final_rows": 1538,
+    "total_removed": 82
+  },
+  "split_report": {
+    "train": {
+      "rows": 922,
+      "events": 547,
+      "censored": 375,
+      "event_rate": 0.5932754880694143
+    },
+    "calibration": {
+      "rows": 308,
+      "events": 183,
+      "censored": 125,
+      "event_rate": 0.5941558441558441
+    },
+    "test": {
+      "rows": 308,
+      "events": 183,
+      "censored": 125,
+      "event_rate": 0.5941558441558441
+    }
+  },
+  "feature_checks": {
+    "clinical_num_cols": [
+      "AGE"
+    ],
+    "clinical_cat_cols": [
+      "SEX",
+      "RACE",
+      "ETHNICITY",
+      "CANCER_TYPE",
+      "AGE_GROUP"
+    ],
+    "clinical_output_dim": 20,
+    "expr_input_dim": 500,
+    "expr_pca_components": 50,
+    "expr_output_dim": 50,
+    "final_dim": 70,
+    "final_train_mean_abs_max": 9.763219396595195e-16,
+    "final_train_std_min": 0.9999999999999863,
+    "final_train_std_max": 1.0000000000000084,
+    "final_constant_feature_count": 0
+  },
+  "feature_counts": {
+    "clinical_cols": 6,
+    "expr_cols": 500
+  },
+  "leakage_check_passed": true
+}
