@@ -1,0 +1,282 @@
+{
+  "threshold_abs_pearson": 0.95,
+  "fit_reference": "train_split_only",
+  "expression": {
+    "group": "expression",
+    "threshold": 0.95,
+    "input_feature_count": 500,
+    "numeric_evaluated_count": 500,
+    "dropped_count": 131,
+    "kept_count": 369,
+    "dropped_features": [
+      "EXPR_AADAC",
+      "EXPR_ABCG8",
+      "EXPR_ACSM2A",
+      "EXPR_ACSM2B",
+      "EXPR_ADH1A",
+      "EXPR_ADH6",
+      "EXPR_AFM",
+      "EXPR_AGXT",
+      "EXPR_AGXT2",
+      "EXPR_AHSG",
+      "EXPR_AKR1C4",
+      "EXPR_ALB",
+      "EXPR_ALDOB",
+      "EXPR_AMBP",
+      "EXPR_ANGPTL3",
+      "EXPR_APCS",
+      "EXPR_APOA1",
+      "EXPR_APOA2",
+      "EXPR_APOA5",
+      "EXPR_APOB",
+      "EXPR_APOC3",
+      "EXPR_APOC4",
+      "EXPR_APOF",
+      "EXPR_APOH",
+      "EXPR_ASGR2",
+      "EXPR_BDK",
+      "EXPR_BHMT",
+      "EXPR_C3P1",
+      "EXPR_C4BPA",
+      "EXPR_C4BPB",
+      "EXPR_C8A",
+      "EXPR_C8B",
+      "EXPR_C8G",
+      "EXPR_CCL16",
+      "EXPR_CFHR1",
+      "EXPR_CFHR4",
+      "EXPR_CFHR5",
+      "EXPR_CPA1",
+      "EXPR_CPB2",
+      "EXPR_CPN2",
+      "EXPR_CREB3L3",
+      "EXPR_CTRB1",
+      "EXPR_CTRB2",
+      "EXPR_CYP2C9",
+      "EXPR_CYP4A11",
+      "EXPR_CYP8B1",
+      "EXPR_DAO",
+      "EXPR_DIO1",
+      "EXPR_DMGDH",
+      "EXPR_DPYS",
+      "EXPR_EIF1AY",
+      "EXPR_F11",
+      "EXPR_F13B",
+      "EXPR_F2",
+      "EXPR_F7",
+      "EXPR_F9",
+      "EXPR_FABP1",
+      "EXPR_FGA",
+      "EXPR_FGB",
+      "EXPR_FGG",
+      "EXPR_FGL1",
+      "EXPR_FHR2",
+      "EXPR_G6PC",
+      "EXPR_GC",
+      "EXPR_GLTPD2",
+      "EXPR_GLYAT",
+      "EXPR_GLYATL1",
+      "EXPR_HAO1",
+      "EXPR_HFE2",
+      "EXPR_HGD",
+      "EXPR_HMGCS2",
+      "EXPR_HPX",
+      "EXPR_HRG",
+      "EXPR_HULC",
+      "EXPR_HY",
+      "EXPR_INS",
+      "EXPR_ITIH1",
+      "EXPR_ITIH2",
+      "EXPR_ITIHL1",
+      "EXPR_KRT8",
+      "EXPR_LEAP2",
+      "EXPR_LINC00261",
+      "EXPR_LOC285733",
+      "EXPR_MAGEA6",
+      "EXPR_MODY1",
+      "EXPR_NR1H4",
+      "EXPR_ORM1",
+      "EXPR_ORM2",
+      "EXPR_PAH",
+      "EXPR_PGLYRP2",
+      "EXPR_PLA2G12B",
+      "EXPR_PLG",
+      "EXPR_PLI",
+      "EXPR_PLP1",
+      "EXPR_PNLIP",
+      "EXPR_PON1",
+      "EXPR_PRAP1",
+      "EXPR_PROC",
+      "EXPR_PRODH2",
+      "EXPR_RBP4",
+      "EXPR_RPS4Y1",
+      "EXPR_RTP3",
+      "EXPR_SAA2",
+      "EXPR_SAA4",
+      "EXPR_SERPINA10",
+      "EXPR_SERPINA11",
+      "EXPR_SERPINA4",
+      "EXPR_SERPINA6",
+      "EXPR_SERPINA7",
+      "EXPR_SERPINC1",
+      "EXPR_SERPIND1",
+      "EXPR_SLC10A1",
+      "EXPR_SLC17A2",
+      "EXPR_SLC17A4",
+      "EXPR_SLC22A7",
+      "EXPR_SLC22A9",
+      "EXPR_SLC2A2",
+      "EXPR_SLCO1B1",
+      "EXPR_SPP2",
+      "EXPR_SULT2A1",
+      "EXPR_TDD",
+      "EXPR_TM4SF4",
+      "EXPR_TM4SF5",
+      "EXPR_TMPRSS6",
+      "EXPR_TYR",
+      "EXPR_UGT1A4",
+      "EXPR_UGT1A9",
+      "EXPR_UGT2B10",
+      "EXPR_UGT2B4",
+      "EXPR_UPB1",
+      "EXPR_VTN"
+    ],
+    "skipped_non_numeric_or_too_sparse": [],
+    "skipped_constant_or_near_constant": [],
+    "method_details": {
+      "method": "full_correlation_matrix",
+      "n_pairs_above_threshold": 1262,
+      "top_high_correlation_pairs_preview": [
+        {
+          "feature_a": "EXPR_ACSM2A",
+          "feature_b": "EXPR_ACSM2B",
+          "abs_correlation": 0.995793923544818
+        },
+        {
+          "feature_a": "EXPR_FGA",
+          "feature_b": "EXPR_FGG",
+          "abs_correlation": 0.9921588171689856
+        },
+        {
+          "feature_a": "EXPR_CTRB1",
+          "feature_b": "EXPR_CTRB2",
+          "abs_correlation": 0.989367087211993
+        },
+        {
+          "feature_a": "EXPR_BDK",
+          "feature_b": "EXPR_F2",
+          "abs_correlation": 0.9892355644258544
+        },
+        {
+          "feature_a": "EXPR_FHR2",
+          "feature_b": "EXPR_SERPINC1",
+          "abs_correlation": 0.988818016705499
+        },
+        {
+          "feature_a": "EXPR_FGA",
+          "feature_b": "EXPR_FGB",
+          "abs_correlation": 0.98825521949535
+        },
+        {
+          "feature_a": "EXPR_DDX3Y",
+          "feature_b": "EXPR_HY",
+          "abs_correlation": 0.988084573593635
+        },
+        {
+          "feature_a": "EXPR_ORM1",
+          "feature_b": "EXPR_ORM2",
+          "abs_correlation": 0.9875096290829273
+        },
+        {
+          "feature_a": "EXPR_APOA2",
+          "feature_b": "EXPR_F2",
+          "abs_correlation": 0.9864997947287931
+        },
+        {
+          "feature_a": "EXPR_F2",
+          "feature_b": "EXPR_FHR2",
+          "abs_correlation": 0.9861760039610726
+        },
+        {
+          "feature_a": "EXPR_ACSM2B",
+          "feature_b": "EXPR_SERPINC1",
+          "abs_correlation": 0.9859761419089191
+        },
+        {
+          "feature_a": "EXPR_FGB",
+          "feature_b": "EXPR_FGG",
+          "abs_correlation": 0.9858331478138365
+        },
+        {
+          "feature_a": "EXPR_BDK",
+          "feature_b": "EXPR_FHR2",
+          "abs_correlation": 0.985491553884561
+        },
+        {
+          "feature_a": "EXPR_ACSM2B",
+          "feature_b": "EXPR_FHR2",
+          "abs_correlation": 0.9851677871140833
+        },
+        {
+          "feature_a": "EXPR_BDK",
+          "feature_b": "EXPR_SERPINC1",
+          "abs_correlation": 0.9850562493936309
+        },
+        {
+          "feature_a": "EXPR_APOC3",
+          "feature_b": "EXPR_F2",
+          "abs_correlation": 0.9846853464598291
+        },
+        {
+          "feature_a": "EXPR_F2",
+          "feature_b": "EXPR_SERPINC1",
+          "abs_correlation": 0.984594726925141
+        },
+        {
+          "feature_a": "EXPR_F2",
+          "feature_b": "EXPR_PLG",
+          "abs_correlation": 0.9845153006889465
+        },
+        {
+          "feature_a": "EXPR_APOA2",
+          "feature_b": "EXPR_BDK",
+          "abs_correlation": 0.9844041899008236
+        },
+        {
+          "feature_a": "EXPR_PLG",
+          "feature_b": "EXPR_SERPINC1",
+          "abs_correlation": 0.9842133275028682
+        }
+      ]
+    }
+  },
+  "clinical_numeric": {
+    "group": "clinical_numeric",
+    "threshold": 0.95,
+    "input_feature_count": 1,
+    "numeric_evaluated_count": 1,
+    "dropped_count": 0,
+    "kept_count": 1,
+    "skipped_non_numeric_or_too_sparse": [],
+    "skipped_constant_or_near_constant": [],
+    "method_details": {
+      "method": "insufficient_numeric_features"
+    }
+  },
+  "clinical_non_numeric_or_sparse_kept_as_is": [
+    "SEX",
+    "RACE",
+    "ETHNICITY",
+    "CANCER_TYPE",
+    "AGE_GROUP"
+  ],
+  "feature_counts": {
+    "expr_before": 500,
+    "expr_after": 369,
+    "clinical_before": 6,
+    "clinical_after": 6,
+    "total_before": 506,
+    "total_after": 375,
+    "total_dropped": 131
+  }
+}

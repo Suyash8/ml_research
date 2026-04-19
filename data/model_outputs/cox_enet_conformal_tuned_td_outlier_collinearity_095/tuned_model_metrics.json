@@ -1,0 +1,50 @@
+{
+  "input_file": "/home/illionar/Projects/ml_research/data/preprocessed_cleaned/patient_multiomic_cleaned.parquet",
+  "best_params": {
+    "alpha": 3.0,
+    "l1_ratio": 0.3
+  },
+  "cv_best_mean_c_index": 0.7188360001485107,
+  "cv_best_std_c_index": 0.04231226990183142,
+  "cv_best_valid_folds": 5,
+  "n_total_after_outlier_filter": 1538,
+  "n_train": 922,
+  "n_calibration": 308,
+  "n_test": 308,
+  "events_train": 547,
+  "events_calibration": 183,
+  "events_test": 183,
+  "cox_optimizer_success": true,
+  "cox_optimizer_message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+  "cox_optimizer_iterations": 55,
+  "c_index_train": 0.7548874045592672,
+  "c_index_calibration": 0.6835711858647638,
+  "c_index_test": 0.7208807521029194,
+  "collinearity_filter": {
+    "threshold_abs_pearson": 0.95,
+    "clinical_before": 6,
+    "clinical_after": 6,
+    "expr_before": 500,
+    "expr_after": 369,
+    "total_dropped": 131
+  },
+  "conformal_month_interval": {
+    "alpha": 0.1,
+    "qhat_log_months": 1.2586290625031253,
+    "coverage_test_events_only": 0.819672131147541,
+    "mean_interval_width_months_test": 59.841142930814456,
+    "status": "ok",
+    "n_calibration_events": 183,
+    "n_test_events": 183
+  },
+  "time_dependent_conformal": {
+    "horizons_months": [
+      12,
+      24,
+      36,
+      60
+    ],
+    "n_horizons_reported": 4,
+    "n_horizons_with_models": 4
+  }
+}

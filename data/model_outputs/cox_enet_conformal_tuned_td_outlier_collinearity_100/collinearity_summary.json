@@ -1,0 +1,49 @@
+{
+  "threshold_abs_pearson": 1.0,
+  "fit_reference": "train_split_only",
+  "expression": {
+    "group": "expression",
+    "threshold": 1.0,
+    "input_feature_count": 500,
+    "numeric_evaluated_count": 500,
+    "dropped_count": 0,
+    "kept_count": 500,
+    "dropped_features": [],
+    "skipped_non_numeric_or_too_sparse": [],
+    "skipped_constant_or_near_constant": [],
+    "method_details": {
+      "method": "full_correlation_matrix",
+      "n_pairs_above_threshold": 0,
+      "top_high_correlation_pairs_preview": []
+    }
+  },
+  "clinical_numeric": {
+    "group": "clinical_numeric",
+    "threshold": 1.0,
+    "input_feature_count": 1,
+    "numeric_evaluated_count": 1,
+    "dropped_count": 0,
+    "kept_count": 1,
+    "skipped_non_numeric_or_too_sparse": [],
+    "skipped_constant_or_near_constant": [],
+    "method_details": {
+      "method": "insufficient_numeric_features"
+    }
+  },
+  "clinical_non_numeric_or_sparse_kept_as_is": [
+    "SEX",
+    "RACE",
+    "ETHNICITY",
+    "CANCER_TYPE",
+    "AGE_GROUP"
+  ],
+  "feature_counts": {
+    "expr_before": 500,
+    "expr_after": 500,
+    "clinical_before": 6,
+    "clinical_after": 6,
+    "total_before": 506,
+    "total_after": 506,
+    "total_dropped": 0
+  }
+}

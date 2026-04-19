@@ -1,0 +1,68 @@
+{
+  "input_file": "/home/illionar/Projects/ml_research/data/preprocessed_cleaned/patient_multiomic_cleaned.parquet",
+  "best_cox_params": {
+    "alpha": 3.0,
+    "l1_ratio": 0.7
+  },
+  "cv_best_mean_c_index": 0.7128538031591864,
+  "cv_best_std_c_index": 0.02558916622754606,
+  "cv_best_valid_folds": 5,
+  "n_total_after_outlier_filter": 1538,
+  "n_train": 922,
+  "n_calibration": 308,
+  "n_test": 308,
+  "events_train": 547,
+  "events_calibration": 183,
+  "events_test": 183,
+  "cox_optimizer_success": true,
+  "cox_optimizer_message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+  "cox_optimizer_iterations": 54,
+  "c_index_train": 0.7479963374105785,
+  "c_index_calibration": 0.6918450560652396,
+  "c_index_test": 0.7202869866402771,
+  "collinearity_filter": {
+    "threshold_abs_pearson": 0.75,
+    "clinical_before": 6,
+    "clinical_after": 6,
+    "expr_before": 500,
+    "expr_after": 57,
+    "total_dropped": 443
+  },
+  "cqr_month_interval": {
+    "method": "CQR_Romano_Patterson_Candes_NeurIPS2019",
+    "reference": "arXiv:1905.03222",
+    "alpha": 0.1,
+    "alpha_lo_quantile": 0.05,
+    "alpha_hi_quantile": 0.95,
+    "n_train_events": 547,
+    "n_cal_events": 183,
+    "n_test_events": 183,
+    "cqr_min_train_events": 20,
+    "cqr_min_cal_events": 10,
+    "coverage_claimed_for": "event-only_test_rows_under_exchangeability",
+    "coverage_not_claimed_for": "censored_test_rows",
+    "status": "ok",
+    "calibration_score_min": -36.292660865565416,
+    "calibration_score_median": -9.151797529563694,
+    "calibration_score_p90": 0.3278714643190631,
+    "calibration_score_max": 46.05814468303229,
+    "calibration_score_mean": -8.756288384215367,
+    "raw_qr_interval_width_mean_cal": 49.66270226058834,
+    "qhat_months": 0.37453159652905904,
+    "mean_interval_width_months_all_test": 52.17165563166721,
+    "median_interval_width_months_all_test": 48.22839699889934,
+    "coverage_test_events_only": 0.8469945355191257,
+    "mean_interval_width_months_test_events": 51.345146550625635,
+    "median_interval_width_months_test_events": 47.25772354430056
+  },
+  "time_dependent_conformal": {
+    "horizons_months": [
+      12,
+      24,
+      36,
+      60
+    ],
+    "n_horizons_reported": 4,
+    "n_horizons_with_models": 4
+  }
+}
