@@ -1,0 +1,89 @@
+{
+  "n_test_patients": 324,
+  "conformal_details": {
+    "method": "CQR_Romano_Patterson_Candes_NeurIPS2019",
+    "scale": "raw_months_no_log_transform",
+    "alpha": 0.1,
+    "alpha_lo_quantile": 0.05,
+    "alpha_hi_quantile": 0.95,
+    "n_train_events": 568,
+    "n_cal_events": 190,
+    "n_test_events": 189,
+    "coverage_claimed_for": "event-only test rows under exchangeability",
+    "status": "ok",
+    "calibration_score_min": -51.27275127059908,
+    "calibration_score_median": -9.90601023089549,
+    "calibration_score_p90": 1.20651160160703,
+    "calibration_score_max": 108.2186569723277,
+    "calibration_score_mean": -10.196604673186068,
+    "qhat_months": 1.223666282986417,
+    "mean_interval_width_months_all_test": 65.48804234586932,
+    "median_interval_width_months_all_test": 56.71796446173964,
+    "p90_interval_width_months_all_test": 115.15329005419693,
+    "coverage_test_events_only": 0.8677248677248677,
+    "mean_interval_width_months_test_events": 61.91854754141118
+  },
+  "uncertainty_thresholds": {
+    "uncertainty_quantile_used": 0.75,
+    "type1_qr_width_threshold_months": 78.90235159610846,
+    "type2_risk_score_iqr": {
+      "q25": -0.7841953478638115,
+      "q75": 0.8702733371574788
+    },
+    "type3_hi_threshold_months": 85.1206250224766
+  },
+  "flags": {
+    "type1_model_uncertain": {
+      "n": 81,
+      "pct": 25.0,
+      "description": "Raw QR interval width > Q75 \u2014 model has high aleatoric uncertainty"
+    },
+    "type2_risk_ambiguous": {
+      "n": 163,
+      "pct": 50.308641975308646,
+      "description": "Cox risk score in IQR [Q25, Q75] \u2014 borderline discriminative zone"
+    },
+    "type3_upper_tail": {
+      "n": 81,
+      "pct": 25.0,
+      "description": "Conformal hi > Q75 of test hi \u2014 long predicted survival, poorly bounded"
+    },
+    "high_uncertainty": {
+      "n": 212,
+      "pct": 65.4320987654321,
+      "description": "Triggered >= 1 uncertainty type"
+    },
+    "very_high_uncertainty": {
+      "n": 82,
+      "pct": 25.308641975308642,
+      "description": "Triggered >= 2 uncertainty types \u2014 highest clinical attention needed"
+    }
+  },
+  "interval_statistics": {
+    "all_patients": {
+      "mean_conformal_width_months": 65.48804234586932,
+      "median_conformal_width_months": 56.71796446173964,
+      "p90_conformal_width_months": 115.15329005419693,
+      "mean_qr_raw_width_months": 63.05731610586941,
+      "median_qr_raw_width_months": 54.27063189576681
+    },
+    "high_uncertainty_only": {
+      "mean_conformal_width_months": 76.44731886157567,
+      "median_conformal_width_months": 73.65728105470333
+    },
+    "low_uncertainty_only": {
+      "mean_conformal_width_months": 44.74369751256802,
+      "median_conformal_width_months": 39.21647171928018
+    }
+  },
+  "type_co_occurrence": {
+    "t1_only": 1,
+    "t2_only": 129,
+    "t3_only": 0,
+    "t1_and_t2": 32,
+    "t1_and_t3": 79,
+    "t2_and_t3": 33,
+    "all_three": 31,
+    "none": 112
+  }
+}
