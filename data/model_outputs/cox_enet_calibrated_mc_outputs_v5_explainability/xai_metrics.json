@@ -8,7 +8,7 @@
   "n_transformed_features": 70,
   "n_clinical_transformed_features": 20,
   "n_expression_pca_features": 50,
-  "top_features_per_patient": 12,
+  "top_features_per_patient": 1000,
   "top_genes_per_pc": 10,
   "risk_score_mean": -0.032466885211549,
   "risk_score_median": -0.007089235973684658,

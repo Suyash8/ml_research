@@ -95,21 +95,15 @@ def plot_waterfall(patient_id, detail_df, summary_df, out_dir):
         print(f"No summary data found for patient {patient_id}")
         return
         
-    # Sort by rank to get top features
-    p_detail = p_detail.sort_values("rank", ascending=True).head(15)
-    
-    # We will plot from bottom to top so the highest rank is at the top
-    p_detail = p_detail.iloc[::-1]
+    # Sort by contribution so we can see all features across the spectrum
+    p_detail = p_detail.sort_values("contribution", ascending=True)
     
     contributions = p_detail["contribution"].values
     features = p_detail["feature_name"].values
     
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(10, 14))
     
-    # Start cumulative sum from 0 to show individual step impact
-    # Wait, waterfall standard is cumulative, but for simple feature contributions 
-    # to log-risk, a horizontal bar chart showing individual contributions is often clearer.
-    # We'll use a bidirectional bar chart (SHAP-style local explanation).
+    # We will use a bidirectional bar chart (SHAP-style local explanation).
     
     colors = ["#d62728" if val > 0 else "#1f77b4" for val in contributions]
     bars = plt.barh(features, contributions, color=colors)
@@ -127,9 +121,43 @@ def plot_waterfall(patient_id, detail_df, summary_df, out_dir):
     plt.close()
 
 
+def plot_patient_heatmap(detail_df, out_dir):
+    """Plot a heatmap of all patient vs all feature contributions."""
+    pivot_df = detail_df.pivot(index="PATIENT_ID", columns="feature_name", values="contribution")
+    pivot_df = pivot_df.dropna(how='all', axis=0).dropna(how='all', axis=1)
+    
+    # Sort columns by mean absolute contribution
+    mean_abs_contrib = pivot_df.abs().mean().sort_values(ascending=False)
+    pivot_df = pivot_df[mean_abs_contrib.index]
+    
+    fig, ax = plt.subplots(figsize=(20, 16))
+    c = ax.imshow(pivot_df.values, cmap="RdBu_r", aspect="auto")
+    
+    vmax = np.nanmax(np.abs(pivot_df.values))
+    c.set_clim(-vmax, vmax)
+    
+    plt.colorbar(c, ax=ax, label="Contribution to Log-Risk")
+    
+    ax.set_xticks(np.arange(len(pivot_df.columns)))
+    ax.set_xticklabels(pivot_df.columns, rotation=90, fontsize=8)
+    
+    if len(pivot_df.index) <= 100:
+        ax.set_yticks(np.arange(len(pivot_df.index)))
+        ax.set_yticklabels(pivot_df.index, fontsize=8)
+    else:
+        ax.set_yticks([])
+        
+    ax.set_title("Heatmap of Feature Contributions per Patient")
+    ax.set_xlabel("Features")
+    ax.set_ylabel("Patients")
+    plt.tight_layout()
+    plt.savefig(out_dir / "plot_patient_heatmap.png", dpi=300)
+    plt.close()
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate plots for XAI outputs.")
-    parser.add_argument("--input-dir", type=Path, default=Path("d:/ml_research/data/model_outputs/cox_enet_calibrated_mc_outputs_v5_explainability"), help="Dir with CSVs")
+    parser.add_argument("--input-dir", type=Path, default=Path("/home/illionar/Projects/ml_research/data/model_outputs/cox_enet_calibrated_mc_outputs_v5_explainability"), help="Dir with CSVs")
     args = parser.parse_args()
     
     in_dir = args.input_dir
@@ -144,6 +172,10 @@ def main():
         pca_df = pd.read_csv(in_dir / "xai_pca_component_loadings.csv")
         detail_df = pd.read_csv(in_dir / "xai_patient_feature_contributions_test.csv")
         summary_df = pd.read_csv(in_dir / "xai_patient_summary_test.csv")
+        
+        # Filter out features that are 'unknown'
+        global_df = global_df[~global_df["feature_name"].astype(str).str.contains("unknown", case=False, na=False)]
+        detail_df = detail_df[~detail_df["feature_name"].astype(str).str.contains("unknown", case=False, na=False)]
     except Exception as e:
         print(f"Error loading CSVs: {e}")
         return
@@ -156,6 +188,9 @@ def main():
     
     print("Generating PCA Heatmaps...")
     plot_pca_heatmaps(pca_df, in_dir)
+    
+    print("Generating Patient Heatmap...")
+    plot_patient_heatmap(detail_df, in_dir)
     
     print("Generating Patient Waterfall Plots...")
     # Pick a high risk patient and a low risk patient

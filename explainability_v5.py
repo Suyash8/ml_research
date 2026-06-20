@@ -274,7 +274,7 @@ def main() -> None:
     parser.add_argument("--model", type=Path, default=MODEL_PATH, help="Locked v5 model artifact.")
     parser.add_argument("--predictions", type=Path, default=PREDICTIONS_PATH, help="v5 predictions CSV.")
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR, help="Directory for XAI outputs.")
-    parser.add_argument("--top-features", type=int, default=12, help="Top features to keep per patient.")
+    parser.add_argument("--top-features", type=int, default=1000, help="Top features to keep per patient.")
     parser.add_argument("--top-genes-per-pc", type=int, default=10, help="Top genes to keep per PCA component.")
     args = parser.parse_args()
 
