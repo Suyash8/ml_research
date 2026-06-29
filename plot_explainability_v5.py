@@ -83,6 +83,34 @@ def plot_pca_heatmaps(pca_df, out_dir, top_n_pcs=4):
     plt.close()
 
 
+def plot_pca_genes_heatmap(pca_df, out_dir):
+    """Create a heatmap of the important genes from the PCA components."""
+    # Pivot the data to get genes on Y-axis and PCs on X-axis using risk_weighted_loading
+    pivot_df = pca_df.pivot_table(index="gene_name", columns="pc_name", values="risk_weighted_loading", fill_value=0.0)
+    
+    if pivot_df.empty:
+        return
+        
+    # To 'normalize' we can standard scale or min-max scale per gene, or simply plot the absolute risk weighted loadings.
+    # Given 'this will tell us which proteins are more important', we will plot the raw risk_weighted_loadings 
+    # as they are already scaled by pc_coefficient. We'll sort genes by their max absolute loading.
+    
+    max_abs = pivot_df.abs().max(axis=1).sort_values(ascending=False)
+    pivot_df = pivot_df.loc[max_abs.index]
+    
+    plt.figure(figsize=(10, max(6, len(pivot_df) * 0.2)))
+    import seaborn as sns
+    
+    # We plot the heatmap
+    sns.heatmap(pivot_df, cmap="RdBu_r", center=0, cbar_kws={'label': 'Risk Weighted Loading'})
+    plt.title("Important Genes across PCs (Risk Weighted Loadings)")
+    plt.xlabel("Principal Component")
+    plt.ylabel("Gene Marker")
+    plt.tight_layout()
+    plt.savefig(out_dir / "plot_pca_genes_heatmap.png", dpi=300)
+    plt.close()
+
+
 def plot_waterfall(patient_id, detail_df, summary_df, out_dir):
     """Plot a waterfall chart for a specific patient."""
     p_detail = detail_df[detail_df["PATIENT_ID"] == str(patient_id)].copy()
@@ -189,20 +217,25 @@ def main():
     print("Generating PCA Heatmaps...")
     plot_pca_heatmaps(pca_df, in_dir)
     
+    print("Generating PCA Genes Heatmap...")
+    plot_pca_genes_heatmap(pca_df, in_dir)
+    
     print("Generating Patient Heatmap...")
     plot_patient_heatmap(detail_df, in_dir)
     
     print("Generating Patient Waterfall Plots...")
-    # Pick a high risk patient and a low risk patient
+    # Pick 5 patients across the risk spectrum
     summary_df_sorted = summary_df.sort_values("recomputed_log_risk")
-    if len(summary_df_sorted) > 0:
-        low_risk_pat = summary_df_sorted.iloc[0]["PATIENT_ID"]
-        plot_waterfall(low_risk_pat, detail_df, summary_df, in_dir)
-        print(f"Plotted low risk patient: {low_risk_pat}")
-        
-        high_risk_pat = summary_df_sorted.iloc[-1]["PATIENT_ID"]
-        plot_waterfall(high_risk_pat, detail_df, summary_df, in_dir)
-        print(f"Plotted high risk patient: {high_risk_pat}")
+    if len(summary_df_sorted) >= 5:
+        indices = np.linspace(0, len(summary_df_sorted) - 1, 5).astype(int)
+        for i, idx in enumerate(indices):
+            pat_id = summary_df_sorted.iloc[idx]["PATIENT_ID"]
+            plot_waterfall(pat_id, detail_df, summary_df, in_dir)
+            print(f"Plotted patient {i+1}/5 (risk rank {idx}): {pat_id}")
+    elif len(summary_df_sorted) > 0:
+        for pat_id in summary_df_sorted["PATIENT_ID"]:
+            plot_waterfall(pat_id, detail_df, summary_df, in_dir)
+            print(f"Plotted patient: {pat_id}")
 
     print(f"All plots saved to {in_dir.resolve()}")
 
