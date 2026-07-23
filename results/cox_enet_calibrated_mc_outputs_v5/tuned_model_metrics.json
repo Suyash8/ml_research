@@ -1,0 +1,80 @@
+{
+  "input_file": "data/preprocessed_cleaned/patient_multiomic_cleaned.parquet",
+  "best_cox_params": {
+    "alpha": 3.0,
+    "l1_ratio": 0.7
+  },
+  "cv_best_mean_c_index": 0.7216535655071643,
+  "cv_best_std_c_index": 0.020777621587496763,
+  "cv_best_valid_folds": 5,
+  "n_total_rows": 1620,
+  "n_train": 972,
+  "n_calibration": 324,
+  "n_test": 324,
+  "events_train": 568,
+  "events_calibration": 190,
+  "events_test": 189,
+  "cox_optimizer_success": true,
+  "cox_optimizer_message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+  "cox_optimizer_iterations": 51,
+  "c_index_train": 0.7488555992635593,
+  "c_index_calibration": 0.7460779985283297,
+  "c_index_test": 0.73608934169279,
+  "collinearity_filter": {
+    "threshold_abs_pearson": 0.75,
+    "clinical_before": 6,
+    "clinical_after": 6,
+    "expr_before": 500,
+    "expr_after": 59
+  },
+  "horizon_metrics": [
+    {
+      "horizon_months": 12.0,
+      "n_test_known": 289,
+      "event_rate_test_known": 0.2837370242214533,
+      "auc": 0.7592788971367974,
+      "brier": 0.17806547041209322,
+      "note": "ok"
+    },
+    {
+      "horizon_months": 24.0,
+      "n_test_known": 247,
+      "event_rate_test_known": 0.5425101214574899,
+      "auc": 0.8597609298639546,
+      "brier": 0.1516177526604429,
+      "note": "ok"
+    },
+    {
+      "horizon_months": 36.0,
+      "n_test_known": 228,
+      "event_rate_test_known": 0.6622807017543859,
+      "auc": 0.847338092371205,
+      "brier": 0.1501803982650698,
+      "note": "ok"
+    },
+    {
+      "horizon_months": 60.0,
+      "n_test_known": 218,
+      "event_rate_test_known": 0.7844036697247706,
+      "auc": 0.8472688814234167,
+      "brier": 0.1317555021286465,
+      "note": "ok"
+    }
+  ],
+  "monte_carlo": {
+    "status": "ok",
+    "n_test": 324,
+    "n_sims": 5000,
+    "probability_horizons_months": [
+      12.0,
+      24.0,
+      36.0,
+      60.0
+    ],
+    "rmst_horizon_months": 60.0,
+    "interpretation": "bounded Monte Carlo summaries from the fitted Cox model; p90 is an upper-plausible survival time, not a guarantee",
+    "mean_interval_width_months": 107.78236172839509,
+    "median_interval_width_months": 102.96500000000046,
+    "p90_interval_width_months": 201.84420000000003
+  }
+}

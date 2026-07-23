@@ -1,0 +1,55 @@
+{
+  "source_model_artifact": "model_weights/final_locked_model.pkl",
+  "source_predictions": "results/cox_enet_calibrated_mc_outputs_v5/main_predictions.csv",
+  "source_input": "data/preprocessed_cleaned/patient_multiomic_cleaned.parquet",
+  "source_metrics": "results/cox_enet_calibrated_mc_outputs_v5/metrics.json",
+  "n_rows_total": 1620,
+  "n_rows_test_explained": 324,
+  "n_transformed_features": 70,
+  "n_clinical_transformed_features": 20,
+  "n_expression_pca_features": 50,
+  "top_features_per_patient": 1000,
+  "top_genes_per_pc": 10,
+  "risk_score_mean": -0.032466885211549,
+  "risk_score_median": -0.007089235973684658,
+  "risk_score_recomputed_max_abs_diff": 0.0,
+  "c_index_train": 0.7488555992635593,
+  "c_index_calibration": 0.7460779985283297,
+  "c_index_test": 0.73608934169279,
+  "cv_best_mean_c_index": 0.7216535655071643,
+  "cv_best_std_c_index": 0.020777621587496763,
+  "source_horizon_metrics": [
+    {
+      "horizon_months": 12.0,
+      "n_test_known": 289,
+      "event_rate_test_known": 0.2837370242214533,
+      "auc": 0.7592788971367974,
+      "brier": 0.17806547041209322,
+      "note": "ok"
+    },
+    {
+      "horizon_months": 24.0,
+      "n_test_known": 247,
+      "event_rate_test_known": 0.5425101214574899,
+      "auc": 0.8597609298639546,
+      "brier": 0.1516177526604429,
+      "note": "ok"
+    },
+    {
+      "horizon_months": 36.0,
+      "n_test_known": 228,
+      "event_rate_test_known": 0.6622807017543859,
+      "auc": 0.847338092371205,
+      "brier": 0.1501803982650698,
+      "note": "ok"
+    },
+    {
+      "horizon_months": 60.0,
+      "n_test_known": 218,
+      "event_rate_test_known": 0.7844036697247706,
+      "auc": 0.8472688814234167,
+      "brier": 0.1317555021286465,
+      "note": "ok"
+    }
+  ]
+}
