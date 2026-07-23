@@ -1,0 +1,134 @@
+[
+  {
+    "PATIENT_ID": "TCGA-DD-AAEE",
+    "COX_RISK_SCORE": -0.4991,
+    "PROB_SURVIVE_12M": 0.8846,
+    "PROB_SURVIVE_24M": 0.625,
+    "PROB_SURVIVE_36M": 0.5455,
+    "PROB_SURVIVE_60M": 0.3636,
+    "MC_P10_PESSIMISTIC_MONTHS": 10.9,
+    "MC_P50_MEDIAN_MONTHS": 49.5,
+    "MC_P90_OPTIMISTIC_MONTHS": 167.6,
+    "MC_RMST_60M": 41.1,
+    "TOP_FEATURE_DRIVERS": [
+      {
+        "feature": "cat__CANCER_TYPE_GBM",
+        "value": -0.7977,
+        "contribution": -0.6158,
+        "direction": "PROTECTIVE \ud83d\udee1\ufe0f"
+      },
+      {
+        "feature": "EXPR_PC04",
+        "value": 1.3063,
+        "contribution": -0.2239,
+        "direction": "PROTECTIVE \ud83d\udee1\ufe0f"
+      },
+      {
+        "feature": "EXPR_PC26",
+        "value": 2.2087,
+        "contribution": 0.2224,
+        "direction": "RISK INCREASING \u2b06\ufe0f"
+      },
+      {
+        "feature": "EXPR_PC47",
+        "value": 2.9531,
+        "contribution": 0.2133,
+        "direction": "RISK INCREASING \u2b06\ufe0f"
+      },
+      {
+        "feature": "cat__CANCER_TYPE_SKCM",
+        "value": -0.6011,
+        "contribution": 0.1933,
+        "direction": "RISK INCREASING \u2b06\ufe0f"
+      }
+    ]
+  },
+  {
+    "PATIENT_ID": "TCGA-BF-A3DL",
+    "COX_RISK_SCORE": 0.0534,
+    "PROB_SURVIVE_12M": 0.8723,
+    "PROB_SURVIVE_24M": 0.5625,
+    "PROB_SURVIVE_36M": 0.3889,
+    "PROB_SURVIVE_60M": 0.1364,
+    "MC_P10_PESSIMISTIC_MONTHS": 7.3,
+    "MC_P50_MEDIAN_MONTHS": 26.3,
+    "MC_P90_OPTIMISTIC_MONTHS": 99.9,
+    "MC_RMST_60M": 32.0,
+    "TOP_FEATURE_DRIVERS": [
+      {
+        "feature": "cat__CANCER_TYPE_GBM",
+        "value": -0.7977,
+        "contribution": -0.6158,
+        "direction": "PROTECTIVE \ud83d\udee1\ufe0f"
+      },
+      {
+        "feature": "cat__CANCER_TYPE_SKCM",
+        "value": 1.6636,
+        "contribution": -0.5349,
+        "direction": "PROTECTIVE \ud83d\udee1\ufe0f"
+      },
+      {
+        "feature": "num__AGE",
+        "value": 1.7466,
+        "contribution": 0.5124,
+        "direction": "RISK INCREASING \u2b06\ufe0f"
+      },
+      {
+        "feature": "EXPR_PC08",
+        "value": 2.7891,
+        "contribution": 0.4252,
+        "direction": "RISK INCREASING \u2b06\ufe0f"
+      },
+      {
+        "feature": "cat__AGE_GROUP_>75",
+        "value": 2.7571,
+        "contribution": 0.4122,
+        "direction": "RISK INCREASING \u2b06\ufe0f"
+      }
+    ]
+  },
+  {
+    "PATIENT_ID": "TCGA-EE-A3AH",
+    "COX_RISK_SCORE": -1.5854,
+    "PROB_SURVIVE_12M": 0.9762,
+    "PROB_SURVIVE_24M": 0.9062,
+    "PROB_SURVIVE_36M": 0.7436,
+    "PROB_SURVIVE_60M": 0.5366,
+    "MC_P10_PESSIMISTIC_MONTHS": 22.6,
+    "MC_P50_MEDIAN_MONTHS": 151.2,
+    "MC_P90_OPTIMISTIC_MONTHS": 218.4,
+    "MC_RMST_60M": 52.4,
+    "TOP_FEATURE_DRIVERS": [
+      {
+        "feature": "cat__CANCER_TYPE_GBM",
+        "value": -0.7977,
+        "contribution": -0.6158,
+        "direction": "PROTECTIVE \ud83d\udee1\ufe0f"
+      },
+      {
+        "feature": "num__AGE",
+        "value": -2.0258,
+        "contribution": -0.5944,
+        "direction": "PROTECTIVE \ud83d\udee1\ufe0f"
+      },
+      {
+        "feature": "cat__CANCER_TYPE_SKCM",
+        "value": 1.6636,
+        "contribution": -0.5349,
+        "direction": "PROTECTIVE \ud83d\udee1\ufe0f"
+      },
+      {
+        "feature": "EXPR_PC08",
+        "value": -2.1417,
+        "contribution": -0.3265,
+        "direction": "PROTECTIVE \ud83d\udee1\ufe0f"
+      },
+      {
+        "feature": "EXPR_PC33",
+        "value": 2.066,
+        "contribution": 0.2464,
+        "direction": "RISK INCREASING \u2b06\ufe0f"
+      }
+    ]
+  }
+]
