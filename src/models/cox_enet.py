@@ -1,7 +1,7 @@
 from typing import Tuple
 import numpy as np
 from scipy.optimize import minimize
-from ml_research.src.utils.config import MAXITER, SMOOTH_L1_EPS
+from src.utils.config import MAXITER, SMOOTH_L1_EPS
 
 class CoxElasticNet:
     """Cox proportional hazards model with elastic-net regularisation."""

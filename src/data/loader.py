@@ -2,8 +2,8 @@ from typing import Any, Dict, List, Sequence, Tuple
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from ml_research.src.utils.config import OUTLIER_COLUMNS, OUTLIER_IQR_MULTIPLIER, RANDOM_STATE
-from ml_research.src.utils.io import safe_float
+from src.utils.config import OUTLIER_COLUMNS, OUTLIER_IQR_MULTIPLIER, RANDOM_STATE
+from src.utils.io import safe_float
 from pathlib import Path
 
 def prepare_dataframe(input_path: Path) -> pd.DataFrame:

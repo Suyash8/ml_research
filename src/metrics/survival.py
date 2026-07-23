@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 from sklearn.isotonic import IsotonicRegression
 from sklearn.metrics import brier_score_loss, roc_auc_score
-from ml_research.src.models.calibration import _horizon_labels
-from ml_research.src.utils.config import HORIZONS_MONTHS
+from src.models.calibration import _horizon_labels
+from src.utils.config import HORIZONS_MONTHS
 
 def concordance_index_censored(times: np.ndarray, events: np.ndarray, risk_scores: np.ndarray) -> float:
     times = np.asarray(times, dtype=float)

@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-from ml_research.src.utils.plotting import (
+from src.utils.plotting import (
     plot_mape_scatter,
     plot_global_importance,
     plot_group_summary,

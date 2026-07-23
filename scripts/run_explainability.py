@@ -8,23 +8,23 @@ from typing import Any, Dict, List
 import numpy as np
 import pandas as pd
 
-from ml_research.src.data.loader import prepare_dataframe
-from ml_research.src.features.preprocessing import transform_features
-from ml_research.src.metrics.explainability import (
+from src.data.loader import prepare_dataframe
+from src.features.preprocessing import transform_features
+from src.metrics.explainability import (
     build_feature_names,
     make_global_importance,
     make_group_summary,
     build_pca_backprojection,
     make_patient_explanations,
 )
-from ml_research.src.utils.io import save_json, safe_float
+from src.utils.io import save_json, safe_float
 
 def load_artifact(model_path: Path) -> Dict[str, Any]:
     if not model_path.exists():
         raise FileNotFoundError(f"Locked model artifact not found: {model_path}")
     
     # Ensure CoxElasticNet is in sys.modules or __main__ since pickle might look for it there
-    from ml_research.src.models.cox_enet import CoxElasticNet
+    from src.models.cox_enet import CoxElasticNet
     main_module = sys.modules.get("__main__")
     if main_module is not None and not hasattr(main_module, "CoxElasticNet"):
         setattr(main_module, "CoxElasticNet", CoxElasticNet)

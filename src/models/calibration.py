@@ -2,7 +2,7 @@ from typing import Any, Dict, Sequence, Tuple
 import numpy as np
 from sklearn.isotonic import IsotonicRegression
 from sklearn.metrics import brier_score_loss, roc_auc_score
-from ml_research.src.utils.config import HORIZONS_MONTHS
+from src.utils.config import HORIZONS_MONTHS
 
 def _horizon_labels(time_arr: np.ndarray, event_arr: np.ndarray, horizon: float) -> Tuple[np.ndarray, np.ndarray]:
     confirmed_event = (event_arr == 1) & (time_arr <= horizon)

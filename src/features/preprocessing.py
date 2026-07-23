@@ -6,7 +6,7 @@ from sklearn.decomposition import PCA
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from ml_research.src.utils.config import EXPR_PCA_COMPONENTS, RANDOM_STATE
+from src.utils.config import EXPR_PCA_COMPONENTS, RANDOM_STATE
 
 def _make_ohe() -> OneHotEncoder:
     try:

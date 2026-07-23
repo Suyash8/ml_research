@@ -2,10 +2,10 @@ from typing import List
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import StratifiedKFold
-from ml_research.src.utils.config import ALPHA_GRID, CV_FOLDS, L1_GRID, MAXITER, RANDOM_STATE
-from ml_research.src.features.preprocessing import fit_transform_features
-from ml_research.src.models.cox_enet import CoxElasticNet
-from ml_research.src.metrics.survival import concordance_index_censored
+from src.utils.config import ALPHA_GRID, CV_FOLDS, L1_GRID, MAXITER, RANDOM_STATE
+from src.features.preprocessing import fit_transform_features
+from src.models.cox_enet import CoxElasticNet
+from src.metrics.survival import concordance_index_censored
 
 def run_cv_tuning(df_train: pd.DataFrame, clinical_cols: List[str], expr_cols: List[str]) -> pd.DataFrame:
     y = df_train["OS_EVENT"].to_numpy(dtype=int)

@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Set, Tuple
 import numpy as np
 import pandas as pd
-from ml_research.src.utils.config import COLLINEARITY_MAX_FULL_CORR_FEATURES, COLLINEARITY_THRESHOLD
+from src.utils.config import COLLINEARITY_MAX_FULL_CORR_FEATURES, COLLINEARITY_THRESHOLD
 
 def _empty_drop_table() -> pd.DataFrame:
     return pd.DataFrame(

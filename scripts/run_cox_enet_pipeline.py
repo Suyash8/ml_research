@@ -4,16 +4,16 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-from ml_research.src.utils.config import COLLINEARITY_THRESHOLD, HORIZONS_MONTHS, MAXITER, MC_N_SIMS
-from ml_research.src.utils.io import save_json
-from ml_research.src.data.loader import prepare_dataframe, remove_outliers_iqr, split_three_way, get_feature_sets
-from ml_research.src.features.collinearity import apply_collinearity_filter
-from ml_research.src.features.preprocessing import fit_transform_features, transform_features
-from ml_research.src.training.tuning import run_cv_tuning, select_best_hyperparameters
-from ml_research.src.models.cox_enet import CoxElasticNet
-from ml_research.src.metrics.survival import concordance_index_censored, horizon_test_metrics
-from ml_research.src.models.calibration import fit_horizon_calibrators
-from ml_research.src.training.monte_carlo import monte_carlo_survival_block, survival_probabilities_from_breslow
+from src.utils.config import COLLINEARITY_THRESHOLD, HORIZONS_MONTHS, MAXITER, MC_N_SIMS
+from src.utils.io import save_json
+from src.data.loader import prepare_dataframe, remove_outliers_iqr, split_three_way, get_feature_sets
+from src.features.collinearity import apply_collinearity_filter
+from src.features.preprocessing import fit_transform_features, transform_features
+from src.training.tuning import run_cv_tuning, select_best_hyperparameters
+from src.models.cox_enet import CoxElasticNet
+from src.metrics.survival import concordance_index_censored, horizon_test_metrics
+from src.models.calibration import fit_horizon_calibrators
+from src.training.monte_carlo import monte_carlo_survival_block, survival_probabilities_from_breslow
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Cox ENet survival pipeline with calibration and Monte Carlo summaries.")

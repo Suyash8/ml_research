@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 import numpy as np
 import pandas as pd
-from ml_research.src.utils.config import HORIZONS_MONTHS, MC_N_SIMS, MC_RANDOM_STATE, MC_RMST_HORIZON_MONTHS
+from src.utils.config import HORIZONS_MONTHS, MC_N_SIMS, MC_RANDOM_STATE, MC_RMST_HORIZON_MONTHS
 
 def fit_breslow_baseline_hazard(
     times: np.ndarray,
