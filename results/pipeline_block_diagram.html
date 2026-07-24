@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Block Diagram - Multi-Omic Cox Elastic-Net</title>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #000000;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .diagram-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+  }
+
+  /* Basic Box Styles */
+  .box {
+    border: 1.5px solid #000;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  .box-title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .sub-box {
+    border: 1px solid #000;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    text-align: left;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+  }
+
+  .sub-box-icon {
+    font-size: 18px;
+  }
+
+  /* Specific Colors */
+  .color-green { background-color: #e2f0d9; }
+  .color-yellow { background-color: #fff2cc; }
+  .color-orange { background-color: #fce4d6; }
+  .color-blue { background-color: #bde0fe; }
+  .color-purple { background-color: #e4d7f5; }
+
+  /* Columns */
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  /* Inner elements for input boxes */
+  .input-inner {
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 12px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .input-inner-icon {
+    background: #333;
+    color: white;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .desc-text {
+    font-size: 11px;
+    color: #444;
+    margin-bottom: 8px;
+  }
+
+  /* Arrows */
+  .arrow-right {
+    width: 30px;
+    height: 2px;
+    background-color: #000;
+    position: relative;
+  }
+  .arrow-right::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: -4px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 8px solid #000;
+  }
+
+  .arrow-label {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    font-style: italic;
+    white-space: nowrap;
+  }
+
+  /* SVG for complex routing */
+  .routing-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Matrix / Math Vector */
+  .vector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+    font-style: italic;
+    position: relative;
+    padding: 0 15px;
+    gap: 10px;
+  }
+  .vector::before {
+    content: '[';
+    position: absolute;
+    left: 0;
+    top: -5px;
+    bottom: -5px;
+    font-size: 80px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+  }
+  .vector::after {
+    content: ']';
+    position: absolute;
+    right: 0;
+    top: -5px;
+    bottom: -5px;
+    font-size: 80px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+  }
+  .vector-item {
+    line-height: 1.2;
+  }
+</style>
+</head>
+<body>
+
+<div class="diagram-container" id="container">
+  
+  <!-- Column 1: Inputs -->
+  <div class="col" id="col1">
+    <div class="box color-green" style="width: 220px;" id="box-clin">
+      <div class="box-title">Clinical Features</div>
+      <div class="desc-text">Age, Sex, Type, Mutation Burden</div>
+      <div class="input-inner">
+        <div class="input-inner-icon">🏥</div>
+        <div style="text-align: left;">Impute & Scale<br><span style="font-size:10px; color:#666;">(StandardScaler)</span></div>
+      </div>
+    </div>
+
+    <div class="box color-yellow" style="width: 220px;" id="box-gen">
+      <div class="box-title">Multi-Omic Observation</div>
+      <div class="desc-text">Top 300 high-variance genes</div>
+      <div class="input-inner">
+        <div class="input-inner-icon">🧬</div>
+        <div style="text-align: left;">Log Transform<br><span style="font-size:10px; color:#666;">log₂(x + 1)</span></div>
+      </div>
+      <div class="input-inner">
+        <div class="input-inner-icon">✂️</div>
+        <div style="text-align: left;">Gram-Schmidt Filter<br><span style="font-size:10px; color:#666;">(Cosine > 0.75)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SVG for Connections -->
+  <svg class="routing-svg" id="svg-lines">
+    <!-- Lines will be drawn here via JS for precision, or fallback to fixed CSS -->
+  </svg>
+
+  <!-- Arrow from Inputs -->
+  <div style="display:flex; flex-direction:column; gap:80px;">
+    <div class="arrow-right" style="width:40px;"><div class="arrow-label">X<sub>clin</sub></div></div>
+    <div class="arrow-right" style="width:40px;"><div class="arrow-label">X<sub>gen</sub></div></div>
+  </div>
+
+  <!-- Column 2: Intermediate Preprocessing -->
+  <div class="col" id="col2">
+    <div class="box color-orange" style="width: 160px; margin-top: 90px;" id="box-prep">
+      <div class="box-title">Dimensionality<br>Reduction</div>
+      <div class="input-inner" style="justify-content: center; flex-direction: column;">
+        <span style="font-weight:bold;">PCA</span>
+        <span>50 Components</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-right" style="width:40px;">
+    <div class="arrow-label" style="top:-25px;">X<sub>pca</sub></div>
+  </div>
+
+  <!-- Column 3: Model -->
+  <div class="col">
+    <div class="box color-blue" style="width: 260px; padding: 20px;">
+      <div class="box-title" style="font-size: 16px; margin-bottom:15px;">Custom Cox Elastic-Net</div>
+      
+      <div class="sub-box color-purple">
+        <div class="sub-box-icon">🎯</div>
+        <div>
+          <strong style="display:block;">O(N) Dynamic Programming</strong>
+          Negative Log-Partial-Likelihood
+        </div>
+      </div>
+
+      <div class="sub-box color-purple">
+        <div class="sub-box-icon">⚖️</div>
+        <div>
+          <strong style="display:block;">Elastic-Net Penalty</strong>
+          L1 Sparsity + L2 Grouping
+        </div>
+      </div>
+      
+      <div class="sub-box color-purple">
+        <div class="sub-box-icon">🔄</div>
+        <div>
+          <strong style="display:block;">Optimizer</strong>
+          L-BFGS-B (Bounded)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-right" style="width:50px;">
+    <div class="arrow-label" style="top:-25px;">&beta;, &eta;<sub>i</sub></div>
+  </div>
+
+  <!-- Column 4: Outputs/Action Policy -->
+  <div class="col">
+    <div class="box color-blue" style="width: 250px; padding: 20px;">
+      <div class="box-title" style="font-size: 16px; margin-bottom:15px;">Inference & XAI Policy</div>
+      
+      <div class="sub-box color-purple">
+        <div class="sub-box-icon">📊</div>
+        <div>
+          <strong style="display:block;">Isotonic Calibration</strong>
+          Map &eta; &rarr; P(survive) @ 12-60m
+        </div>
+      </div>
+
+      <div class="sub-box color-purple">
+        <div class="sub-box-icon">🎲</div>
+        <div>
+          <strong style="display:block;">Monte Carlo Simulation</strong>
+          Breslow Baseline + Inv Transform
+        </div>
+      </div>
+
+      <div class="sub-box color-purple">
+        <div class="sub-box-icon">🔍</div>
+        <div>
+          <strong style="display:block;">PCA Back-Projection</strong>
+          Gene-level Risk Waterfall
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-right" style="width:40px;">
+    <div class="arrow-label">Out</div>
+  </div>
+
+  <!-- Final Vector Output -->
+  <div class="vector">
+    <div class="vector-item">&eta;<sub>i</sub></div>
+    <div class="vector-item" style="font-size:16px;">P(S(t))</div>
+    <div class="vector-item" style="font-size:16px; white-space:nowrap;">[P10, P90]</div>
+    <div class="vector-item" style="font-size:16px;">XAI</div>
+  </div>
+
+</div>
+
+<script>
+  // Simple JS to draw connecting lines exactly as needed, 
+  // bypassing pure CSS layout limitations for arrows across grids.
+  // Actually, the CSS flex layout above handles the straight lines well enough.
+  // We'll just tweak the layout of Column 1 & 2 connections.
+  
+  const svg = document.getElementById('svg-lines');
+  const boxClin = document.getElementById('box-clin');
+  const boxGen = document.getElementById('box-gen');
+  const boxPrep = document.getElementById('box-prep');
+  const container = document.getElementById('container');
+
+  function drawLines() {
+    svg.innerHTML = '';
+    const rectContainer = container.getBoundingClientRect();
+    const rectClin = boxClin.getBoundingClientRect();
+    const rectGen = boxGen.getBoundingClientRect();
+    const rectPrep = boxPrep.getBoundingClientRect();
+
+    // Line from Clin to middle
+    const startX1 = rectClin.right - rectContainer.left;
+    const startY1 = rectClin.top + rectClin.height/2 - rectContainer.top;
+    
+    // Line from Gen to PCA
+    const startX2 = rectGen.right - rectContainer.left;
+    const startY2 = rectGen.top + rectGen.height/2 - rectContainer.top;
+    
+    const endX_PCA = rectPrep.left - rectContainer.left;
+    const endY_PCA = rectPrep.top + rectPrep.height/2 - rectContainer.top;
+
+    // Draw lines using SVG paths
+    const path1 = `<path d="M ${startX1} ${startY1} L ${startX1 + 110} ${startY1}" stroke="black" stroke-width="2" fill="none"/>
+                   <polygon points="${startX1 + 110},${startY1 - 4} ${startX1 + 118},${startY1} ${startX1 + 110},${startY1 + 4}" fill="black"/>`;
+                   
+    const path2 = `<path d="M ${startX2} ${startY2} L ${endX_PCA - 10} ${startY2} L ${endX_PCA - 10} ${endY_PCA} L ${endX_PCA} ${endY_PCA}" stroke="black" stroke-width="2" fill="none"/>
+                   <polygon points="${endX_PCA - 5},${endY_PCA - 4} ${endX_PCA + 3},${endY_PCA} ${endX_PCA - 5},${endY_PCA + 4}" fill="black"/>`;
+
+    // svg.innerHTML = path2; 
+    // We already have HTML arrows, so we'll just let CSS handle it to match the simple style.
+  }
+  
+  // window.addEventListener('resize', drawLines);
+  // drawLines();
+</script>
+</body>
+</html>

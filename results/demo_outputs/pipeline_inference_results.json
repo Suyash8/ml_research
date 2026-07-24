@@ -1,0 +1,564 @@
+{
+  "predictions_summary": [
+    {
+      "PATIENT_ID": "TCGA-DD-AAEE",
+      "risk_score_eta": -0.4990919093773647,
+      "prob_survive_12m": 0.8846153846153846,
+      "prob_survive_24m": 0.625,
+      "prob_survive_36m": 0.5454545454545454,
+      "prob_survive_60m": 0.36363636363636365,
+      "mc_p10_months": 10.927000000000003,
+      "mc_p50_median_months": 49.47,
+      "mc_p90_months": 167.58,
+      "mc_rmst_months": 41.105646,
+      "top_risk_drivers": "EXPR_CST1, EXPR_CD24, EXPR_ABCC2",
+      "top_protective_drivers": "EXPR_ETNPPL, EXPR_HEPACAM, cat__CANCER_TYPE_GBM"
+    },
+    {
+      "PATIENT_ID": "TCGA-BF-A3DL",
+      "risk_score_eta": 0.05336547443878991,
+      "prob_survive_12m": 0.8723404255319149,
+      "prob_survive_24m": 0.5625,
+      "prob_survive_36m": 0.38888888888888884,
+      "prob_survive_60m": 0.13636363636363635,
+      "mc_p10_months": 7.33,
+      "mc_p50_median_months": 26.33,
+      "mc_p90_months": 99.9,
+      "mc_rmst_months": 31.993989000000003,
+      "top_risk_drivers": "EXPR_PAEP, EXPR_CXCL5, EXPR_KRT14",
+      "top_protective_drivers": "cat__CANCER_TYPE_GBM, cat__CANCER_TYPE_SKCM, EXPR_FDCSP"
+    },
+    {
+      "PATIENT_ID": "TCGA-EE-A3AH",
+      "risk_score_eta": -1.5853820189884102,
+      "prob_survive_12m": 0.9761904761904762,
+      "prob_survive_24m": 0.90625,
+      "prob_survive_36m": 0.7435897435897436,
+      "prob_survive_60m": 0.5365853658536586,
+      "mc_p10_months": 22.6,
+      "mc_p50_median_months": 151.15,
+      "mc_p90_months": 218.38520000000003,
+      "mc_rmst_months": 52.444014,
+      "top_risk_drivers": "EXPR_MAGEC1, EXPR_FXYD3, EXPR_KRT14",
+      "top_protective_drivers": "EXPR_ETNPPL, cat__CANCER_TYPE_GBM, EXPR_DDX3Y"
+    }
+  ],
+  "detailed_explanations": [
+    {
+      "patient_id": "TCGA-DD-AAEE",
+      "clinical_contribution_sum": -0.5668517634193044,
+      "gene_contribution_sum": 3.899527245861609,
+      "total_risk_score": 3.3326754824423044,
+      "top_risk_drivers": [
+        {
+          "feature": "EXPR_CST1",
+          "type": "gene",
+          "value": 14.10351962104368,
+          "coefficient": 0.19394320124236983,
+          "contribution": 2.735281744089786,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_CD24",
+          "type": "gene",
+          "value": 11.453304025531525,
+          "coefficient": 0.06590241720990388,
+          "contribution": 0.7548004203224501,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_ABCC2",
+          "type": "gene",
+          "value": 12.251437673361734,
+          "coefficient": 0.048258664530530536,
+          "contribution": 0.5912380206954675,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_MAGEC1",
+          "type": "gene",
+          "value": 5.272004520526173,
+          "coefficient": 0.0798924367613689,
+          "contribution": 0.4211932877617882,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_DKFZp547D155",
+          "type": "gene",
+          "value": 14.608340037590304,
+          "coefficient": 0.02880350508156622,
+          "contribution": 0.42077139650597956,
+          "direction": "risk_increasing"
+        }
+      ],
+      "top_protective_drivers": [
+        {
+          "feature": "EXPR_ETNPPL",
+          "type": "gene",
+          "value": 10.455752978575337,
+          "coefficient": -0.11733363618651044,
+          "contribution": -1.2268115160441815,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_HEPACAM",
+          "type": "gene",
+          "value": 11.612346462320549,
+          "coefficient": -0.07244390599430005,
+          "contribution": -0.8412437354895925,
+          "direction": "protective"
+        },
+        {
+          "feature": "cat__CANCER_TYPE_GBM",
+          "type": "clinical",
+          "value": -0.7977240352174575,
+          "coefficient": 0.7719928722860876,
+          "contribution": -0.6158372692391731,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_DDX3Y",
+          "type": "gene",
+          "value": 9.954186711779068,
+          "coefficient": -0.055040589017821676,
+          "contribution": -0.5478842998096934,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_PLA2G2A",
+          "type": "gene",
+          "value": 9.732297355662077,
+          "coefficient": -0.052837620116547,
+          "contribution": -0.5142314305397477,
+          "direction": "protective"
+        }
+      ],
+      "all_drivers_ranked": [
+        {
+          "feature": "EXPR_CST1",
+          "type": "gene",
+          "value": 14.10351962104368,
+          "coefficient": 0.19394320124236983,
+          "contribution": 2.735281744089786,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_ETNPPL",
+          "type": "gene",
+          "value": 10.455752978575337,
+          "coefficient": -0.11733363618651044,
+          "contribution": -1.2268115160441815,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_HEPACAM",
+          "type": "gene",
+          "value": 11.612346462320549,
+          "coefficient": -0.07244390599430005,
+          "contribution": -0.8412437354895925,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_CD24",
+          "type": "gene",
+          "value": 11.453304025531525,
+          "coefficient": 0.06590241720990388,
+          "contribution": 0.7548004203224501,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "cat__CANCER_TYPE_GBM",
+          "type": "clinical",
+          "value": -0.7977240352174575,
+          "coefficient": 0.7719928722860876,
+          "contribution": -0.6158372692391731,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_ABCC2",
+          "type": "gene",
+          "value": 12.251437673361734,
+          "coefficient": 0.048258664530530536,
+          "contribution": 0.5912380206954675,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_DDX3Y",
+          "type": "gene",
+          "value": 9.954186711779068,
+          "coefficient": -0.055040589017821676,
+          "contribution": -0.5478842998096934,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_PLA2G2A",
+          "type": "gene",
+          "value": 9.732297355662077,
+          "coefficient": -0.052837620116547,
+          "contribution": -0.5142314305397477,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_MAGEC1",
+          "type": "gene",
+          "value": 5.272004520526173,
+          "coefficient": 0.0798924367613689,
+          "contribution": 0.4211932877617882,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_DKFZp547D155",
+          "type": "gene",
+          "value": 14.608340037590304,
+          "coefficient": 0.02880350508156622,
+          "contribution": 0.42077139650597956,
+          "direction": "risk_increasing"
+        }
+      ]
+    },
+    {
+      "patient_id": "TCGA-BF-A3DL",
+      "clinical_contribution_sum": -0.3677139866340951,
+      "gene_contribution_sum": 10.772928666388559,
+      "total_risk_score": 10.405214679754463,
+      "top_risk_drivers": [
+        {
+          "feature": "EXPR_PAEP",
+          "type": "gene",
+          "value": 12.159981426351573,
+          "coefficient": 0.15049981761857453,
+          "contribution": 1.8300749869111654,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_CXCL5",
+          "type": "gene",
+          "value": 7.835388520821524,
+          "coefficient": 0.1986891239086672,
+          "contribution": 1.5568064806860562,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_KRT14",
+          "type": "gene",
+          "value": 6.664846881507389,
+          "coefficient": 0.15432038702207382,
+          "contribution": 1.028521750197082,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_GPRC5A",
+          "type": "gene",
+          "value": 9.512213056932326,
+          "coefficient": 0.09396020383898547,
+          "contribution": 0.8937694777892204,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_ESRP1",
+          "type": "gene",
+          "value": 8.709237898630548,
+          "coefficient": 0.0890264686428253,
+          "contribution": 0.7753526946853382,
+          "direction": "risk_increasing"
+        }
+      ],
+      "top_protective_drivers": [
+        {
+          "feature": "cat__CANCER_TYPE_GBM",
+          "type": "clinical",
+          "value": -0.7977240352174575,
+          "coefficient": 0.7719928722860876,
+          "contribution": -0.6158372692391731,
+          "direction": "protective"
+        },
+        {
+          "feature": "cat__CANCER_TYPE_SKCM",
+          "type": "clinical",
+          "value": 1.6635630016519014,
+          "coefficient": -0.3215256639791682,
+          "contribution": -0.5348781986773057,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_FDCSP",
+          "type": "gene",
+          "value": 8.118385164775084,
+          "coefficient": -0.05221957120491739,
+          "contribution": -0.4239385921809175,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_ETNPPL",
+          "type": "gene",
+          "value": 2.782597277226518,
+          "coefficient": -0.11733363618651044,
+          "contribution": -0.3264922565796708,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_DNER",
+          "type": "gene",
+          "value": 8.783319463464252,
+          "coefficient": -0.02457602299919895,
+          "contribution": -0.21585906114340925,
+          "direction": "protective"
+        }
+      ],
+      "all_drivers_ranked": [
+        {
+          "feature": "EXPR_PAEP",
+          "type": "gene",
+          "value": 12.159981426351573,
+          "coefficient": 0.15049981761857453,
+          "contribution": 1.8300749869111654,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_CXCL5",
+          "type": "gene",
+          "value": 7.835388520821524,
+          "coefficient": 0.1986891239086672,
+          "contribution": 1.5568064806860562,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_KRT14",
+          "type": "gene",
+          "value": 6.664846881507389,
+          "coefficient": 0.15432038702207382,
+          "contribution": 1.028521750197082,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_GPRC5A",
+          "type": "gene",
+          "value": 9.512213056932326,
+          "coefficient": 0.09396020383898547,
+          "contribution": 0.8937694777892204,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_ESRP1",
+          "type": "gene",
+          "value": 8.709237898630548,
+          "coefficient": 0.0890264686428253,
+          "contribution": 0.7753526946853382,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_FXYD3",
+          "type": "gene",
+          "value": 11.256780168033524,
+          "coefficient": 0.06634219414612941,
+          "contribution": 0.7467994953679793,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_ABCB5",
+          "type": "gene",
+          "value": 12.08124091578668,
+          "coefficient": 0.05613448026966336,
+          "contribution": 0.6781741798202771,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "cat__CANCER_TYPE_GBM",
+          "type": "clinical",
+          "value": -0.7977240352174575,
+          "coefficient": 0.7719928722860876,
+          "contribution": -0.6158372692391731,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_COL11A1",
+          "type": "gene",
+          "value": 7.692314901649054,
+          "coefficient": 0.08001779288068796,
+          "contribution": 0.6155220605731835,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "cat__CANCER_TYPE_SKCM",
+          "type": "clinical",
+          "value": 1.6635630016519014,
+          "coefficient": -0.3215256639791682,
+          "contribution": -0.5348781986773057,
+          "direction": "protective"
+        }
+      ]
+    },
+    {
+      "patient_id": "TCGA-EE-A3AH",
+      "clinical_contribution_sum": -1.757116561069912,
+      "gene_contribution_sum": 6.139920920515971,
+      "total_risk_score": 4.382804359446059,
+      "top_risk_drivers": [
+        {
+          "feature": "EXPR_MAGEC1",
+          "type": "gene",
+          "value": 12.533137457502775,
+          "coefficient": 0.0798924367613689,
+          "contribution": 1.0013028917450841,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_FXYD3",
+          "type": "gene",
+          "value": 12.526775623249602,
+          "coefficient": 0.06634219414612941,
+          "contribution": 0.8310537804226263,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_KRT14",
+          "type": "gene",
+          "value": 4.775387728090427,
+          "coefficient": 0.15432038702207382,
+          "contribution": 0.7369396823793766,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_ESRP1",
+          "type": "gene",
+          "value": 7.728542992851704,
+          "coefficient": 0.0890264686428253,
+          "contribution": 0.6880448904078394,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_CCL21",
+          "type": "gene",
+          "value": 9.40153810240902,
+          "coefficient": 0.06951181582449857,
+          "contribution": 0.6535179850416616,
+          "direction": "risk_increasing"
+        }
+      ],
+      "top_protective_drivers": [
+        {
+          "feature": "EXPR_ETNPPL",
+          "type": "gene",
+          "value": 8.848378193526797,
+          "coefficient": -0.11733363618651044,
+          "contribution": -1.0382123877999256,
+          "direction": "protective"
+        },
+        {
+          "feature": "cat__CANCER_TYPE_GBM",
+          "type": "clinical",
+          "value": -0.7977240352174575,
+          "coefficient": 0.7719928722860876,
+          "contribution": -0.6158372692391731,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_DDX3Y",
+          "type": "gene",
+          "value": 11.016187210275476,
+          "coefficient": -0.055040589017821676,
+          "contribution": -0.606337432784156,
+          "direction": "protective"
+        },
+        {
+          "feature": "num__AGE",
+          "type": "clinical",
+          "value": -2.0258488222290723,
+          "coefficient": 0.2933962334472087,
+          "contribution": -0.5943764139754737,
+          "direction": "protective"
+        },
+        {
+          "feature": "cat__CANCER_TYPE_SKCM",
+          "type": "clinical",
+          "value": 1.6635630016519014,
+          "coefficient": -0.3215256639791682,
+          "contribution": -0.5348781986773057,
+          "direction": "protective"
+        }
+      ],
+      "all_drivers_ranked": [
+        {
+          "feature": "EXPR_ETNPPL",
+          "type": "gene",
+          "value": 8.848378193526797,
+          "coefficient": -0.11733363618651044,
+          "contribution": -1.0382123877999256,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_MAGEC1",
+          "type": "gene",
+          "value": 12.533137457502775,
+          "coefficient": 0.0798924367613689,
+          "contribution": 1.0013028917450841,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_FXYD3",
+          "type": "gene",
+          "value": 12.526775623249602,
+          "coefficient": 0.06634219414612941,
+          "contribution": 0.8310537804226263,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_KRT14",
+          "type": "gene",
+          "value": 4.775387728090427,
+          "coefficient": 0.15432038702207382,
+          "contribution": 0.7369396823793766,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_ESRP1",
+          "type": "gene",
+          "value": 7.728542992851704,
+          "coefficient": 0.0890264686428253,
+          "contribution": 0.6880448904078394,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "EXPR_CCL21",
+          "type": "gene",
+          "value": 9.40153810240902,
+          "coefficient": 0.06951181582449857,
+          "contribution": 0.6535179850416616,
+          "direction": "risk_increasing"
+        },
+        {
+          "feature": "cat__CANCER_TYPE_GBM",
+          "type": "clinical",
+          "value": -0.7977240352174575,
+          "coefficient": 0.7719928722860876,
+          "contribution": -0.6158372692391731,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_DDX3Y",
+          "type": "gene",
+          "value": 11.016187210275476,
+          "coefficient": -0.055040589017821676,
+          "contribution": -0.606337432784156,
+          "direction": "protective"
+        },
+        {
+          "feature": "num__AGE",
+          "type": "clinical",
+          "value": -2.0258488222290723,
+          "coefficient": 0.2933962334472087,
+          "contribution": -0.5943764139754737,
+          "direction": "protective"
+        },
+        {
+          "feature": "EXPR_GPRC5A",
+          "type": "gene",
+          "value": 5.867283682553583,
+          "coefficient": 0.09396020383898547,
+          "contribution": 0.551291170793888,
+          "direction": "risk_increasing"
+        }
+      ]
+    }
+  ]
+}

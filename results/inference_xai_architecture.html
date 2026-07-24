@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inference Engine & XAI Architecture Flow</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    margin: 0;
+    padding: 30px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .header h1 {
+    font-size: 24px;
+    margin: 0 0 8px 0;
+    color: #0f172a;
+  }
+  .header p {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+  }
+
+  .pipeline-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .stage-card {
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    position: relative;
+  }
+
+  .stage-badge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: #0284c7;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .stage-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+  }
+  .stage-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0f172a;
+  }
+  .stage-formula {
+    font-family: 'Courier New', Courier, monospace;
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #0369a1;
+    font-weight: bold;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .box-inner {
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 13px;
+  }
+
+  .color-green { background: #f0fdf4; border-color: #86efac; }
+  .color-blue { background: #f0f9ff; border-color: #7dd3fc; }
+  .color-purple { background: #faf5ff; border-color: #d8b4fe; }
+  .color-amber { background: #fffbeb; border-color: #fde68a; }
+
+  .box-heading {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .math-block {
+    background: rgba(255,255,255,0.8);
+    border: 1px dashed #cbd5e1;
+    border-radius: 6px;
+    padding: 8px;
+    margin-top: 8px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .connector-arrow {
+    text-align: center;
+    font-size: 20px;
+    color: #64748b;
+    margin: -10px 0;
+  }
+
+  .highlight-tag {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🧬 Detailed Inference & XAI Architectural Data Flow</h1>
+  <p>How raw clinical & omic data is processed, modeled, calibrated, simulated, and explained at the individual gene level</p>
+</div>
+
+<div class="pipeline-flow">
+
+  <!-- Stage 1: Feature Transformation & Scoring -->
+  <div class="stage-card">
+    <span class="stage-badge">Stage 1: Linear Risk Projection</span>
+    <div class="stage-header">
+      <span class="stage-title">⚙️ Risk Score Formulation (Cox Elastic-Net Core)</span>
+      <span class="stage-formula">&eta;<sub>i</sub> = X<sub>i,clin</sub> &beta;<sub>clin</sub> + X<sub>i,pca</sub> &beta;<sub>pca</sub></span>
+    </div>
+    <div class="grid-2">
+      <div class="box-inner color-green">
+        <div class="box-heading">🏥 Clinical Inputs (X<sub>clin</sub>)</div>
+        <div>Direct standardized clinical vector (Age, Sex, Tumor Stage, TMB).</div>
+        <div class="math-block">&eta;<sub>clin, i</sub> = &Sigma; X<sub>i, j</sub> &middot; &beta;<sub>j</sub></div>
+      </div>
+      <div class="box-inner color-blue">
+        <div class="box-heading">🧬 PCA Genomic Latent Vector (X<sub>pca</sub>)</div>
+        <div>High-variance genes (300) compressed into 50 principal components.</div>
+        <div class="math-block">&eta;<sub>pca, i</sub> = &Sigma; X<sub>i, k</sub> &middot; &beta;<sub>k</sub> &nbsp;&nbsp; (k = 1...50)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector-arrow">⬇️</div>
+
+  <!-- Stage 2: Three Parallel Novelty Engines -->
+  <div class="stage-card" style="border-color: #0284c7;">
+    <span class="stage-badge" style="background: #0d9488;">Stage 2: Novelty Processing Core</span>
+    <div class="stage-header">
+      <span class="stage-title">🔬 Parallel Inference, Calibration & Explainability Engine</span>
+      <span class="stage-formula">&eta;<sub>i</sub> &rarr; Calibration &bull; Simulation &bull; XAI Back-Projection</span>
+    </div>
+    
+    <div class="grid-3">
+      
+      <!-- Engine A: Isotonic Calibration -->
+      <div class="box-inner color-amber">
+        <div class="box-heading">📊 1. Isotonic Calibration</div>
+        <p style="font-size:12px; color:#475569; margin:4px 0 8px 0;">
+          Non-parametric monotonic mapping from relative risk score &eta; to absolute baseline-adjusted survival.
+        </p>
+        <div><span class="highlight-tag">Algorithm</span> PAVA (Pool Adjacent Violators)</div>
+        <div><span class="highlight-tag">Output</span> P(S &gt; t | &eta;<sub>i</sub>) for t &isin; {12, 24, 36, 60m}</div>
+        <div class="math-block">
+          P(S &gt; t) = f<sub>iso, t</sub>(&eta;<sub>i</sub>)<br>
+          <span style="font-size:11px; color:#64748b;">Guarantees monotonic risk ordering</span>
+        </div>
+      </div>
+
+      <!-- Engine B: Monte Carlo Simulation -->
+      <div class="box-inner color-purple">
+        <div class="box-heading">🎲 2. Monte Carlo Simulation Engine</div>
+        <p style="font-size:12px; color:#475569; margin:4px 0 8px 0;">
+          Inverse transform sampling over cumulative baseline hazard &Lambda;<sub>0</sub>(t) across 5,000 stochastic trials.
+        </p>
+        <div><span class="highlight-tag">Draw</span> U<sup>(k)</sup> ~ Uniform(0, 1)</div>
+        <div><span class="highlight-tag">Hazard</span> &Lambda;<sub>target</sub><sup>(k)</sup> = -ln(U<sup>(k)</sup>) / exp(&eta;<sub>i</sub>)</div>
+        <div class="math-block">
+          t<sup>(k)</sup> = &Lambda;<sub>0</sub><sup>-1</sup>(&Lambda;<sub>target</sub><sup>(k)</sup>)<br>
+          <strong>Output:</strong> P10, P50 (Median), P90, RMST
+        </div>
+      </div>
+
+      <!-- Engine C: PCA Back-Projection XAI -->
+      <div class="box-inner color-blue">
+        <div class="box-heading">🔍 3. Gene-Level XAI Back-Projection</div>
+        <p style="font-size:12px; color:#475569; margin:4px 0 8px 0;">
+          Mathematical novelty: Unrolls 50 PCA component weights back into 300 individual raw gene contributions.
+        </p>
+        <div><span class="highlight-tag">Weight Vector</span> W<sub>gene</sub> = V &middot; &beta;<sub>pca</sub> &isin; &mathbb;R<sup>300</sup></div>
+        <div><span class="highlight-tag">Gene Impact</span> &Delta;&eta;<sub>g, i</sub> = Z<sub>g, i</sub> &middot; W<sub>gene, g</sub></div>
+        <div class="math-block">
+          V = PCA Loadings (300 x 50)<br>
+          &beta;<sub>pca</sub> = Model Weights (50 x 1)
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="connector-arrow">⬇️</div>
+
+  <!-- Stage 3: Unified Patient Output Report -->
+  <div class="stage-card" style="background: #0f172a; color: white; border-color: #0f172a;">
+    <span class="stage-badge" style="background: #f59e0b;">Stage 3: Comprehensive Patient Assessment</span>
+    <div class="stage-header" style="border-bottom-color: #334155;">
+      <span class="stage-title" style="color: white;">📋 Patient Risk & Survival Dossier</span>
+      <span class="stage-formula" style="background: #1e293b; color: #38bdf8;">JSON / CSV / CLI Real-Time Report</span>
+    </div>
+    
+    <div class="grid-3" style="color: #cbd5e1;">
+      <div style="background: #1e293b; padding: 12px; border-radius: 8px;">
+        <strong style="color: #38bdf8;">1. Risk Stratification</strong><br>
+        • Patient Risk Score (&eta;<sub>i</sub>)<br>
+        • Risk Percentile vs Cohort<br>
+        • High / Medium / Low Risk Tier
+      </div>
+      <div style="background: #1e293b; padding: 12px; border-radius: 8px;">
+        <strong style="color: #a855f7;">2. Survival Curve & Bounds</strong><br>
+        • Calibrated P(S) @ 1, 2, 3, 5 Years<br>
+        • Monte Carlo Bounds (P10 - P90)<br>
+        • Restricted Mean Survival Time (RMST)
+      </div>
+      <div style="background: #1e293b; padding: 12px; border-radius: 8px;">
+        <strong style="color: #4ade80;">3. Biological Explainability</strong><br>
+        • Top Risk-Increasing Genes (+&Delta;&eta;)<br>
+        • Top Protective Genes (-&Delta;&eta;)<br>
+        • Patient-Specific Feature Waterfall
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

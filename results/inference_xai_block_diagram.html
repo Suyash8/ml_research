@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inference Engine & XAI Policy - Detailed Block Diagram</title>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #000000;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .header h1 {
+    font-size: 22px;
+    margin: 0 0 6px 0;
+    color: #111;
+  }
+  .header p {
+    font-size: 13px;
+    color: #555;
+    margin: 0;
+  }
+
+  .diagram-container {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    position: relative;
+  }
+
+  /* Basic Box Styles matching academic paper diagram */
+  .box {
+    border: 1.5px solid #000;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.08);
+    position: relative;
+  }
+
+  .box-title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .sub-box {
+    border: 1px solid #000;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 12px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  .sub-box-title {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  /* Colors matching user reference */
+  .color-green { background-color: #e2f0d9; }
+  .color-yellow { background-color: #fff2cc; }
+  .color-orange { background-color: #fce4d6; }
+  .color-blue { background-color: #bde0fe; }
+  .color-purple { background-color: #e4d7f5; }
+
+  /* Columns */
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+  }
+
+  .input-inner {
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 11px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .input-inner-icon {
+    background: #222;
+    color: white;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .desc-text {
+    font-size: 11px;
+    color: #444;
+    margin-bottom: 8px;
+  }
+
+  .math-expr {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-size: 13px;
+    background: rgba(255,255,255,0.85);
+    border: 1px dashed #666;
+    padding: 3px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  /* Arrows */
+  .arrow-right {
+    width: 35px;
+    height: 2px;
+    background-color: #000;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .arrow-right::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: -4px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 8px solid #000;
+  }
+
+  .arrow-label {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-style: italic;
+    font-family: 'Times New Roman', Times, serif;
+    white-space: nowrap;
+  }
+
+  /* Bracketed Vector Notation */
+  .vector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
+    font-style: italic;
+    position: relative;
+    padding: 0 16px;
+    gap: 12px;
+  }
+  .vector::before {
+    content: '[';
+    position: absolute;
+    left: 0;
+    top: -10px;
+    bottom: -10px;
+    font-size: 100px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+  }
+  .vector::after {
+    content: ']';
+    position: absolute;
+    right: 0;
+    top: -10px;
+    bottom: -10px;
+    font-size: 100px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+  }
+  .vector-item {
+    line-height: 1.2;
+    text-align: center;
+  }
+  .vector-sub {
+    font-size: 11px;
+    color: #444;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🔍 Inference Engine & XAI Policy — Architectural Block Diagram</h1>
+  <p>Detailed data flow from model artifacts and risk predictors through calibration, stochastic simulation, and gene back-projection</p>
+</div>
+
+<div class="diagram-container">
+  
+  <!-- Column 1: Patient Data & Frozen Model Artifacts -->
+  <div class="col" style="width: 220px;">
+    <!-- Patient Input Box -->
+    <div class="box color-green" style="width: 100%;">
+      <div class="box-title">Patient Inputs</div>
+      <div class="desc-text">Normalized features & Log-Omics</div>
+      <div class="input-inner">
+        <div class="input-inner-icon">👤</div>
+        <div style="text-align: left;">
+          Clinical Vector <i>X<sub>clin</sub></i><br>
+          <span style="font-size:10px; color:#666;">Age, Stage, Sex, TMB</span>
+        </div>
+      </div>
+      <div class="input-inner">
+        <div class="input-inner-icon">🧬</div>
+        <div style="text-align: left;">
+          Raw Gene Expr <i>Z<sub>gene</sub></i><br>
+          <span style="font-size:10px; color:#666;">300 High-Variance Genes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Locked Artifacts Box -->
+    <div class="box color-yellow" style="width: 100%;">
+      <div class="box-title">Locked Artifacts</div>
+      <div class="desc-text">Trained Cox Elastic-Net</div>
+      <div class="input-inner">
+        <div class="input-inner-icon">🔒</div>
+        <div style="text-align: left;">
+          Weights <b>&beta;<sub>clin</sub></b> & <b>&beta;<sub>pca</sub></b><br>
+          <span style="font-size:10px; color:#666;">PCA Loadings V<sub>300&times;50</sub></span>
+        </div>
+      </div>
+      <div class="input-inner">
+        <div class="input-inner-icon">📈</div>
+        <div style="text-align: left;">
+          Breslow Baseline<br>
+          <span style="font-size:10px; color:#666;">Cumulative Hazard &Lambda;<sub>0</sub>(t)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-right" style="width:40px;">
+    <div class="arrow-label">X, &beta;, V</div>
+  </div>
+
+  <!-- Column 2: XAI Weight Unrolling Module -->
+  <div class="col" style="width: 190px;">
+    <div class="box color-orange" style="width: 100%;">
+      <div class="box-title">XAI Back-Projection<br>Weight Unroller</div>
+      <div class="desc-text">Gene-level Mapping</div>
+      
+      <div class="math-expr">
+        W<sub>gene</sub> = V &middot; &beta;<sub>pca</sub>
+      </div>
+      <div style="font-size:10px; color:#555; margin:4px 0;">(300&times;50) &times; (50&times;1) &rarr; 300&times;1</div>
+      
+      <div class="math-expr">
+        &Delta;&eta;<sub>g, i</sub> = Z<sub>g, i</sub> &middot; W<sub>gene, g</sub>
+      </div>
+      <div style="font-size:10px; color:#555; margin-top:4px;">Gene Impact Risk Score</div>
+    </div>
+  </div>
+
+  <div class="arrow-right" style="width:40px;">
+    <div class="arrow-label">&Delta;&eta;<sub>gene</sub></div>
+  </div>
+
+  <!-- Column 3: The Core Inference & Policy Block -->
+  <div class="col" style="width: 310px;">
+    <div class="box color-blue" style="width: 100%; padding: 18px;">
+      <div class="box-title" style="font-size: 16px; margin-bottom: 12px;">Inference & XAI Policy Core</div>
+      
+      <!-- Sub-box 1: Isotonic Calibration -->
+      <div class="sub-box color-purple">
+        <div class="sub-box-title">📊 Isotonic Calibration (PAVA)</div>
+        <div style="font-size: 11px; color:#333;">
+          Map linear risk &eta;<sub>i</sub> &rarr; Empirical Survival P(S &gt; t)
+        </div>
+        <div class="math-expr">
+          P(S &gt; t | &eta;<sub>i</sub>) = f<sub>iso, t</sub>(&eta;<sub>i</sub>) &nbsp; [t=12,24,36,60m]
+        </div>
+      </div>
+
+      <!-- Sub-box 2: Monte Carlo Simulation -->
+      <div class="sub-box color-purple">
+        <div class="sub-box-title">🎲 Monte Carlo Simulation (5,000 Draws)</div>
+        <div style="font-size: 11px; color:#333;">
+          Draw U<sup>(k)</sup> ~ Uniform(0,1) &rarr; &Lambda;<sub>target</sub><sup>(k)</sup> = -ln(U<sup>(k)</sup>) / e<sup>&eta;<sub>i</sub></sup>
+        </div>
+        <div class="math-expr">
+          t<sup>(k)</sup> = &Lambda;<sub>0</sub><sup>-1</sup>(&Lambda;<sub>target</sub><sup>(k)</sup>) &rarr; [P10, P50, P90]
+        </div>
+      </div>
+
+      <!-- Sub-box 3: Waterfall Decomposition -->
+      <div class="sub-box color-purple">
+        <div class="sub-box-title">🔍 Additive Patient Waterfall</div>
+        <div style="font-size: 11px; color:#333;">
+          Decompose patient risk into gene drivers:
+        </div>
+        <div class="math-expr">
+          &eta;<sub>i</sub> = &Sigma; c<sub>clin</sub> + &Sigma; &Delta;&eta;<sub>g, i</sub>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="arrow-right" style="width:40px;">
+    <div class="arrow-label">Report</div>
+  </div>
+
+  <!-- Column 4: Final Patient Output Vector -->
+  <div class="vector">
+    <div class="vector-item">
+      &eta;<sub>i</sub>
+      <div class="vector-sub">Risk Score</div>
+    </div>
+    <div class="vector-item">
+      P(S &gt; t)
+      <div class="vector-sub">Calibrated Probabilities</div>
+    </div>
+    <div class="vector-item">
+      [P10, P90]
+      <div class="vector-sub">MC Survival Bounds</div>
+    </div>
+    <div class="vector-item">
+      &Delta;&eta;<sub>gene</sub>
+      <div class="vector-sub">XAI Drivers</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
