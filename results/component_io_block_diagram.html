@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Component-Level Input/Output Architecture Diagram</title>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    margin: 0;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 35px;
+  }
+  .header h1 {
+    font-size: 24px;
+    margin: 0 0 8px 0;
+    color: #0f172a;
+  }
+  .header p {
+    font-size: 14px;
+    color: #475569;
+    margin: 0;
+  }
+
+  .pipeline-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  .component-card {
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 18px 24px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    position: relative;
+  }
+
+  .step-badge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: #2563eb;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .comp-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 12px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .script-name {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    background: #f1f5f9;
+    color: #0284c7;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+
+  .io-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 15px;
+  }
+
+  .io-box {
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .box-in {
+    background: #f0fdf4;
+    border: 1.5px solid #86efac;
+  }
+
+  .box-transform {
+    background: #f0f9ff;
+    border: 1.5px solid #7dd3fc;
+  }
+
+  .box-out {
+    background: #fffbeb;
+    border: 1.5px solid #fde68a;
+  }
+
+  .io-label {
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .box-in .io-label { color: #166534; }
+  .box-transform .io-label { color: #0369a1; }
+  .box-out .io-label { color: #b45309; }
+
+  .data-list {
+    margin: 0;
+    padding-left: 16px;
+    line-height: 1.5;
+  }
+
+  .dim-tag {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    font-weight: bold;
+    background: rgba(255,255,255,0.8);
+    border: 1px solid #cbd5e1;
+    padding: 1px 5px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  .arrow-down {
+    text-align: center;
+    font-size: 20px;
+    color: #64748b;
+    margin: -8px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🧬 Step-by-Step Component Input/Output Architecture</h1>
+  <p>Exact data structures, matrix dimensions, algorithms, and intermediate files produced at every stage of the pipeline</p>
+</div>
+
+<div class="pipeline-container">
+
+  <!-- STEP 01 -->
+  <div class="component-card">
+    <span class="step-badge">Step 01</span>
+    <div class="comp-title">
+      <span>📥 Data Ingestion & Input Verification</span>
+      <span class="script-name">01_ingest_patient_data.py</span>
+    </div>
+    <div class="io-grid">
+      <div class="io-box box-in">
+        <div class="io-label">📥 Input Data</div>
+        <ul class="data-list">
+          <li><code>sample_patients.csv</code></li>
+          <li>Clinical features (Age, Sex, Stage, TMB)</li>
+          <li>RNA-Seq gene expressions (Top 300 genes)</li>
+        </ul>
+        <div class="dim-tag">Matrix: [N x 305] DataFrame</div>
+      </div>
+      <div class="io-box box-transform">
+        <div class="io-label">⚙️ Processing Logic</div>
+        <ul class="data-list">
+          <li>Load raw patient records</li>
+          <li>Validate column presence & data types</li>
+          <li>Separate clinical vs expression features</li>
+        </ul>
+        <div class="dim-tag">Validation: Zero Missing Values</div>
+      </div>
+      <div class="io-box box-out">
+        <div class="io-label">📤 Output File</div>
+        <ul class="data-list">
+          <li><code>step01_ingested_data.pkl</code></li>
+          <li>Structured patient dictionary</li>
+          <li>Patient IDs list</li>
+        </ul>
+        <div class="dim-tag">Saved File: PKL artifact</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇️</div>
+
+  <!-- STEP 02 -->
+  <div class="component-card">
+    <span class="step-badge">Step 02</span>
+    <div class="comp-title">
+      <span>🛠️ Feature Preprocessing & PCA Dimensionality Reduction</span>
+      <span class="script-name">02_feature_transformation.py</span>
+    </div>
+    <div class="io-grid">
+      <div class="io-box box-in">
+        <div class="io-label">📥 Input Data</div>
+        <ul class="data-list">
+          <li><code>step01_ingested_data.pkl</code></li>
+          <li>Clinical sub-matrix [N x 4]</li>
+          <li>Gene expression matrix [N x 300]</li>
+        </ul>
+        <div class="dim-tag">Raw Features</div>
+      </div>
+      <div class="io-box box-transform">
+        <div class="io-label">⚙️ Processing Logic</div>
+        <ul class="data-list">
+          <li>Clinical: Impute + OHE + StandardScaler</li>
+          <li>Genomic: log₂(x+1) + Gram-Schmidt filter</li>
+          <li>PCA Compression: 300 genes → 50 PCs</li>
+        </ul>
+        <div class="dim-tag">V: Loadings [300 x 50]</div>
+      </div>
+      <div class="io-box box-out">
+        <div class="io-label">📤 Output File</div>
+        <ul class="data-list">
+          <li><code>step02_transformed_features.pkl</code></li>
+          <li>X<sub>clin</sub>: [N x 9] preprocessed matrix</li>
+          <li>X<sub>pca</sub>: [N x 50] component matrix</li>
+        </ul>
+        <div class="dim-tag">Combined X: [N x 59]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇️</div>
+
+  <!-- STEP 03 -->
+  <div class="component-card">
+    <span class="step-badge">Step 03</span>
+    <div class="comp-title">
+      <span>⚙️ Cox Elastic-Net Log-Hazard Risk Scoring</span>
+      <span class="script-name">03_cox_risk_scoring.py</span>
+    </div>
+    <div class="io-grid">
+      <div class="io-box box-in">
+        <div class="io-label">📥 Input Data</div>
+        <ul class="data-list">
+          <li><code>step02_transformed_features.pkl</code></li>
+          <li>Transformed matrix X [N x 59]</li>
+          <li>Locked Cox coefficients β [59 x 1]</li>
+        </ul>
+        <div class="dim-tag">Feature Matrix + Weights</div>
+      </div>
+      <div class="io-box box-transform">
+        <div class="io-label">⚙️ Processing Logic</div>
+        <ul class="data-list">
+          <li>Linear matrix multiplication</li>
+          <li>η<sub>i</sub> = X<sub>i,clin</sub> β<sub>clin</sub> + X<sub>i,pca</sub> β<sub>pca</sub></li>
+          <li>Clip risk range to [-40, 40]</li>
+        </ul>
+        <div class="dim-tag">Formula: η = X · β</div>
+      </div>
+      <div class="io-box box-out">
+        <div class="io-label">📤 Output File</div>
+        <ul class="data-list">
+          <li><code>step03_risk_scores.json</code></li>
+          <li>Log-hazard risk score (η) per patient</li>
+          <li>Risk percentile ranking vs TCGA cohort</li>
+        </ul>
+        <div class="dim-tag">Vector: η [N x 1]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇️</div>
+
+  <!-- STEP 04 -->
+  <div class="component-card">
+    <span class="step-badge">Step 04</span>
+    <div class="comp-title">
+      <span>📊 Isotonic Survival Probability Calibration</span>
+      <span class="script-name">04_isotonic_calibration.py</span>
+    </div>
+    <div class="io-grid">
+      <div class="io-box box-in">
+        <div class="io-label">📥 Input Data</div>
+        <ul class="data-list">
+          <li><code>step03_risk_scores.json</code></li>
+          <li>Risk score vector η [N x 1]</li>
+          <li>Fitted Isotonic calibrators (PAVA)</li>
+        </ul>
+        <div class="dim-tag">Risk Score Vector</div>
+      </div>
+      <div class="io-box box-transform">
+        <div class="io-label">⚙️ Processing Logic</div>
+        <ul class="data-list">
+          <li>Non-parametric PAVA step-mapping</li>
+          <li>Map η → P(Event > t)</li>
+          <li>Evaluate at 12m, 24m, 36m, 60m</li>
+        </ul>
+        <div class="dim-tag">Monotonic Mapping</div>
+      </div>
+      <div class="io-box box-out">
+        <div class="io-label">📤 Output File</div>
+        <ul class="data-list">
+          <li><code>step04_calibrated_probabilities.json</code></li>
+          <li>P(S > 12m), P(S > 24m)</li>
+          <li>P(S > 36m), P(S > 60m)</li>
+        </ul>
+        <div class="dim-tag">Matrix: [N x 4] Probabilities</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇️</div>
+
+  <!-- STEP 05 -->
+  <div class="component-card">
+    <span class="step-badge">Step 05</span>
+    <div class="comp-title">
+      <span>🎲 Monte Carlo Stochastic Survival Simulation</span>
+      <span class="script-name">05_monte_carlo_simulation.py</span>
+    </div>
+    <div class="io-grid">
+      <div class="io-box box-in">
+        <div class="io-label">📥 Input Data</div>
+        <ul class="data-list">
+          <li><code>step03_risk_scores.json</code></li>
+          <li>Baseline Cumulative Hazard Λ₀(t)</li>
+          <li>5,000 Uniform draws U<sup>(k)</sup> ~ (0,1)</li>
+        </ul>
+        <div class="dim-tag">Baseline Hazard + Seed</div>
+      </div>
+      <div class="io-box box-transform">
+        <div class="io-label">⚙️ Processing Logic</div>
+        <ul class="data-list">
+          <li>Λ<sub>target</sub><sup>(k)</sup> = -ln(U<sup>(k)</sup>) / exp(η<sub>i</sub>)</li>
+          <li>Invert step hazard: t<sup>(k)</sup> = Λ₀⁻¹(Λ<sub>target</sub>)</li>
+          <li>Extract 10th, 50th, 90th percentiles</li>
+        </ul>
+        <div class="dim-tag">Inverse Transform Sampling</div>
+      </div>
+      <div class="io-box box-out">
+        <div class="io-label">📤 Output File</div>
+        <ul class="data-list">
+          <li><code>step05_monte_carlo_bounds.json</code></li>
+          <li>P10 (Pessimistic), P50 (Median)</li>
+          <li>P90 (Optimistic), RMST (60m)</li>
+        </ul>
+        <div class="dim-tag">Quantiles Matrix: [N x 4]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇️</div>
+
+  <!-- STEP 06 -->
+  <div class="component-card">
+    <span class="step-badge">Step 06</span>
+    <div class="comp-title">
+      <span>🔍 PCA Back-Projection & Local XAI Waterfall</span>
+      <span class="script-name">06_xai_explainability.py</span>
+    </div>
+    <div class="io-grid">
+      <div class="io-box box-in">
+        <div class="io-label">📥 Input Data</div>
+        <ul class="data-list">
+          <li>Raw expression Z<sub>gene</sub> [N x 300]</li>
+          <li>PCA Loadings V [300 x 50]</li>
+          <li>PCA Weights β<sub>pca</sub> [50 x 1]</li>
+        </ul>
+        <div class="dim-tag">Loadings + Patient Expression</div>
+      </div>
+      <div class="io-box box-transform">
+        <div class="io-label">⚙️ Processing Logic</div>
+        <ul class="data-list">
+          <li>W<sub>gene</sub> = V · β<sub>pca</sub> (Global gene weights)</li>
+          <li>Δη<sub>g,i</sub> = Z<sub>g,i</sub> · W<sub>gene,g</sub> (Patient impact)</li>
+          <li>Rank top risk & protective drivers</li>
+        </ul>
+        <div class="dim-tag">Linear Matrix Unrolling</div>
+      </div>
+      <div class="io-box box-out">
+        <div class="io-label">📤 Output File</div>
+        <ul class="data-list">
+          <li><code>step06_patient_explainability.json</code></li>
+          <li>Top 5 risk-increasing genes</li>
+          <li>Top 5 protective genes</li>
+        </ul>
+        <div class="dim-tag">Waterfall Breakdown</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇️</div>
+
+  <!-- STEP 07 -->
+  <div class="component-card" style="border-color: #0f172a; background: #0f172a; color: white;">
+    <span class="step-badge" style="background: #f59e0b;">Step 07</span>
+    <div class="comp-title" style="color: white;">
+      <span>📋 Master Aggregator & Clinical Dossier Generation</span>
+      <span class="script-name" style="background: #1e293b; color: #38bdf8;">07_generate_final_dossier.py</span>
+    </div>
+    <div class="io-grid" style="color: #cbd5e1;">
+      <div class="io-box" style="background: #1e293b; border-color: #334155;">
+        <div class="io-label" style="color: #38bdf8;">📥 Input Sources</div>
+        <ul class="data-list">
+          <li><code>step03_risk_scores.json</code></li>
+          <li><code>step04_calibrated_probs.json</code></li>
+          <li><code>step05_monte_carlo.json</code></li>
+          <li><code>step06_explainability.json</code></li>
+        </ul>
+      </div>
+      <div class="io-box" style="background: #1e293b; border-color: #334155;">
+        <div class="io-label" style="color: #a855f7;">⚙️ Merging Logic</div>
+        <ul class="data-list">
+          <li>Join by <code>PATIENT_ID</code></li>
+          <li>Format clinical survival tables</li>
+          <li>Generate patient waterfall plots</li>
+        </ul>
+      </div>
+      <div class="io-box" style="background: #1e293b; border-color: #334155;">
+        <div class="io-label" style="color: #4ade80;">📤 Final Output Deliverables</div>
+        <ul class="data-list">
+          <li><code>step07_final_dossier.csv</code></li>
+          <li><code>step07_final_dossier.json</code></li>
+          <li>Console summary dashboard</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

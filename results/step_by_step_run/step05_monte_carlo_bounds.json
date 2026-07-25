@@ -1,0 +1,48 @@
+{
+  "step": "05_monte_carlo_simulation",
+  "n_sims": 5000,
+  "n_patients": 5,
+  "monte_carlo_survival_bounds": [
+    {
+      "PATIENT_ID": "TCGA-DD-AAEE",
+      "risk_score_eta": -0.4990919093773645,
+      "mc_p10_months": 10.93,
+      "mc_p50_median_months": 49.47,
+      "mc_p90_months": 167.58,
+      "mc_rmst_months": 41.11
+    },
+    {
+      "PATIENT_ID": "TCGA-BF-A3DL",
+      "risk_score_eta": 0.05336547443878977,
+      "mc_p10_months": 7.33,
+      "mc_p50_median_months": 26.33,
+      "mc_p90_months": 99.9,
+      "mc_rmst_months": 31.99
+    },
+    {
+      "PATIENT_ID": "TCGA-EE-A3AH",
+      "risk_score_eta": -1.5853820189884102,
+      "mc_p10_months": 22.6,
+      "mc_p50_median_months": 151.15,
+      "mc_p90_months": 218.39,
+      "mc_rmst_months": 52.44
+    },
+    {
+      "PATIENT_ID": "TCGA-D3-A3CE",
+      "risk_score_eta": -0.40345491294496755,
+      "mc_p10_months": 9.89,
+      "mc_p50_median_months": 43.99,
+      "mc_p90_months": 152.23,
+      "mc_rmst_months": 38.88
+    },
+    {
+      "PATIENT_ID": "TCGA-12-0691",
+      "risk_score_eta": 0.965304422432965,
+      "mc_p10_months": 3.38,
+      "mc_p50_median_months": 13.96,
+      "mc_p90_months": 37.55,
+      "mc_rmst_months": 17.28
+    }
+  ],
+  "output_file": "/home/illionar/Projects/ml_research/results/step_by_step_run/step05_monte_carlo_bounds.json"
+}

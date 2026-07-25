@@ -1,0 +1,86 @@
+{
+  "pipeline_summary": {
+    "n_patients_evaluated": 5,
+    "steps_completed": [
+      "01_ingest_patient_data",
+      "02_feature_transformation",
+      "03_cox_risk_scoring",
+      "04_isotonic_calibration",
+      "05_monte_carlo_simulation",
+      "06_xai_explainability",
+      "07_generate_final_dossier"
+    ]
+  },
+  "patient_dossiers": [
+    {
+      "PATIENT_ID": "TCGA-DD-AAEE",
+      "risk_score_eta": -0.4990919093773645,
+      "prob_survive_12m": 0.8846,
+      "prob_survive_24m": 0.625,
+      "prob_survive_36m": 0.5455,
+      "prob_survive_60m": 0.3636,
+      "mc_p10_months": 10.93,
+      "mc_p50_median_months": 49.47,
+      "mc_p90_months": 167.58,
+      "mc_rmst_months": 41.11,
+      "top_risk_drivers": "EXPR_CST1, EXPR_CD24, EXPR_ABCC2",
+      "top_protective_drivers": "EXPR_ETNPPL, EXPR_HEPACAM, cat__CANCER_TYPE_GBM"
+    },
+    {
+      "PATIENT_ID": "TCGA-BF-A3DL",
+      "risk_score_eta": 0.05336547443878977,
+      "prob_survive_12m": 0.8723,
+      "prob_survive_24m": 0.5625,
+      "prob_survive_36m": 0.3889,
+      "prob_survive_60m": 0.1364,
+      "mc_p10_months": 7.33,
+      "mc_p50_median_months": 26.33,
+      "mc_p90_months": 99.9,
+      "mc_rmst_months": 31.99,
+      "top_risk_drivers": "EXPR_PAEP, EXPR_CXCL5, EXPR_KRT14",
+      "top_protective_drivers": "cat__CANCER_TYPE_GBM, cat__CANCER_TYPE_SKCM, EXPR_FDCSP"
+    },
+    {
+      "PATIENT_ID": "TCGA-EE-A3AH",
+      "risk_score_eta": -1.5853820189884102,
+      "prob_survive_12m": 0.9762,
+      "prob_survive_24m": 0.9062,
+      "prob_survive_36m": 0.7436,
+      "prob_survive_60m": 0.5366,
+      "mc_p10_months": 22.6,
+      "mc_p50_median_months": 151.15,
+      "mc_p90_months": 218.39,
+      "mc_rmst_months": 52.44,
+      "top_risk_drivers": "EXPR_MAGEC1, EXPR_FXYD3, EXPR_KRT14",
+      "top_protective_drivers": "EXPR_ETNPPL, cat__CANCER_TYPE_GBM, EXPR_DDX3Y"
+    },
+    {
+      "PATIENT_ID": "TCGA-D3-A3CE",
+      "risk_score_eta": -0.40345491294496755,
+      "prob_survive_12m": 0.8846,
+      "prob_survive_24m": 0.5833,
+      "prob_survive_36m": 0.3889,
+      "prob_survive_60m": 0.1364,
+      "mc_p10_months": 9.89,
+      "mc_p50_median_months": 43.99,
+      "mc_p90_months": 152.23,
+      "mc_rmst_months": 38.88,
+      "top_risk_drivers": "EXPR_KRT14, EXPR_MAGEC1, EXPR_CACNG4",
+      "top_protective_drivers": "EXPR_ETNPPL, EXPR_XAGE1D, cat__CANCER_TYPE_GBM"
+    },
+    {
+      "PATIENT_ID": "TCGA-12-0691",
+      "risk_score_eta": 0.965304422432965,
+      "prob_survive_12m": 0.6667,
+      "prob_survive_24m": 0.1364,
+      "prob_survive_36m": 0.04,
+      "prob_survive_60m": 0.0,
+      "mc_p10_months": 3.38,
+      "mc_p50_median_months": 13.96,
+      "mc_p90_months": 37.55,
+      "mc_rmst_months": 17.28,
+      "top_risk_drivers": "cat__CANCER_TYPE_GBM, cat__CANCER_TYPE_SKCM, num__AGE",
+      "top_protective_drivers": "cat__AGE_GROUP_>75, cat__ETHNICITY_Unknown, cat__RACE_Unknown"
+    }
+  ]
+}

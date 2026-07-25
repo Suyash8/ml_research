@@ -1,0 +1,33 @@
+{
+  "step": "03_cox_risk_scoring",
+  "n_patients": 5,
+  "formula": "eta_i = X_i @ beta",
+  "patient_risk_scores": [
+    {
+      "PATIENT_ID": "TCGA-DD-AAEE",
+      "risk_score_eta": -0.4990919093773645,
+      "risk_tier": "Low Risk"
+    },
+    {
+      "PATIENT_ID": "TCGA-BF-A3DL",
+      "risk_score_eta": 0.05336547443878977,
+      "risk_tier": "High Risk"
+    },
+    {
+      "PATIENT_ID": "TCGA-EE-A3AH",
+      "risk_score_eta": -1.5853820189884102,
+      "risk_tier": "Low Risk"
+    },
+    {
+      "PATIENT_ID": "TCGA-D3-A3CE",
+      "risk_score_eta": -0.40345491294496755,
+      "risk_tier": "Low Risk"
+    },
+    {
+      "PATIENT_ID": "TCGA-12-0691",
+      "risk_score_eta": 0.965304422432965,
+      "risk_tier": "High Risk"
+    }
+  ],
+  "output_file": "/home/illionar/Projects/ml_research/results/step_by_step_run/step03_risk_scores.json"
+}
