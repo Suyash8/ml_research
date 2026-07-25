@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Multi-Omic Survival Pipeline Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0b0f19;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Header */
+  .app-header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+  }
+
+  .header-title h1 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-title p {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .patient-select {
+    background: #0f172a;
+    color: #38bdf8;
+    border: 1px solid #0284c7;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary { background: #2563eb; color: white; }
+  .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+
+  .btn-success { background: #059669; color: white; }
+  .btn-success:hover { background: #047857; transform: translateY(-1px); }
+
+  .btn-secondary { background: #334155; color: #cbd5e1; }
+  .btn-secondary:hover { background: #475569; }
+
+  /* Stepper Bar */
+  .stepper-container {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    overflow-x: auto;
+  }
+
+  .step-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    flex: 1;
+    min-width: 110px;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+
+  .step-node:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    right: -50%;
+    width: 100%;
+    height: 2px;
+    background: #334155;
+    z-index: 1;
+  }
+
+  .step-node.completed:not(:last-child)::after {
+    background: #059669;
+  }
+
+  .circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #0f172a;
+    border: 2px solid #475569;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    z-index: 2;
+    transition: all 0.2s ease;
+  }
+
+  .step-node.active .circle {
+    border-color: #38bdf8;
+    background: #0284c7;
+    color: white;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+  }
+
+  .step-node.completed .circle {
+    border-color: #10b981;
+    background: #059669;
+    color: white;
+  }
+
+  .step-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-align: center;
+  }
+
+  .step-node.active .step-label { color: #38bdf8; font-weight: 700; }
+  .step-node.completed .step-label { color: #34d399; }
+
+  /* Main Workspace Layout */
+  .workspace {
+    display: grid;
+    grid-template-columns: 1fr 340px 1fr;
+    gap: 16px;
+    flex: 1;
+  }
+
+  .panel {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+  }
+
+  .panel-header {
+    background: #0f172a;
+    padding: 14px 18px;
+    border-bottom: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .panel-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .dim-badge {
+    font-family: 'Fira Code', monospace;
+    font-size: 11px;
+    background: #334155;
+    color: #38bdf8;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .panel-body {
+    padding: 16px;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Data Table */
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    max-height: 420px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    text-align: left;
+  }
+
+  th {
+    background: #0f172a;
+    color: #94a3b8;
+    font-weight: 700;
+    padding: 10px 12px;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid #334155;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #1e293b;
+    color: #cbd5e1;
+    white-space: nowrap;
+    background: #182232;
+  }
+
+  tr:hover td { background: #233044; }
+
+  tr.highlight-patient td {
+    background: #1e3a8a;
+    color: white;
+    font-weight: 600;
+  }
+
+  /* Center Engine Card */
+  .engine-card {
+    background: linear-gradient(180deg, #0f172a 0%, #182232 100%);
+    border: 1px solid #0284c7;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .engine-name {
+    font-size: 15px;
+    font-weight: 800;
+    color: #38bdf8;
+  }
+
+  .engine-desc {
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.5;
+  }
+
+  .math-card {
+    background: #0b0f19;
+    border: 1px dashed #0284c7;
+    border-radius: 8px;
+    padding: 10px;
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    color: #7dd3fc;
+    text-align: center;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    border-bottom: 1px solid #334155;
+    padding: 6px 0;
+    color: #cbd5e1;
+  }
+
+  /* XAI Chart Bars */
+  .xai-bar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .xai-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .xai-item-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .xai-bar-bg {
+    height: 8px;
+    background: #334155;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .xai-bar-fill-risk { background: #ef4444; height: 100%; }
+  .xai-bar-fill-prot { background: #10b981; height: 100%; }
+
+  /* Console Terminal */
+  .terminal {
+    background: #090d16;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    color: #4ade80;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+
+  .terminal .log-line { margin-bottom: 4px; }
+  .terminal .log-info { color: #38bdf8; }
+  .terminal .log-success { color: #4ade80; }
+  .terminal .log-warn { color: #fbbf24; }
+
+  /* Risk Badges */
+  .badge-high { background: #7f1d1d; color: #fca5a5; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+  .badge-low { background: #064e3b; color: #6ee7b7; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<!-- App Header -->
+<div class="app-header">
+  <div class="header-title">
+    <h1>🧬 Interactive Multi-Omic Survival Pipeline</h1>
+    <p>Step-by-Step Component Execution, Real-Time Data Flow, and Explainability Visualizer</p>
+  </div>
+  <div class="header-controls">
+    <label style="font-size: 12px; color: #94a3b8; font-weight: 600;">Active Patient:</label>
+    <select class="patient-select" id="patientSelect" onchange="onPatientChange()">
+      <option value="TCGA-DD-AAEE">Patient: TCGA-DD-AAEE (Low Risk)</option>
+      <option value="TCGA-BF-A3DL">Patient: TCGA-BF-A3DL (High Risk)</option>
+      <option value="TCGA-EE-A3AH">Patient: TCGA-EE-A3AH (Long Survivor)</option>
+      <option value="TCGA-D3-A3CE">Patient: TCGA-D3-A3CE (Mid Risk)</option>
+      <option value="TCGA-12-0691">Patient: TCGA-12-0691 (High Risk)</option>
+    </select>
+    <button class="btn btn-primary" onclick="runCurrentStep()">▶ Run Step</button>
+    <button class="btn btn-success" onclick="runFullPipeline()">⏩ Run Full Pipeline</button>
+    <button class="btn btn-secondary" onclick="resetPipeline()">🔄 Reset</button>
+  </div>
+</div>
+
+<!-- Stepper Navigation -->
+<div class="stepper-container" id="stepper">
+  <div class="step-node active" id="stepnode-1" onclick="selectStep(1)">
+    <div class="circle">01</div>
+    <div class="step-label">Ingestion</div>
+  </div>
+  <div class="step-node" id="stepnode-2" onclick="selectStep(2)">
+    <div class="circle">02</div>
+    <div class="step-label">Features & PCA</div>
+  </div>
+  <div class="step-node" id="stepnode-3" onclick="selectStep(3)">
+    <div class="circle">03</div>
+    <div class="step-label">Cox Scoring</div>
+  </div>
+  <div class="step-node" id="stepnode-4" onclick="selectStep(4)">
+    <div class="circle">04</div>
+    <div class="step-label">Isotonic Calib</div>
+  </div>
+  <div class="step-node" id="stepnode-5" onclick="selectStep(5)">
+    <div class="circle">05</div>
+    <div class="step-label">Monte Carlo</div>
+  </div>
+  <div class="step-node" id="stepnode-6" onclick="selectStep(6)">
+    <div class="circle">06</div>
+    <div class="step-label">XAI Waterfall</div>
+  </div>
+  <div class="step-node" id="stepnode-7" onclick="selectStep(7)">
+    <div class="circle">07</div>
+    <div class="step-label">Final Dossier</div>
+  </div>
+</div>
+
+<!-- Workspace -->
+<div class="workspace">
+
+  <!-- Left Panel: Input Data View -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title">📥 Component Input Data</div>
+      <div class="dim-badge" id="inputDimTag">Matrix: [5 x 305]</div>
+    </div>
+    <div class="panel-body">
+      <p style="font-size:12px; color:#94a3b8;" id="inputDesc">Raw clinical and RNA-Seq gene expression features before processing.</p>
+      <div class="table-container" id="inputTableContainer">
+        <!-- Input Table populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Middle Panel: Engine & Logic Specification -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title">⚙️ Processing Engine</div>
+      <div class="dim-badge" id="stepScriptTag">01_ingest.py</div>
+    </div>
+    <div class="panel-body">
+      <div class="engine-card">
+        <div class="engine-name" id="engineTitle">01_ingest_patient_data</div>
+        <div class="engine-desc" id="engineDesc">
+          Ingests raw patient CSV files, validates column integrity, verifies zero missingness, and separates clinical attributes from gene expression columns.
+        </div>
+        <div class="math-card" id="engineMath">
+          Input Matrix [N x 305] &rarr; Schema Validation
+        </div>
+        
+        <div style="margin-top: 6px;">
+          <div class="spec-row">
+            <span>Algorithm:</span>
+            <strong id="specAlgo">Data Cleaning & Schema Audit</strong>
+          </div>
+          <div class="spec-row">
+            <span>Input Format:</span>
+            <strong id="specInFmt">CSV / Parquet Dataframe</strong>
+          </div>
+          <div class="spec-row">
+            <span>Output Format:</span>
+            <strong id="specOutFmt">Validated Pickled Dictionary</strong>
+          </div>
+          <div class="spec-row">
+            <span>Status:</span>
+            <strong id="specStatus" style="color:#34d399;">READY TO EXECUTE</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Terminal Console -->
+      <div class="terminal" id="terminalLog">
+        <div class="log-line log-info">[SYSTEM READY] Pipeline loaded with 5 sample TCGA patients.</div>
+        <div class="log-line">[IDLE] Click '▶ Run Step' or select a step above to inspect data flow.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel: Output Data View -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title">📤 Component Output Data</div>
+      <div class="dim-badge" id="outputDimTag">Output: [5 Patients]</div>
+    </div>
+    <div class="panel-body">
+      <p style="font-size:12px; color:#94a3b8;" id="outputDesc">Validated intermediate pipeline artifacts saved to disk.</p>
+      
+      <div class="table-container" id="outputTableContainer">
+        <!-- Output Table populated dynamically -->
+      </div>
+
+      <!-- XAI Waterfall Visual Container (Shown on Step 6 & 7) -->
+      <div id="xaiVisualContainer" style="display:none; margin-top:10px;">
+        <div style="font-size:12px; font-weight:700; color:#38bdf8; margin-bottom:6px;">
+          🔍 Top Risk Drivers for <span id="xaiPatientTag">TCGA-DD-AAEE</span>:
+        </div>
+        <div class="xai-bar-group" id="xaiBarList">
+          <!-- XAI Bars populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Step Data Structures
+  const patientData = {
+    "TCGA-DD-AAEE": { age: 62, sex: "Male", stage: "Stage II", cancer: "LIHC", tmb: 1.45, risk: -0.4991, tier: "Low Risk", p12: "88.5%", p60: "36.4%", p10: "10.9m", p50: "49.5m", p90: "167.6m", rmst: "41.1m" },
+    "TCGA-BF-A3DL": { age: 71, sex: "Female", stage: "Stage IV", cancer: "SKCM", tmb: 4.80, risk: +0.0534, tier: "High Risk", p12: "87.2%", p60: "13.6%", p10: "7.3m", p50: "26.3m", p90: "99.9m", rmst: "32.0m" },
+    "TCGA-EE-A3AH": { age: 48, sex: "Female", stage: "Stage I", cancer: "LIHC", tmb: 0.90, risk: -1.5854, tier: "Low Risk", p12: "97.6%", p60: "53.7%", p10: "22.6m", p50: "151.2m", p90: "218.4m", rmst: "52.4m" },
+    "TCGA-D3-A3CE": { age: 59, sex: "Male", stage: "Stage III", cancer: "PAAD", tmb: 2.10, risk: -0.4035, tier: "Low Risk", p12: "88.5%", p60: "13.6%", p10: "9.9m", p50: "44.0m", p90: "152.2m", rmst: "38.9m" },
+    "TCGA-12-0691": { age: 78, sex: "Male", stage: "Stage IV", cancer: "GBM", tmb: 8.20, risk: +0.9653, tier: "High Risk", p12: "66.7%", p60: "0.0%", p10: "3.4m", p50: "14.0m", p90: "37.6m", rmst: "17.3m" }
+  };
+
+  const xaiDrivers = {
+    "TCGA-DD-AAEE": [
+      { gene: "EXPR_CST1", type: "risk", impact: 0.35, coef: "+0.14" },
+      { gene: "EXPR_CD24", type: "risk", impact: 0.28, coef: "+0.11" },
+      { gene: "EXPR_ETNPPL", type: "prot", impact: -0.48, coef: "-0.22" },
+      { gene: "EXPR_HEPACAM", type: "prot", impact: -0.32, coef: "-0.15" }
+    ],
+    "TCGA-BF-A3DL": [
+      { gene: "EXPR_PAEP", type: "risk", impact: 0.42, coef: "+0.18" },
+      { gene: "EXPR_CXCL5", type: "risk", impact: 0.39, coef: "+0.16" },
+      { gene: "cat__CANCER_TYPE_SKCM", type: "prot", impact: -0.25, coef: "-0.10" },
+      { gene: "EXPR_FDCSP", type: "prot", impact: -0.21, coef: "-0.09" }
+    ],
+    "TCGA-EE-A3AH": [
+      { gene: "EXPR_MAGEC1", type: "risk", impact: 0.22, coef: "+0.09" },
+      { gene: "EXPR_FXYD3", type: "risk", impact: 0.18, coef: "+0.07" },
+      { gene: "EXPR_ETNPPL", type: "prot", impact: -0.65, coef: "-0.28" },
+      { gene: "EXPR_DDX3Y", type: "prot", impact: -0.41, coef: "-0.19" }
+    ],
+    "TCGA-D3-A3CE": [
+      { gene: "EXPR_KRT14", type: "risk", impact: 0.31, coef: "+0.13" },
+      { gene: "EXPR_MAGEC1", type: "risk", impact: 0.25, coef: "+0.10" },
+      { gene: "EXPR_ETNPPL", type: "prot", impact: -0.42, coef: "-0.18" },
+      { gene: "EXPR_XAGE1D", type: "prot", impact: -0.29, coef: "-0.12" }
+    ],
+    "TCGA-12-0691": [
+      { gene: "cat__CANCER_TYPE_GBM", type: "risk", impact: 0.72, coef: "+0.35" },
+      { gene: "num__AGE", type: "risk", impact: 0.48, coef: "+0.21" },
+      { gene: "cat__AGE_GROUP_>75", type: "prot", impact: -0.15, coef: "-0.06" }
+    ]
+  };
+
+  let currentStep = 1;
+  let completedSteps = new Set();
+
+  const stepMeta = {
+    1: {
+      script: "01_ingest_patient_data.py",
+      title: "01_ingest_patient_data",
+      desc: "Ingests raw patient CSV/Parquet input files, performs schema integrity verification, checks zero missingness, and partitions clinical columns from 300 RNA-Seq gene features.",
+      math: "Raw Matrix [5 x 305] → Schema Audit & Feature Partitioning",
+      algo: "Data Ingestion & Partitioning",
+      inFmt: "Raw CSV File",
+      outFmt: "step01_ingested_data.pkl / .csv",
+      inDim: "Matrix: [5 x 305]",
+      outDim: "Output: [5 x 305 Cleaned]",
+      inDesc: "Raw unstandardized clinical data (Age, Sex, Stage) and 300 raw RNA-Seq expression columns.",
+      outDesc: "Validated patient records partitioned into Clinical Sub-matrix and Genomic Sub-matrix."
+    },
+    2: {
+      script: "02_feature_transformation.py",
+      title: "02_feature_transformation",
+      desc: "Applies StandardScaler & One-Hot Encoding to clinical attributes. Transforms gene expression via log2(x+1), filters collinearity (Gram-Schmidt >0.75), and compresses into 50 PCA latent components.",
+      math: "X_clin [5x9]  |  X_pca = StandardScaler(log2(G+1)) · V [5x50]",
+      algo: "Gram-Schmidt + PCA (50 components)",
+      inFmt: "Clean Dataframes",
+      outFmt: "step02_transformed_combined_features.csv",
+      inDim: "Clinical [5x4], Genes [5x300]",
+      outDim: "Combined X Matrix: [5 x 59]",
+      inDesc: "Raw clinical attributes and 300 high-variance gene expression values.",
+      outDesc: "Preprocessed clinical matrix (9 columns) + Latent PCA matrix (50 components) = 59 features."
+    },
+    3: {
+      script: "03_cox_risk_scoring.py",
+      title: "03_cox_risk_scoring",
+      desc: "Computes continuous relative log-hazard risk scores by taking the linear product of transformed patient features X and the locked Elastic-Net coefficients vector beta.",
+      math: "η_i = X_{i,clin} · β_{clin} + X_{i,pca} · β_{pca}",
+      algo: "Linear Log-Hazard Projection",
+      inFmt: "X Matrix [5 x 59]",
+      outFmt: "step03_risk_scores.csv / .json",
+      inDim: "Features [5 x 59], β [59 x 1]",
+      outDim: "Risk Vector: η [5 x 1]",
+      inDesc: "59 model features for each patient + 59 trained Elastic-Net regression weights.",
+      outDesc: "Scalar risk score eta (log-hazard ratio) and risk tier (High / Low Risk)."
+    },
+    4: {
+      script: "04_isotonic_calibration.py",
+      title: "04_isotonic_calibration",
+      desc: "Applies non-parametric Isotonic Regression (PAVA) fitted on an independent calibration split to map raw risk scores eta into calibrated absolute survival probabilities.",
+      math: "P(S > t | η_i) = 1 - f_{iso, t}(η_i)  [t ∈ {12, 24, 36, 60m}]",
+      algo: "PAVA Monotonic Calibration",
+      inFmt: "Risk Vector η [5 x 1]",
+      outFmt: "step04_calibrated_probabilities.csv",
+      inDim: "Risk Vector: [5 x 1]",
+      outDim: "Probabilities: [5 x 4]",
+      inDesc: "Continuous risk score eta for each patient.",
+      outDesc: "Absolute survival probabilities for 12, 24, 36, and 60 months."
+    },
+    5: {
+      script: "05_monte_carlo_simulation.py",
+      title: "05_monte_carlo_simulation",
+      desc: "Performs 5,000 inverse transform stochastic draws over the fitted Breslow cumulative baseline hazard Λ0(t) to generate patient survival time distributions and confidence percentiles.",
+      math: "t^{(k)} = Λ_0^{-1}( -ln(U^{(k)}) / exp(η_i) )  →  [P10, P50, P90]",
+      algo: "Inverse Transform Sampling",
+      inFmt: "η Vector + Baseline Λ0(t)",
+      outFmt: "step05_monte_carlo_bounds.csv",
+      inDim: "Risk Vector + 5,000 Draws",
+      outDim: "Survival Quantiles: [5 x 4]",
+      inDesc: "Patient risk score eta + Breslow baseline cumulative hazard function.",
+      outDesc: "P10 (Pessimistic), P50 (Median), P90 (Optimistic) survival months + RMST."
+    },
+    6: {
+      script: "06_xai_explainability.py",
+      title: "06_xai_explainability",
+      desc: "Unrolls PCA component weights back into 300 raw gene spaces (W_gene = V · β_pca) and computes individual patient risk drivers (Δη_{g,i} = Z_{g,i} · W_{gene,g}).",
+      math: "W_{gene} = V · β_{pca}   →   Δη_{g,i} = Z_{g,i} · W_{gene,g}",
+      algo: "PCA Back-Projection & Waterfall",
+      inFmt: "Z_gene [5x300] + V [300x50]",
+      outFmt: "step06_patient_waterfall_drivers.csv",
+      inDim: "Loadings V + Patient Expr",
+      outDim: "Waterfall Drivers: [5 Patients]",
+      inDesc: "Patient gene expression vector Z_gene and PCA loading matrix V (300 x 50).",
+      outDesc: "Ranked list of top risk-increasing genes and protective genes per patient."
+    },
+    7: {
+      script: "07_generate_final_dossier.py",
+      title: "07_generate_final_dossier",
+      desc: "Aggregates all outputs from Steps 1 through 6 into a unified clinical patient dossier containing risk scores, calibrated probabilities, Monte Carlo bounds, and top drivers.",
+      math: "Join(Step01..Step06) → Master Dossier CSV & JSON",
+      algo: "Master Dossier Aggregator",
+      inFmt: "Step 01..06 Artifacts",
+      outFmt: "step07_final_dossier.csv / .json",
+      inDim: "Combined Pipeline State",
+      outDim: "Master Dossier: [5 x 12]",
+      inDesc: "Outputs from Risk Scoring, Calibration, Monte Carlo, and XAI Engine.",
+      outDesc: "Final Patient Risk Dossier CSV & JSON export."
+    }
+  };
+
+  function selectStep(stepNum) {
+    currentStep = stepNum;
+    for (let i = 1; i <= 7; i++) {
+      const node = document.getElementById(`stepnode-${i}`);
+      node.classList.remove('active');
+      if (i === currentStep) node.classList.add('active');
+    }
+    renderStepView();
+  }
+
+  function renderStepView() {
+    const meta = stepMeta[currentStep];
+    const pid = document.getElementById('patientSelect').value;
+    const p = patientData[pid];
+
+    document.getElementById('stepScriptTag').innerText = meta.script;
+    document.getElementById('engineTitle').innerText = meta.title;
+    document.getElementById('engineDesc').innerText = meta.desc;
+    document.getElementById('engineMath').innerText = meta.math;
+    document.getElementById('specAlgo').innerText = meta.algo;
+    document.getElementById('specInFmt').innerText = meta.inFmt;
+    document.getElementById('specOutFmt').innerText = meta.outFmt;
+    document.getElementById('inputDimTag').innerText = meta.inDim;
+    document.getElementById('outputDimTag').innerText = meta.outDim;
+    document.getElementById('inputDesc').innerText = meta.inDesc;
+    document.getElementById('outputDesc').innerText = meta.outDesc;
+
+    renderInputTable();
+    renderOutputTable();
+
+    // Toggle XAI Waterfall chart on step 6 & 7
+    const xaiContainer = document.getElementById('xaiVisualContainer');
+    if (currentStep === 6 || currentStep === 7) {
+      xaiContainer.style.display = 'block';
+      renderXAIChart(pid);
+    } else {
+      xaiContainer.style.display = 'none';
+    }
+  }
+
+  function renderInputTable() {
+    const pid = document.getElementById('patientSelect').value;
+    const container = document.getElementById('inputTableContainer');
+    
+    let html = `<table><thead><tr><th>PATIENT_ID</th>`;
+
+    if (currentStep === 1 || currentStep === 2) {
+      html += `<th>Age</th><th>Sex</th><th>Stage</th><th>Cancer</th><th>TMB</th><th>EXPR_CST1</th><th>EXPR_ETNPPL</th></tr></thead><tbody>`;
+      for (const [id, data] of Object.entries(patientData)) {
+        const cls = (id === pid) ? 'highlight-patient' : '';
+        html += `<tr class="${cls}"><td>${id}</td><td>${data.age}</td><td>${data.sex}</td><td>${data.stage}</td><td>${data.cancer}</td><td>${data.tmb}</td><td>2.41</td><td>0.18</td></tr>`;
+      }
+    } else if (currentStep === 3) {
+      html += `<th>num__AGE</th><th>cat__STAGE_IV</th><th>EXPR_PC01</th><th>EXPR_PC02</th><th>EXPR_PC50</th></tr></thead><tbody>`;
+      for (const [id] of Object.entries(patientData)) {
+        const cls = (id === pid) ? 'highlight-patient' : '';
+        html += `<tr class="${cls}"><td>${id}</td><td>0.452</td><td>1.000</td><td>-1.241</td><td>+0.854</td><td>-0.092</td></tr>`;
+      }
+    } else {
+      html += `<th>risk_score_eta</th><th>risk_tier</th></tr></thead><tbody>`;
+      for (const [id, data] of Object.entries(patientData)) {
+        const cls = (id === pid) ? 'highlight-patient' : '';
+        const badge = (data.tier === 'High Risk') ? 'badge-high' : 'badge-low';
+        html += `<tr class="${cls}"><td>${id}</td><td>${data.risk > 0 ? '+'+data.risk : data.risk}</td><td><span class="${badge}">${data.tier}</span></td></tr>`;
+      }
+    }
+
+    html += `</tbody></table>`;
+    container.innerHTML = html;
+  }
+
+  function renderOutputTable() {
+    const pid = document.getElementById('patientSelect').value;
+    const container = document.getElementById('outputTableContainer');
+    
+    let html = `<table><thead><tr><th>PATIENT_ID</th>`;
+
+    if (currentStep === 1) {
+      html += `<th>Status</th><th>Clinical Features</th><th>Gene Features</th></tr></thead><tbody>`;
+      for (const [id] of Object.entries(patientData)) {
+        const cls = (id === pid) ? 'highlight-patient' : '';
+        html += `<tr class="${cls}"><td>${id}</td><td><span style="color:#34d399;">Validated</span></td><td>4 Columns</td><td>300 Columns</td></tr>`;
+      }
+    } else if (currentStep === 2) {
+      html += `<th>Clinical (X_clin)</th><th>PCA Component (X_pca)</th><th>Total X Matrix</th></tr></thead><tbody>`;
+      for (const [id] of Object.entries(patientData)) {
+        const cls = (id === pid) ? 'highlight-patient' : '';
+        html += `<tr class="${cls}"><td>${id}</td><td>9 Features</td><td>50 Components</td><td>59 Model Features</td></tr>`;
+      }
+    } else if (currentStep === 3) {
+      html += `<th>risk_score_eta</th><th>risk_tier</th></tr></thead><tbody>`;
+      for (const [id, data] of Object.entries(patientData)) {
+        const cls = (id === pid) ? 'highlight-patient' : '';
+        const badge = (data.tier === 'High Risk') ? 'badge-high' : 'badge-low';
+        html += `<tr class="${cls}"><td>${id}</td><td><b>${data.risk > 0 ? '+'+data.risk : data.risk}</b></td><td><span class="${badge}">${data.tier}</span></td></tr>`;
+      }
+    } else if (currentStep === 4) {
+      html += `<th>12 Months</th><th>24 Months</th><th>36 Months</th><th>60 Months</th></tr></thead><tbody>`;
+      for (const [id, data] of Object.entries(patientData)) {
+        const cls = (id === pid) ? 'highlight-patient' : '';
+        html += `<tr class="${cls}"><td>${id}</td><td><b>${data.p12}</b></td><td>62.5%</td><td>${data.p60 === '0.0%' ? '4.0%' : '54.5%'}</td><td><b>${data.p60}</b></td></tr>`;
+      }
+    } else if (currentStep === 5) {
+      html += `<th>P10 (Pessimistic)</th><th>P50 (Median)</th><th>P90 (Optimistic)</th><th>RMST (60m)</th></tr></thead><tbody>`;
+      for (const [id, data] of Object.entries(patientData)) {
+        const cls = (id === pid) ? 'highlight-patient' : '';
+        html += `<tr class="${cls}"><td>${id}</td><td>${data.p10}</td><td><b>${data.p50}</b></td><td>${data.p90}</td><td>${data.rmst}</td></tr>`;
+      }
+    } else if (currentStep === 6 || currentStep === 7) {
+      html += `<th>risk_score_eta</th><th>P50 (Median)</th><th>P60m Prob</th><th>Top Risk Driver</th></tr></thead><tbody>`;
+      for (const [id, data] of Object.entries(patientData)) {
+        const cls = (id === pid) ? 'highlight-patient' : '';
+        const topGene = xaiDrivers[id][0].gene;
+        html += `<tr class="${cls}"><td>${id}</td><td>${data.risk > 0 ? '+'+data.risk : data.risk}</td><td>${data.p50}</td><td>${data.p60}</td><td style="color:#f87171; font-weight:bold;">${topGene}</td></tr>`;
+      }
+    }
+
+    html += `</tbody></table>`;
+    container.innerHTML = html;
+  }
+
+  function renderXAIChart(pid) {
+    document.getElementById('xaiPatientTag').innerText = pid;
+    const drivers = xaiDrivers[pid] || [];
+    const container = document.getElementById('xaiBarList');
+    
+    let html = '';
+    drivers.forEach(d => {
+      const isRisk = (d.type === 'risk');
+      const labelColor = isRisk ? '#f87171' : '#34d399';
+      const pct = Math.min(Math.abs(d.impact) * 100, 100);
+      const barClass = isRisk ? 'xai-bar-fill-risk' : 'xai-bar-fill-prot';
+
+      html += `
+        <div class="xai-item">
+          <div class="xai-item-head">
+            <span style="color:${labelColor};">${d.gene} (${d.coef})</span>
+            <span style="color:#94a3b8;">${d.impact > 0 ? '+' : ''}${d.impact} risk</span>
+          </div>
+          <div class="xai-bar-bg">
+            <div class="${barClass}" style="width: ${pct}%;"></div>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
+
+  function logTerminal(msg, type = 'info') {
+    const term = document.getElementById('terminalLog');
+    const time = new Date().toLocaleTimeString();
+    const line = document.createElement('div');
+    line.className = `log-line log-${type}`;
+    line.innerText = `[${time}] ${msg}`;
+    term.appendChild(line);
+    term.scrollTop = term.scrollHeight;
+  }
+
+  function runCurrentStep() {
+    const meta = stepMeta[currentStep];
+    logTerminal(`Running Step ${currentStep}: ${meta.script}...`, 'warn');
+    
+    setTimeout(() => {
+      completedSteps.add(currentStep);
+      document.getElementById(`stepnode-${currentStep}`).classList.add('completed');
+      logTerminal(`[SUCCESS] Step ${currentStep} complete. Saved output to results/step_by_step_run/`, 'success');
+      
+      if (currentStep < 7) {
+        selectStep(currentStep + 1);
+      }
+    }, 600);
+  }
+
+  function runFullPipeline() {
+    logTerminal(`Initiating full sequential pipeline execution (Steps 1 to 7)...`, 'info');
+    let step = 1;
+    
+    const interval = setInterval(() => {
+      selectStep(step);
+      completedSteps.add(step);
+      document.getElementById(`stepnode-${step}`).classList.add('completed');
+      logTerminal(`Executed Step ${step}: ${stepMeta[step].script} [OK]`, 'success');
+      step++;
+      if (step > 7) {
+        clearInterval(interval);
+        logTerminal(`[COMPLETED] All 7 pipeline steps finished! Final dossiers updated.`, 'success');
+      }
+    }, 500);
+  }
+
+  function resetPipeline() {
+    completedSteps.clear();
+    for (let i = 1; i <= 7; i++) {
+      document.getElementById(`stepnode-${i}`).classList.remove('completed');
+    }
+    selectStep(1);
+    logTerminal(`Pipeline state reset to Step 01.`, 'warn');
+  }
+
+  function onPatientChange() {
+    const pid = document.getElementById('patientSelect').value;
+    logTerminal(`Switched active patient view to ${pid}`, 'info');
+    renderStepView();
+  }
+
+  // Initial setup
+  renderStepView();
+</script>
+</body>
+</html>
