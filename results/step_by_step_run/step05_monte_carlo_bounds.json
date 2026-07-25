@@ -1,5 +1,6 @@
 {
   "step": "05_monte_carlo_simulation",
+  "description": "5,000-draw inverse transform stochastic survival simulation",
   "n_sims": 5000,
   "n_patients": 5,
   "monte_carlo_survival_bounds": [
@@ -44,5 +45,5 @@
       "mc_rmst_months": 17.28
     }
   ],
-  "output_file": "/home/illionar/Projects/ml_research/results/step_by_step_run/step05_monte_carlo_bounds.json"
+  "readable_csv": "/home/illionar/Projects/ml_research/results/step_by_step_run/step05_monte_carlo_bounds.csv"
 }

@@ -1,7 +1,8 @@
 {
   "step": "03_cox_risk_scoring",
-  "n_patients": 5,
+  "description": "Linear projection into log-hazard risk space",
   "formula": "eta_i = X_i @ beta",
+  "n_patients": 5,
   "patient_risk_scores": [
     {
       "PATIENT_ID": "TCGA-DD-AAEE",
@@ -29,5 +30,5 @@
       "risk_tier": "High Risk"
     }
   ],
-  "output_file": "/home/illionar/Projects/ml_research/results/step_by_step_run/step03_risk_scores.json"
+  "readable_csv": "/home/illionar/Projects/ml_research/results/step_by_step_run/step03_risk_scores.csv"
 }

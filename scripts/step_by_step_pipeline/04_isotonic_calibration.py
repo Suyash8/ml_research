@@ -5,7 +5,8 @@ STEP 04: ISOTONIC SURVIVAL PROBABILITY CALIBRATION
 ===============================================================================
 Input:  results/step_by_step_run/step03_risk_scores.pkl
         model_weights/final_locked_model.pkl
-Output: results/step_by_step_run/step04_calibrated_probabilities.json
+Output: results/step_by_step_run/step04_calibrated_probabilities.csv
+        results/step_by_step_run/step04_calibrated_probabilities.json
         results/step_by_step_run/step04_calibrated_probabilities.pkl
 ===============================================================================
 """
@@ -78,21 +79,27 @@ def main():
     with open(pkl_out, "wb") as f:
         pickle.dump(out_data, f)
 
-    # Save JSON summary
+    # Save Human-Readable CSV
+    df_cal = pd.DataFrame(calibrated_results)
+    csv_out = output_dir / "step04_calibrated_probabilities.csv"
+    df_cal.to_csv(csv_out, index=False)
+
+    # Save Human-Readable JSON
     json_out = output_dir / "step04_calibrated_probabilities.json"
     json_summary = {
         "step": "04_isotonic_calibration",
+        "description": "Monotonic mapping from relative risk score eta to absolute survival probabilities",
         "n_patients": len(patient_ids),
         "horizons_months": [12, 24, 36, 60],
         "calibrated_survival_probabilities": calibrated_results,
-        "output_file": str(json_out)
+        "readable_csv": str(csv_out)
     }
     with open(json_out, "w") as f:
         json.dump(json_summary, f, indent=2)
 
     print(f"✅ STEP 04 COMPLETE!")
-    print(f"💾 Saved Intermediate Output: {pkl_out}")
-    print(f"💾 Saved JSON Summary:        {json_out}\n")
+    print(f"📄 Human-Readable CSV:  {csv_out}")
+    print(f"📄 Human-Readable JSON: {json_out}\n")
 
 if __name__ == "__main__":
     main()

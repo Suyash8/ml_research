@@ -1,7 +1,8 @@
 {
   "step": "06_xai_explainability",
-  "n_patients": 5,
+  "description": "PCA Back-Projection to Raw Genes & Local Patient Waterfall Risk Drivers",
   "formula": "W_gene = V @ beta_pca ; Delta_eta_g_i = Z_g_i * W_gene_g",
+  "n_patients": 5,
   "global_top_risk_genes": [
     "EXPR_CXCL5",
     "EXPR_CST1",
@@ -874,5 +875,6 @@
       ]
     }
   ],
-  "output_file": "/home/illionar/Projects/ml_research/results/step_by_step_run/step06_patient_explainability.json"
+  "readable_global_weights_csv": "/home/illionar/Projects/ml_research/results/step_by_step_run/step06_global_gene_weights.csv",
+  "readable_waterfall_drivers_csv": "/home/illionar/Projects/ml_research/results/step_by_step_run/step06_patient_waterfall_drivers.csv"
 }

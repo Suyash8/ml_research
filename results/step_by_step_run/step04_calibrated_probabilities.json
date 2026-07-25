@@ -1,5 +1,6 @@
 {
   "step": "04_isotonic_calibration",
+  "description": "Monotonic mapping from relative risk score eta to absolute survival probabilities",
   "n_patients": 5,
   "horizons_months": [
     12,
@@ -49,5 +50,5 @@
       "prob_survive_60m": 0.0
     }
   ],
-  "output_file": "/home/illionar/Projects/ml_research/results/step_by_step_run/step04_calibrated_probabilities.json"
+  "readable_csv": "/home/illionar/Projects/ml_research/results/step_by_step_run/step04_calibrated_probabilities.csv"
 }

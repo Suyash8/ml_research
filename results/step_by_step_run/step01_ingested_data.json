@@ -1,5 +1,6 @@
 {
   "step": "01_ingest_patient_data",
+  "description": "Raw patient input data verification",
   "n_patients": 5,
   "patient_ids": [
     "TCGA-DD-AAEE",
@@ -9,6 +10,30 @@
     "TCGA-12-0691"
   ],
   "n_clinical_features": 546,
+  "clinical_features_sample": [
+    "OTHER_PATIENT_ID",
+    "FORM_COMPLETION_DATE",
+    "PROSPECTIVE_COLLECTION",
+    "RETROSPECTIVE_COLLECTION",
+    "SEX",
+    "RACE",
+    "ETHNICITY",
+    "HISTORY_OTHER_MALIGNANCY",
+    "HISTORY_NEOADJUVANT_TRTYN",
+    "INITIAL_PATHOLOGIC_DX_YEAR"
+  ],
   "n_gene_features": 500,
-  "output_file": "/home/illionar/Projects/ml_research/results/step_by_step_run/step01_ingested_data.pkl"
+  "gene_features_sample": [
+    "EXPR_ALB",
+    "EXPR_APOA2",
+    "EXPR_FGA",
+    "EXPR_FGB",
+    "EXPR_AMBP",
+    "EXPR_FGG",
+    "EXPR_APOC3",
+    "EXPR_APOH",
+    "EXPR_ORM1",
+    "EXPR_GC"
+  ],
+  "readable_csv": "/home/illionar/Projects/ml_research/results/step_by_step_run/step01_ingested_data.csv"
 }

@@ -1,10 +1,11 @@
 {
   "step": "02_feature_transformation",
+  "description": "Feature Preprocessing and PCA Latent Projection",
   "n_patients": 5,
   "n_clinical_transformed_features": 20,
   "n_pca_components": 50,
   "total_model_features": 70,
-  "feature_names": [
+  "transformed_clinical_columns": [
     "num__AGE",
     "cat__SEX_Female",
     "cat__SEX_Male",
@@ -24,7 +25,9 @@
     "cat__AGE_GROUP_56-65",
     "cat__AGE_GROUP_66-75",
     "cat__AGE_GROUP_>75",
-    "cat__AGE_GROUP_\u226440",
+    "cat__AGE_GROUP_\u226440"
+  ],
+  "pca_component_columns": [
     "EXPR_PC01",
     "EXPR_PC02",
     "EXPR_PC03",
@@ -76,5 +79,7 @@
     "EXPR_PC49",
     "EXPR_PC50"
   ],
-  "output_file": "/home/illionar/Projects/ml_research/results/step_by_step_run/step02_transformed_features.pkl"
+  "readable_clinical_csv": "/home/illionar/Projects/ml_research/results/step_by_step_run/step02_transformed_clinical.csv",
+  "readable_pca_csv": "/home/illionar/Projects/ml_research/results/step_by_step_run/step02_transformed_pca.csv",
+  "readable_combined_csv": "/home/illionar/Projects/ml_research/results/step_by_step_run/step02_transformed_combined_features.csv"
 }

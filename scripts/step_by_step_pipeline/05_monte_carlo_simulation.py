@@ -5,7 +5,8 @@ STEP 05: MONTE CARLO STOCHASTIC SURVIVAL SIMULATION
 ===============================================================================
 Input:  results/step_by_step_run/step04_calibrated_probabilities.pkl
         model_weights/final_locked_model.pkl
-Output: results/step_by_step_run/step05_monte_carlo_bounds.json
+Output: results/step_by_step_run/step05_monte_carlo_bounds.csv
+        results/step_by_step_run/step05_monte_carlo_bounds.json
         results/step_by_step_run/step05_monte_carlo_bounds.pkl
 ===============================================================================
 """
@@ -15,6 +16,7 @@ import pickle
 import sys
 from pathlib import Path
 import numpy as np
+import pandas as pd
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 if str(ROOT_DIR) not in sys.path:
@@ -100,21 +102,27 @@ def main():
     with open(pkl_out, "wb") as f:
         pickle.dump(out_data, f)
 
-    # Save JSON summary
+    # Save Human-Readable CSV
+    df_mc = pd.DataFrame(mc_results)
+    csv_out = output_dir / "step05_monte_carlo_bounds.csv"
+    df_mc.to_csv(csv_out, index=False)
+
+    # Save Human-Readable JSON
     json_out = output_dir / "step05_monte_carlo_bounds.json"
     json_summary = {
         "step": "05_monte_carlo_simulation",
+        "description": "5,000-draw inverse transform stochastic survival simulation",
         "n_sims": 5000,
         "n_patients": len(patient_ids),
         "monte_carlo_survival_bounds": mc_results,
-        "output_file": str(json_out)
+        "readable_csv": str(csv_out)
     }
     with open(json_out, "w") as f:
         json.dump(json_summary, f, indent=2)
 
     print(f"✅ STEP 05 COMPLETE!")
-    print(f"💾 Saved Intermediate Output: {pkl_out}")
-    print(f"💾 Saved JSON Summary:        {json_out}\n")
+    print(f"📄 Human-Readable CSV:  {csv_out}")
+    print(f"📄 Human-Readable JSON: {json_out}\n")
 
 if __name__ == "__main__":
     main()

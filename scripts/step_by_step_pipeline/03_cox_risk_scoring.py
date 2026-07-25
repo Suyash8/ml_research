@@ -5,7 +5,8 @@ STEP 03: COX ELASTIC-NET LOG-HAZARD RISK SCORING
 ===============================================================================
 Input:  results/step_by_step_run/step02_transformed_features.pkl
         model_weights/final_locked_model.pkl
-Output: results/step_by_step_run/step03_risk_scores.json
+Output: results/step_by_step_run/step03_risk_scores.csv
+        results/step_by_step_run/step03_risk_scores.json
         results/step_by_step_run/step03_risk_scores.pkl
 ===============================================================================
 """
@@ -15,6 +16,7 @@ import pickle
 import sys
 from pathlib import Path
 import numpy as np
+import pandas as pd
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 if str(ROOT_DIR) not in sys.path:
@@ -77,21 +79,27 @@ def main():
     with open(pkl_out, "wb") as f:
         pickle.dump(out_data, f)
 
-    # Save JSON summary
+    # Save Human-Readable CSV
+    df_risk = pd.DataFrame(patient_risk_map)
+    csv_out = output_dir / "step03_risk_scores.csv"
+    df_risk.to_csv(csv_out, index=False)
+
+    # Save Human-Readable JSON
     json_out = output_dir / "step03_risk_scores.json"
     json_summary = {
         "step": "03_cox_risk_scoring",
-        "n_patients": len(patient_ids),
+        "description": "Linear projection into log-hazard risk space",
         "formula": "eta_i = X_i @ beta",
+        "n_patients": len(patient_ids),
         "patient_risk_scores": patient_risk_map,
-        "output_file": str(json_out)
+        "readable_csv": str(csv_out)
     }
     with open(json_out, "w") as f:
         json.dump(json_summary, f, indent=2)
 
     print(f"✅ STEP 03 COMPLETE!")
-    print(f"💾 Saved Intermediate Output: {pkl_out}")
-    print(f"💾 Saved JSON Summary:        {json_out}\n")
+    print(f"📄 Human-Readable CSV:  {csv_out}")
+    print(f"📄 Human-Readable JSON: {json_out}\n")
 
 if __name__ == "__main__":
     main()
