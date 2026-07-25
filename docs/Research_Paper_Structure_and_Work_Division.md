@@ -7,10 +7,10 @@
 
 * **Project:** Multi-Omic Cox Elastic-Net Pipeline (v5) for Cancer Survival Analysis & Patient-Specific XAI.
 * **Dataset:** TCGA Pan-Cancer (GBM, LIHC, PAAD, SKCM — $N=1,628$ patients, $1,049$ initial features).
-* **Core Technical Team:** 4 Members Total.
-  * **Core Technical Authors (2 Members — Developers/Lead Researchers):** Handled 100% of the codebase, model architecture, dynamic programming loss, calibration, Monte Carlo engine, and PCA back-projection math.
-  * **Co-Authors (2 Members):** Assisting with literature synthesis, results compilation, formatting, and conclusion.
-  * *Note:* The specific background historical subsection (assigned to Sray) is excluded from the 4-member allocation.
+* **Team Roster:**
+  * **Suyash & Addy:** Developers & Lead Researchers who authored the codebase, model architecture, dynamic programming loss, calibration, Monte Carlo engine, and PCA back-projection math.
+  * **Sowhardya & Sriparna:** Co-Authors handling literature synthesis, background context, results visualization, formatting, and conclusions.
+  * *Note:* The background historical subsection (assigned to Sray) is handled separately outside the 4 team members.
 
 ---
 
@@ -119,39 +119,37 @@
 
 ---
 
-## 👥 SECTION 2: 4-Person Work Division Matrix
-
-Given that **Members 1 & 2** built the codebase and developed the mathematical architecture, while **Members 3 & 4** are co-authors supporting synthesis and formatting, the tasks are distributed to leverage technical depth where needed:
+## 👥 SECTION 2: Work Division Matrix by Name
 
 ```
 +-----------------------------------------------------------------------------------+
 |                              WORK DIVISION MATRIX                                 |
 +---------------+-------------------------------------+-----------------------------+
-| Team Member   | Primary Ownership                   | Key Deliverables            |
+| Name          | Primary Section Ownership           | Key Deliverables            |
 +---------------+-------------------------------------+-----------------------------+
-| Member 1      | Section 2: Proposed Method          | Mathematical Derivations,   |
-| (Lead Dev 1)  | (Algorithmic & Formulative Engine)  | Dynamic Programming Loss,   |
+| Suyash        | Section 2: Proposed Method          | Mathematical Derivations,   |
+|               | (Algorithmic & Formulative Engine)  | Dynamic Programming Loss,   |
 |               |                                     | PCA Back-Projection Math    |
 +---------------+-------------------------------------+-----------------------------+
-| Member 2      | Section 3: Results & Experiments    | Generating Tables/Plots,    |
-| (Lead Dev 2)  | Section 4: Discussion (Inference)   | C-Index Metrics, Calibration|
+| Addy          | Section 3: Results & Experiments    | Generating Tables/Plots,    |
+|               | Section 4.1-4.2: Discussion         | C-Index Metrics, Calibration|
 |               |                                     | & Monte Carlo Results       |
 +---------------+-------------------------------------+-----------------------------+
-| Member 3      | Section 1: Introduction & Gaps      | Clinical Motivation, Gaps,  |
-| (Co-Author 1) | Literature Survey (Bio & ML)        | Literature Tables, Diagram  |
+| Sowhardya     | Section 1: Introduction & Gaps      | Clinical Motivation, Gaps,  |
+|               | Literature Survey (Bio & ML)        | Literature Tables, Diagram  |
 |               |                                     | Rendering                   |
 +---------------+-------------------------------------+-----------------------------+
-| Member 4      | Section 4: Discussion (Validation)  | Discussion Synthesis,       |
-| (Co-Author 2) | Section 5: Conclusion (1-Col)       | Formatting, References,     |
+| Sriparna      | Section 4.3: Discussion (Validation)| Discussion Synthesis,       |
+|               | Section 5: Conclusion (1-Col)       | Formatting, References,     |
 |               | Master Editing & Proofreading       | Single-Column Formatting    |
 +---------------+-------------------------------------+-----------------------------+
 ```
 
 ---
 
-### 📋 Detailed Task Breakdown per Member
+### 📋 Detailed Task Breakdown per Team Member
 
-#### 👤 Member 1 (Lead Developer 1 — Code & Math Specialist)
+#### 👤 Suyash
 * **Primary Ownership:** **Section 2: Proposed Method** (~2.0 pages)
 * **Detailed Tasks:**
   1. Write the running mathematical formulation connecting all equations linearly without floating disconnected boxes.
@@ -164,7 +162,7 @@ Given that **Members 1 & 2** built the codebase and developed the mathematical a
 
 ---
 
-#### 👤 Member 2 (Lead Developer 2 — Code & Results Specialist)
+#### 👤 Addy
 * **Primary Ownership:** **Section 3: Results** (~2.0 pages) & **Section 4.1-4.2: Discussion** (~0.5 pages)
 * **Detailed Tasks:**
   1. Extract and format empirical performance metrics from the codebase (`C-Index`, Brier Scores, RMST).
@@ -177,7 +175,7 @@ Given that **Members 1 & 2** built the codebase and developed the mathematical a
 
 ---
 
-#### 👤 Member 3 (Co-Author 1 — Literature & Background Specialist)
+#### 👤 Sowhardya
 * **Primary Ownership:** **Section 1: Introduction & Literature Survey** (~1.75 pages)
 * **Detailed Tasks:**
   1. Write Section 1.1: Clinical motivation on multi-omic cancer prognosis and TNM staging limitations.
@@ -191,7 +189,7 @@ Given that **Members 1 & 2** built the codebase and developed the mathematical a
 
 ---
 
-#### 👤 Member 4 (Co-Author 2 — Discussion, Conclusion & Master Editor)
+#### 👤 Sriparna
 * **Primary Ownership:** **Section 4.3: Discussion**, **Section 5: Conclusion**, & **Master Formatting** (~1.25 pages)
 * **Detailed Tasks:**
   1. Write Section 4.3: Monte Carlo simulation validation, bootstrap interpretation, and clinical utility.
@@ -204,6 +202,6 @@ Given that **Members 1 & 2** built the codebase and developed the mathematical a
 
 ## 🎯 Verification & Next Steps
 
-1. This blueprint and work division matrix has been saved to:
+1. This updated blueprint and work division matrix has been saved to:
    [docs/Research_Paper_Structure_and_Work_Division.md](file:///home/illionar/Projects/ml_research/docs/Research_Paper_Structure_and_Work_Division.md)
-2. Each team member can take their respective section ownership directly from this document to begin writing!
+2. Each team member (Suyash, Addy, Sowhardya, Sriparna) can take their assigned section directly from this document!
