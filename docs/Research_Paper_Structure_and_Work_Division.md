@@ -58,30 +58,87 @@
 ---
 
 ### Section 2: Proposed Method (~2.00 Pages)
-*Connected, running mathematical derivations (no isolated floating equations):*
+*Fully Formatted Running Mathematical Derivations & Closed-Form Formulations:*
 
-1. **Feature Preprocessing & Gram-Schmidt Collinearity Filtering:**
-   $$\text{Cosine Similarity}(g_a, g_b) = \frac{\langle g_a, g_b \rangle}{\|g_a\|_2 \|g_b\|_2} > 0.75 \implies \text{Drop } g_b$$
-2. **Latent PCA Projection:**
-   $$X_{\text{pca}} = Z_{\text{gene}} \cdot V \in \mathbb{R}^{N \times 50}, \quad V \in \mathbb{R}^{300 \times 50}$$
-3. **Unified Feature Matrix:**
-   $$X = [X_{\text{clin}} \mid X_{\text{pca}}] \in \mathbb{R}^{N \times 59}$$
-4. **Cox Elastic-Net Objective with $O(N)$ Dynamic Programming:**
-   * Log-partial likelihood over event times $t \in D$:
-     $$\ell(\beta) = \sum_{i \in D} \left( \eta_i - \ln \sum_{j \in R(t_i)} \exp(\eta_j) \right)$$
-   * Dynamic programming suffix sum optimization via `np.cumsum`:
-     $$S^{(0)}(t) = \sum_{j \in R(t)} \exp(\eta_j), \quad S^{(1)}(t) = \sum_{j \in R(t)} \exp(\eta_j) X_j$$
-   * Smooth Elastic-Net Loss:
-     $$\mathcal{L}(\beta) = -\ell(\beta) + \alpha \left[ \rho \sum_{k} \sqrt{\beta_k^2 + \epsilon} + \frac{1-\rho}{2} \|\beta\|_2^2 \right]$$
-5. **Isotonic Calibration Layer (PAVA):**
-   $$P(S > t \mid \eta_i) = 1 - f_{\text{iso}, t}(\eta_i)$$
-6. **Monte Carlo Inverse Transform Survival Simulation:**
-   $$\Lambda_{\text{target}}^{(k)} = \frac{-\ln(U^{(k)})}{\exp(\eta_i)}, \quad U^{(k)} \sim \text{Uniform}(0,1)$$
-   $$t^{(k)} = \Lambda_0^{-1}\left( \Lambda_{\text{target}}^{(k)} \right) \implies \text{Extract } P10, P50, P90, \text{RMST}$$
-7. **PCA Back-Projection XAI Unrolling:**
-   $$\eta_{\text{pca}} = X_{\text{pca}} \cdot \beta_{\text{pca}} = (Z_{\text{gene}} \cdot V) \cdot \beta_{\text{pca}} = Z_{\text{gene}} \cdot (V \cdot \beta_{\text{pca}})$$
-   $$W_{\text{gene}} = V_{300 \times 50} \cdot \beta_{\text{pca}} \in \mathbb{R}^{300}$$
-   $$\Delta \eta_{g, i} = Z_{g, i} \cdot W_{\text{gene}, g}$$
+#### 2.1 Feature Preprocessing & Gram-Schmidt Collinearity Filter
+Let $G \in \mathbb{R}^{N \times P_{\text{raw}}}$ represent the raw transcriptomic gene expression matrix across $N$ patients and $P_{\text{raw}} = 300$ high-variance genes. To eliminate linear redundancy and coefficient variance explosion, we apply a Gram-Schmidt orthogonalization-inspired cosine collinearity filter:
+
+$$\text{CosSim}(g_a, g_b) = \frac{\langle g_a, g_b \rangle}{\|g_a\|_2 \|g_b\|_2} = \frac{\sum_{i=1}^{N} g_{i,a} g_{i,b}}{\sqrt{\sum_{i=1}^{N} g_{i,a}^2} \sqrt{\sum_{i=1}^{N} g_{i,b}^2}}$$
+
+$$\text{If } |\text{CosSim}(g_a, g_b)| > 0.75 \implies \text{Remove gene } g_b$$
+
+#### 2.2 Standardized Latent Principal Component Projection
+Following collinearity pruning, the expression matrix is log-transformed $Z_{\text{gene}} = \text{StandardScaler}(\log_2(G + 1))$ and projected onto $K = 50$ orthogonal principal components via Singular Value Decomposition (SVD):
+
+$$Z_{\text{gene}} = U \Sigma V^T \implies X_{\text{pca}} = Z_{\text{gene}} V \in \mathbb{R}^{N \times 50}$$
+
+Where $V \in \mathbb{R}^{300 \times 50}$ is the right-singular eigenvector loading matrix satisfying $V^T V = I_{50}$.
+
+#### 2.3 Unified Model Input Feature Matrix
+The clinical features $X_{\text{clin}} \in \mathbb{R}^{N \times 9}$ (Age, Stage, Sex, TMB) are standardized and concatenated with the latent genomic matrix $X_{\text{pca}}$ to form the final model input matrix $X$:
+
+$$X = \left[ X_{\text{clin}} \;\middle\|\; X_{\text{pca}} \right] \in \mathbb{R}^{N \times 59}$$
+
+#### 2.4 Cox Elastic-Net Partial Log-Likelihood & $O(N)$ Dynamic Programming Suffix Sums
+The hazard function for patient $i$ at time $t$ is formulated as:
+
+$$h(t \mid X_i) = h_0(t) \exp(\eta_i), \quad \text{where } \eta_i = X_i \beta = \sum_{j=1}^{59} X_{i,j} \beta_j$$
+
+For ordered event times $t_1 < t_2 < \dots < t_D$, the Breslow Cox log-partial likelihood is:
+
+$$\ell(\beta) = \sum_{i \in D} \left[ \eta_i - \ln \left( \sum_{j \in R(t_i)} \exp(\eta_j) \right) \right]$$
+
+To reduce computation from $O(N^2)$ to $O(N)$, we compute risk-set denominator suffix sums dynamically:
+
+$$S^{(0)}(t_i) = \sum_{j \in R(t_i)} \exp(\eta_j), \quad S^{(1)}(t_i) = \sum_{j \in R(t_i)} \exp(\eta_j) X_j$$
+
+$$\nabla \ell(\beta) = \sum_{i \in D} \left[ X_i - \frac{S^{(1)}(t_i)}{S^{(0)}(t_i)} \right]$$
+
+#### 2.5 Smooth Elastic-Net Regularization Objective
+To handle high-dimensional grouping and sparsity, we optimize the smooth Elastic-Net penalized negative log-partial likelihood using L-BFGS-B:
+
+$$\mathcal{L}(\beta) = -\ell(\beta) + \alpha \left[ \rho \sum_{k=1}^{59} \sqrt{\beta_k^2 + \epsilon} + \frac{1-\rho}{2} \sum_{k=1}^{59} \beta_k^2 \right]$$
+
+Where $\alpha$ controls penalty strength, $\rho \in [0, 1]$ is the $L_1 / L_2$ ratio, and $\epsilon = 10^{-6}$ provides smooth gradient differentiability at zero.
+
+#### 2.6 Isotonic Survival Probability Calibration (PAVA)
+Relative risk scores $\eta_i$ are mapped into monotonic, un-biased survival probabilities $P(S > t \mid \eta_i)$ at horizons $t \in \{12, 24, 36, 60\}$ months using the Pool Adjacent Violators Algorithm (PAVA):
+
+$$P(S > t \mid \eta_i) = 1 - f_{\text{iso}, t}(\eta_i), \quad \text{where } f_{\text{iso}, t} = \arg\min_{g \in \mathcal{M}} \sum_{i=1}^{N_{\text{cal}}} \left( y_{i,t} - g(\eta_i) \right)^2$$
+
+Where $\mathcal{M}$ is the space of non-decreasing step functions fitted on an isolated calibration split ($20\%$).
+
+#### 2.7 Inverse Transform Stochastic Monte Carlo Survival Simulation
+We compute the cumulative baseline hazard $\Lambda_0(t)$ using the fitted model:
+
+$$\Lambda_0(t) = \sum_{t_i \le t} \frac{d_i}{\sum_{j \in R(t_i)} \exp(\eta_j)}$$
+
+For patient $i$, we sample 5,000 independent uniform random draws $U^{(k)} \sim \text{Uniform}(0, 1)$:
+
+$$\Lambda_{\text{target}}^{(k)} = \frac{-\ln(U^{(k)})}{\exp(\eta_i)} \implies t^{(k)} = \Lambda_0^{-1}\left( \Lambda_{\text{target}}^{(k)} \right)$$
+
+From the distribution $t^{(1 \dots 5000)}$, we extract non-parametric survival bounds:
+* **$P10$ (Pessimistic):** 10th percentile survival time in months.
+* **$P50$ (Median):** 50th percentile survival time in months.
+* **$P90$ (Optimistic):** 90th percentile survival time in months.
+* **Restricted Mean Survival Time (RMST):** $\text{RMST} = \frac{1}{5000} \sum_{k=1}^{5000} \min(t^{(k)}, 60.0)$.
+
+#### 2.8 Closed-Form PCA Back-Projection & Local Patient Risk Waterfall
+To break the PCA "black box", we substitute $X_{\text{pca}} = Z_{\text{gene}} V$ directly into the linear predictor formula:
+
+$$\eta_{\text{pca}} = X_{\text{pca}} \beta_{\text{pca}} = (Z_{\text{gene}} V) \beta_{\text{pca}} = Z_{\text{gene}} (V \beta_{\text{pca}})$$
+
+We define the **Global Gene Risk Weight Vector** $W_{\text{gene}} \in \mathbb{R}^{300}$:
+
+$$\mathbf{W_{\text{gene}} = V_{300 \times 50} \cdot \beta_{\text{pca}} \in \mathbb{R}^{300}}$$
+
+For individual patient $i$, the local risk contribution of raw gene $g$ is:
+
+$$\Delta \eta_{g, i} = Z_{g, i} \cdot W_{\text{gene}, g}$$
+
+Yielding an exact, closed-form additive risk waterfall:
+
+$$\eta_i = \sum_{j=1}^{9} X_{i, j}^{\text{clin}} \beta_j^{\text{clin}} + \sum_{g=1}^{300} \Delta \eta_{g, i}$$
 
 ---
 
@@ -152,13 +209,14 @@
 #### 👤 Suyash
 * **Primary Ownership:** **Section 2: Proposed Method** (~2.0 pages)
 * **Detailed Tasks:**
-  1. Write the running mathematical formulation connecting all equations linearly without floating disconnected boxes.
-  2. Write Section 2.1: Gram-Schmidt Cosine Collinearity Filter equation and algorithm.
-  3. Write Section 2.2: Latent PCA Transformation $X_{\text{pca}} = Z_{\text{gene}} \cdot V$.
-  4. Write Section 2.3: Custom Cox Elastic-Net Partial Log-Likelihood $\ell(\beta)$ and the $O(N)$ dynamic programming suffix sum implementation (`np.cumsum`).
-  5. Write Section 2.4: Isotonic Calibration PAVA step-mapping formulation $P(S > t) = 1 - f_{\text{iso}, t}(\eta)$.
-  6. Write Section 2.5: Monte Carlo Inverse Transform Sampling formulas $\Lambda_{\text{target}}^{(k)} = \frac{-\ln(U^{(k)})}{\exp(\eta_i)}$ and baseline inversion.
-  7. Write Section 2.6: PCA Back-Projection XAI derivation $W_{\text{gene}} = V \cdot \beta_{\text{pca}}$ and patient waterfall equation $\Delta \eta_{g,i} = Z_{g,i} \cdot W_{\text{gene}, g}$.
+  1. Write Section 2.1: Gram-Schmidt Cosine Collinearity Filter equation ($\text{CosSim} > 0.75$).
+  2. Write Section 2.2: Latent PCA Transformation $X_{\text{pca}} = Z_{\text{gene}} V \in \mathbb{R}^{N \times 50}$.
+  3. Write Section 2.3: Unified Model Input Matrix $X = [X_{\text{clin}} \mid X_{\text{pca}}] \in \mathbb{R}^{N \times 59}$.
+  4. Write Section 2.4: Cox Partial Log-Likelihood $\ell(\beta)$ and $O(N)$ Dynamic Programming suffix sum denominators $S^{(0)}(t), S^{(1)}(t)$.
+  5. Write Section 2.5: Smooth Elastic-Net Loss $\mathcal{L}(\beta)$ with smooth $L_1$ parameter $\epsilon = 10^{-6}$.
+  6. Write Section 2.6: Isotonic Calibration PAVA formulation $P(S > t) = 1 - f_{\text{iso}, t}(\eta)$.
+  7. Write Section 2.7: Inverse Transform Monte Carlo Sampling $\Lambda_{\text{target}}^{(k)} = \frac{-\ln(U^{(k)})}{\exp(\eta_i)}$ and quantiles ($P10, P50, P90$).
+  8. Write Section 2.8: Closed-form PCA Back-Projection derivation $W_{\text{gene}} = V_{300 \times 50} \cdot \beta_{\text{pca}}$ and patient waterfall equation $\Delta \eta_{g, i} = Z_{g, i} \cdot W_{\text{gene}, g}$.
 
 ---
 
@@ -202,6 +260,6 @@
 
 ## 🎯 Verification & Next Steps
 
-1. This updated blueprint and work division matrix has been saved to:
+1. This updated document with formatted equations and team assignments is saved at:
    [docs/Research_Paper_Structure_and_Work_Division.md](file:///home/illionar/Projects/ml_research/docs/Research_Paper_Structure_and_Work_Division.md)
-2. Each team member (Suyash, Addy, Sowhardya, Sriparna) can take their assigned section directly from this document!
+2. Suyash can directly copy-paste the LaTeX formulations in Section 2 into Overleaf / LaTeX manuscript!
