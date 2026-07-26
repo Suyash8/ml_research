@@ -53,7 +53,7 @@
   * 5,000-draw Monte Carlo inverse transform sampling for $P10$, $P50$ (median), $P90$, and RMST uncertainty bounds.
   * Novel closed-form PCA Back-Projection ($W_{\text{gene}} = V \cdot \beta_{\text{pca}}$) yielding exact patient-level additive risk waterfalls ($\Delta \eta_{g,i}$).
 * **1.6 Architecture Block Diagram:**
-  * High-resolution diagram showing end-to-end data flow from raw TCGA files to calibrated survival dossiers.
+  * **Figure 1 File:** `results/plots/fig1_pipeline_block_diagram.png`
 
 ---
 
@@ -67,7 +67,7 @@ $$\text{CosSim}(g_a, g_b) = \frac{\langle g_a, g_b \rangle}{\|g_a\|_2 \|g_b\|_2}
 
 $$\text{If } |\text{CosSim}(g_a, g_b)| > 0.75 \implies \text{Remove gene } g_b$$
 
-* **Figure M1 Location:** `results/plots/figure_m1_gram_schmidt_collinearity.png`
+* **Figure 3 File:** `results/plots/fig3_gram_schmidt_collinearity.png`
 
 #### 2.2 Standardized Latent Principal Component Projection
 Following collinearity pruning, the expression matrix is log-transformed $Z_{\text{gene}} = \text{StandardScaler}(\log_2(G + 1))$ and projected onto $K = 50$ orthogonal principal components via Singular Value Decomposition (SVD):
@@ -80,6 +80,8 @@ Where $V \in \mathbb{R}^{300 \times 50}$ is the right-singular eigenvector loadi
 The clinical features $X_{\text{clin}} \in \mathbb{R}^{N \times 9}$ (Age, Stage, Sex, TMB) are standardized and concatenated with the latent genomic matrix $X_{\text{pca}}$ to form the final model input matrix $X$:
 
 $$X = \left[ X_{\text{clin}} \;\middle\|\; X_{\text{pca}} \right] \in \mathbb{R}^{N \times 59}$$
+
+* **Figure 2 File:** `results/plots/fig2_component_io_block_diagram.png`
 
 #### 2.4 Cox Elastic-Net Partial Log-Likelihood & $O(N)$ Dynamic Programming Suffix Sums
 The hazard function for patient $i$ at time $t$ is formulated as:
@@ -102,7 +104,8 @@ To handle high-dimensional grouping and sparsity, we optimize the smooth Elastic
 $$\mathcal{L}(\beta) = -\ell(\beta) + \alpha \left[ \rho \sum_{k=1}^{59} \sqrt{\beta_k^2 + \epsilon} + \frac{1-\rho}{2} \sum_{k=1}^{59} \beta_k^2 \right]$$
 
 Where $\alpha$ controls penalty strength, $\rho \in [0, 1]$ is the $L_1 / L_2$ ratio, and $\epsilon = 10^{-6}$ provides smooth gradient differentiability at zero.
-* **Figure M2 Location:** `results/plots/figure_m2_smooth_l1_approximation.png`
+* **Figure 4 File:** `results/plots/fig4_smooth_l1_approximation.png`
+* **Figure 5 File:** `results/plots/fig5_inference_xai_architecture.png`
 
 #### 2.6 Isotonic Survival Probability Calibration (PAVA)
 Relative risk scores $\eta_i$ are mapped into monotonic, un-biased survival probabilities $P(S > t \mid \eta_i)$ at horizons $t \in \{12, 24, 36, 60\}$ months using the Pool Adjacent Violators Algorithm (PAVA):
@@ -110,7 +113,7 @@ Relative risk scores $\eta_i$ are mapped into monotonic, un-biased survival prob
 $$P(S > t \mid \eta_i) = 1 - f_{\text{iso}, t}(\eta_i), \quad \text{where } f_{\text{iso}, t} = \arg\min_{g \in \mathcal{M}} \sum_{i=1}^{N_{\text{cal}}} \left( y_{i,t} - g(\eta_i) \right)^2$$
 
 Where $\mathcal{M}$ is the space of non-decreasing step functions fitted on an isolated calibration split ($20\%$).
-* **Figure M3 Location:** `results/plots/figure_m3_isotonic_calibration_curves.png`
+* **Figure 6 File:** `results/plots/fig6_isotonic_calibration_curves.png`
 
 #### 2.7 Inverse Transform Stochastic Monte Carlo Survival Simulation
 We compute the cumulative baseline hazard $\Lambda_0(t)$ using the fitted model:
@@ -126,7 +129,7 @@ From the distribution $t^{(1 \dots 5000)}$, we extract non-parametric survival b
 * **$P50$ (Median):** 50th percentile survival time in months.
 * **$P90$ (Optimistic):** 90th percentile survival time in months.
 * **Restricted Mean Survival Time (RMST):** $\text{RMST} = \frac{1}{5000} \sum_{k=1}^{5000} \min(t^{(k)}, 60.0)$.
-* **Figure M4 Location:** `results/plots/figure_m4_monte_carlo_trajectories.png`
+* **Figure 7 File:** `results/plots/fig7_monte_carlo_trajectories.png`
 
 #### 2.8 Closed-Form PCA Back-Projection & Local Patient Risk Waterfall
 To break the PCA "black box", we substitute $X_{\text{pca}} = Z_{\text{gene}} V$ directly into the linear predictor formula:
@@ -144,6 +147,9 @@ $$\Delta \eta_{g, i} = Z_{g, i} \cdot W_{\text{gene}, g}$$
 Yielding an exact, closed-form additive risk waterfall:
 
 $$\eta_i = \sum_{j=1}^{9} X_{i, j}^{\text{clin}} \beta_j^{\text{clin}} + \sum_{g=1}^{300} \Delta \eta_{g, i}$$
+
+* **Figure 8 File:** `results/plots/fig8_global_gene_importance.png`
+* **Figure 9 File:** `results/plots/fig9_patient_risk_waterfall.png`
 
 ---
 
@@ -209,62 +215,16 @@ $$\eta_i = \sum_{j=1}^{9} X_{i, j}^{\text{clin}} \beta_j^{\text{clin}} + \sum_{g
 
 ---
 
-### 📋 Detailed Task Breakdown per Team Member
+### 📋 Master List of Standardized Image File Paths (`results/plots/`)
 
-#### 👤 Suyash
-* **Primary Ownership:** **Section 2: Proposed Method** (~2.0 pages)
-* **Detailed Tasks:**
-  1. Write Section 2.1: Gram-Schmidt Cosine Collinearity Filter equation ($\text{CosSim} > 0.75$). Include Figure M1 (`figure_m1_gram_schmidt_collinearity.png`).
-  2. Write Section 2.2: Latent PCA Transformation $X_{\text{pca}} = Z_{\text{gene}} V \in \mathbb{R}^{N \times 50}$.
-  3. Write Section 2.3: Unified Model Input Matrix $X = [X_{\text{clin}} \mid X_{\text{pca}}] \in \mathbb{R}^{N \times 59}$.
-  4. Write Section 2.4: Cox Partial Log-Likelihood $\ell(\beta)$ and $O(N)$ Dynamic Programming suffix sum denominators $S^{(0)}(t), S^{(1)}(t)$.
-  5. Write Section 2.5: Smooth Elastic-Net Loss $\mathcal{L}(\beta)$ with smooth $L_1$ parameter $\epsilon = 10^{-6}$. Include Figure M2 (`figure_m2_smooth_l1_approximation.png`).
-  6. Write Section 2.6: Isotonic Calibration PAVA formulation $P(S > t) = 1 - f_{\text{iso}, t}(\eta)$. Include Figure M3 (`figure_m3_isotonic_calibration_curves.png`).
-  7. Write Section 2.7: Inverse Transform Monte Carlo Sampling $\Lambda_{\text{target}}^{(k)} = \frac{-\ln(U^{(k)})}{\exp(\eta_i)}$ and quantiles ($P10, P50, P90$). Include Figure M4 (`figure_m4_monte_carlo_trajectories.png`).
-  8. Write Section 2.8: Closed-form PCA Back-Projection derivation $W_{\text{gene}} = V_{300 \times 50} \cdot \beta_{\text{pca}}$ and patient waterfall equation $\Delta \eta_{g, i} = Z_{g, i} \cdot W_{\text{gene}, g}$.
-
----
-
-#### 👤 Addy
-* **Primary Ownership:** **Section 3: Results** (~2.0 pages) & **Section 4.1-4.2: Discussion** (~0.5 pages)
-* **Detailed Tasks:**
-  1. Extract and format empirical performance metrics from the codebase (`C-Index`, Brier Scores, RMST).
-  2. Write Section 3.1: Feature Reduction and Cohort Processing Table ($1,049 \to 300 \to 50 + 9 = 59$).
-  3. Write Section 3.2: Model Performance Table comparing Cox Elastic-Net against baseline standard Cox and LASSO models.
-  4. Write Section 3.3: Isotonic Calibration Results (Observed vs Calibrated probabilities at 12m, 24m, 36m, 60m).
-  5. Write Section 3.4: Monte Carlo Simulation Results ($P10, P50, P90$ quantile distributions).
-  6. Write Section 3.5: XAI Waterfall Results (Global gene weight table + Patient case studies for `TCGA-DD-AAEE` and `TCGA-BF-A3DL`).
-  7. Write Section 4.1: Technical discussion on why our pipeline outperforms black-box models.
-
----
-
-#### 👤 Sowhardya
-* **Primary Ownership:** **Section 1: Introduction & Literature Survey** (~1.75 pages)
-* **Detailed Tasks:**
-  1. Write Section 1.1: Clinical motivation on multi-omic cancer prognosis and TNM staging limitations.
-  2. Write Section 1.2: Current scenario in survival analysis (Cox model failures in $P \gg N$, deep learning black-box limitations).
-  3. Write Section 1.3: Dual Literature Survey:
-     * *Biological Perspective:* Role of dysregulated transcripts, oncogenes, and mutation burden.
-     * *Machine Learning Perspective:* Regularization, PCA, PAVA calibration, and survival simulation.
-  4. Write Section 1.4: Research Gaps identification (Collinearity, Uncalibrated risk, Uncertainty bounds, PCA interpretability barrier).
-  5. Write Section 1.5: How our proposed work bridges these gaps.
-  6. Insert and caption the Architecture Diagram (`component_io_block_diagram.html` / `pipeline_block_diagram.html`).
-
----
-
-#### 👤 Sriparna
-* **Primary Ownership:** **Section 4.3: Discussion**, **Section 5: Conclusion**, & **Master Formatting** (~1.25 pages)
-* **Detailed Tasks:**
-  1. Write Section 4.3: Monte Carlo simulation validation, bootstrap interpretation, and clinical utility.
-  2. Write Section 5: Conclusion (Single-column layout as requested) summarizing key findings and future directions.
-  3. Compile all team members' sections into a single cohesive manuscript (LaTeX or Word template).
-  4. Ensure strict page budget adherence (Section 1: ~1.75 pages, Section 2: ~2.0 pages, Section 3: ~2.0 pages, Section 4: ~1.0 page, Section 5: ~0.5 page).
-  5. Verify reference formatting, equation numbering, table styling, and figure captions across the document.
-
----
-
-## 🎯 Verification & Next Steps
-
-1. All 4 missing figure plots (Figures M1, M2, M3, and M4) have been generated and saved to `results/plots/`!
-2. The paper blueprint has been updated:
-   [docs/Research_Paper_Structure_and_Work_Division.md](file:///home/illionar/Projects/ml_research/docs/Research_Paper_Structure_and_Work_Division.md)
+| Figure # | Exact PNG File Path on Disk | Description |
+| :--- | :--- | :--- |
+| **Figure 1** | `results/plots/fig1_pipeline_block_diagram.png` | End-to-end multi-omic survival analysis pipeline block diagram |
+| **Figure 2** | `results/plots/fig2_component_io_block_diagram.png` | Component-level input/output matrix architecture diagram |
+| **Figure 3** | `results/plots/fig3_gram_schmidt_collinearity.png` | Gram-Schmidt cosine collinearity pruning heatmap |
+| **Figure 4** | `results/plots/fig4_smooth_l1_approximation.png` | Smooth $L_1$ penalty ($\sqrt{\beta^2 + 10^{-6}}$) differentiability curve |
+| **Figure 5** | `results/plots/fig5_inference_xai_architecture.png` | Optimization & inference architectural data flow diagram |
+| **Figure 6** | `results/plots/fig6_isotonic_calibration_curves.png` | Isotonic survival calibration reliability diagrams (PAVA) |
+| **Figure 7** | `results/plots/fig7_monte_carlo_trajectories.png` | Monte Carlo 5,000-draw survival trajectories ($P10, P50, P90$) |
+| **Figure 8** | `results/plots/fig8_global_gene_importance.png` | Global unrolled gene risk weights ($W_{\text{gene}}$) |
+| **Figure 9** | `results/plots/fig9_patient_risk_waterfall.png` | Local patient additive risk waterfall decomposition |
