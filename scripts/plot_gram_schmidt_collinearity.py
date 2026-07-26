@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
 ===============================================================================
-FIGURE M1 / FIG 3: GRAM-SCHMIDT COSINE COLLINEARITY HEATMAP (HIGH CONTRAST & VISIBLE)
+FIGURE M1 / FIG 3: GRAM-SCHMIDT COSINE COLLINEARITY HEATMAP (NAN-FIXED)
 ===============================================================================
 Generates side-by-side heatmaps illustrating pairwise gene-gene cosine similarity
 before vs after Gram-Schmidt collinearity filtering (|CosSim| > 0.75 threshold).
-Uses high-contrast colors, explicit cell borders, and clear numeric annotations.
+Imputes NaNs before computing correlation to guarantee crisp, visible cells.
 ===============================================================================
 """
 
@@ -22,7 +22,7 @@ ALT_OUTPUT_PATH = ROOT_DIR / "results" / "plots" / "figure_m1_gram_schmidt_colli
 
 
 def main():
-    print("🎨 Regenerating Fig 3: Gram-Schmidt Cosine Collinearity Heatmap (High Contrast)...")
+    print("🎨 Regenerating Fig 3: Gram-Schmidt Cosine Collinearity Heatmap (NaN Fixed)...")
     OUTPUT_PLOT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     if not CLEANED_DATA_PATH.exists():
@@ -30,7 +30,7 @@ def main():
 
     df = pd.read_parquet(CLEANED_DATA_PATH)
 
-    # Hand-pick 12 genes containing tight collinear clusters (e.g. FGA/FGB/FGG, ORM1/ORM2, ACSM2A/ACSM2B)
+    # 12 representative genes containing tight collinear clusters
     collinear_genes = [
         "EXPR_FGA", "EXPR_FGB", "EXPR_FGG", 
         "EXPR_ORM1", "EXPR_ORM2", 
@@ -40,7 +40,8 @@ def main():
     ]
     selected_genes = [g for g in collinear_genes if g in df.columns]
 
-    X_raw = df[selected_genes].to_numpy(dtype=float)
+    # Fill NaNs with 0.0 before log-transform and standardization
+    X_raw = df[selected_genes].fillna(0.0).to_numpy(dtype=float)
     X_log = np.log2(X_raw + 1.0)
     X_std = (X_log - np.mean(X_log, axis=0)) / (np.std(X_log, axis=0) + 1e-8)
 
@@ -67,22 +68,22 @@ def main():
     cos_sim_after = cos_sim_before[np.ix_(kept_indices, kept_indices)]
     kept_gene_names = [selected_genes[i].replace("EXPR_", "") for i in kept_indices]
 
-    # Large Font & High Contrast Plot Settings
+    # Plot Settings
     fig, axes = plt.subplots(1, 2, figsize=(13, 6.2), dpi=300)
 
     # Subplot A: Before Filtering
     sns.heatmap(
         cos_sim_before,
         ax=axes[0],
-        cmap="Blues",
+        cmap="YlGnBu",
         vmin=0.0,
         vmax=1.0,
         cbar=True,
         annot=True,
         fmt=".2f",
         annot_kws={"size": 8.5, "weight": "bold"},
-        linewidths=1.0,
-        linecolor="darkblue",
+        linewidths=0.8,
+        linecolor="white",
         xticklabels=all_gene_names,
         yticklabels=all_gene_names,
         square=True,
@@ -98,15 +99,15 @@ def main():
     sns.heatmap(
         cos_sim_after,
         ax=axes[1],
-        cmap="Blues",
+        cmap="YlGnBu",
         vmin=0.0,
         vmax=1.0,
         cbar=True,
         annot=True,
         fmt=".2f",
         annot_kws={"size": 9.5, "weight": "bold"},
-        linewidths=1.0,
-        linecolor="darkblue",
+        linewidths=0.8,
+        linecolor="white",
         xticklabels=kept_gene_names,
         yticklabels=kept_gene_names,
         square=True,
@@ -123,7 +124,7 @@ def main():
     plt.savefig(ALT_OUTPUT_PATH, bbox_inches="tight")
     plt.close()
 
-    print(f"✅ Saved High-Contrast Fig 3 to: {OUTPUT_PLOT_PATH}")
+    print(f"✅ Saved Fixed Fig 3 to: {OUTPUT_PLOT_PATH}")
 
 
 if __name__ == "__main__":
