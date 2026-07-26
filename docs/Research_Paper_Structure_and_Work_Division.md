@@ -67,6 +67,8 @@ $$\text{CosSim}(g_a, g_b) = \frac{\langle g_a, g_b \rangle}{\|g_a\|_2 \|g_b\|_2}
 
 $$\text{If } |\text{CosSim}(g_a, g_b)| > 0.75 \implies \text{Remove gene } g_b$$
 
+* **Figure M1 Location:** `results/plots/figure_m1_gram_schmidt_collinearity.png`
+
 #### 2.2 Standardized Latent Principal Component Projection
 Following collinearity pruning, the expression matrix is log-transformed $Z_{\text{gene}} = \text{StandardScaler}(\log_2(G + 1))$ and projected onto $K = 50$ orthogonal principal components via Singular Value Decomposition (SVD):
 
@@ -100,6 +102,7 @@ To handle high-dimensional grouping and sparsity, we optimize the smooth Elastic
 $$\mathcal{L}(\beta) = -\ell(\beta) + \alpha \left[ \rho \sum_{k=1}^{59} \sqrt{\beta_k^2 + \epsilon} + \frac{1-\rho}{2} \sum_{k=1}^{59} \beta_k^2 \right]$$
 
 Where $\alpha$ controls penalty strength, $\rho \in [0, 1]$ is the $L_1 / L_2$ ratio, and $\epsilon = 10^{-6}$ provides smooth gradient differentiability at zero.
+* **Figure M2 Location:** `results/plots/figure_m2_smooth_l1_approximation.png`
 
 #### 2.6 Isotonic Survival Probability Calibration (PAVA)
 Relative risk scores $\eta_i$ are mapped into monotonic, un-biased survival probabilities $P(S > t \mid \eta_i)$ at horizons $t \in \{12, 24, 36, 60\}$ months using the Pool Adjacent Violators Algorithm (PAVA):
@@ -107,6 +110,7 @@ Relative risk scores $\eta_i$ are mapped into monotonic, un-biased survival prob
 $$P(S > t \mid \eta_i) = 1 - f_{\text{iso}, t}(\eta_i), \quad \text{where } f_{\text{iso}, t} = \arg\min_{g \in \mathcal{M}} \sum_{i=1}^{N_{\text{cal}}} \left( y_{i,t} - g(\eta_i) \right)^2$$
 
 Where $\mathcal{M}$ is the space of non-decreasing step functions fitted on an isolated calibration split ($20\%$).
+* **Figure M3 Location:** `results/plots/figure_m3_isotonic_calibration_curves.png`
 
 #### 2.7 Inverse Transform Stochastic Monte Carlo Survival Simulation
 We compute the cumulative baseline hazard $\Lambda_0(t)$ using the fitted model:
@@ -122,6 +126,7 @@ From the distribution $t^{(1 \dots 5000)}$, we extract non-parametric survival b
 * **$P50$ (Median):** 50th percentile survival time in months.
 * **$P90$ (Optimistic):** 90th percentile survival time in months.
 * **Restricted Mean Survival Time (RMST):** $\text{RMST} = \frac{1}{5000} \sum_{k=1}^{5000} \min(t^{(k)}, 60.0)$.
+* **Figure M4 Location:** `results/plots/figure_m4_monte_carlo_trajectories.png`
 
 #### 2.8 Closed-Form PCA Back-Projection & Local Patient Risk Waterfall
 To break the PCA "black box", we substitute $X_{\text{pca}} = Z_{\text{gene}} V$ directly into the linear predictor formula:
@@ -209,13 +214,13 @@ $$\eta_i = \sum_{j=1}^{9} X_{i, j}^{\text{clin}} \beta_j^{\text{clin}} + \sum_{g
 #### 👤 Suyash
 * **Primary Ownership:** **Section 2: Proposed Method** (~2.0 pages)
 * **Detailed Tasks:**
-  1. Write Section 2.1: Gram-Schmidt Cosine Collinearity Filter equation ($\text{CosSim} > 0.75$).
+  1. Write Section 2.1: Gram-Schmidt Cosine Collinearity Filter equation ($\text{CosSim} > 0.75$). Include Figure M1 (`figure_m1_gram_schmidt_collinearity.png`).
   2. Write Section 2.2: Latent PCA Transformation $X_{\text{pca}} = Z_{\text{gene}} V \in \mathbb{R}^{N \times 50}$.
   3. Write Section 2.3: Unified Model Input Matrix $X = [X_{\text{clin}} \mid X_{\text{pca}}] \in \mathbb{R}^{N \times 59}$.
   4. Write Section 2.4: Cox Partial Log-Likelihood $\ell(\beta)$ and $O(N)$ Dynamic Programming suffix sum denominators $S^{(0)}(t), S^{(1)}(t)$.
-  5. Write Section 2.5: Smooth Elastic-Net Loss $\mathcal{L}(\beta)$ with smooth $L_1$ parameter $\epsilon = 10^{-6}$.
-  6. Write Section 2.6: Isotonic Calibration PAVA formulation $P(S > t) = 1 - f_{\text{iso}, t}(\eta)$.
-  7. Write Section 2.7: Inverse Transform Monte Carlo Sampling $\Lambda_{\text{target}}^{(k)} = \frac{-\ln(U^{(k)})}{\exp(\eta_i)}$ and quantiles ($P10, P50, P90$).
+  5. Write Section 2.5: Smooth Elastic-Net Loss $\mathcal{L}(\beta)$ with smooth $L_1$ parameter $\epsilon = 10^{-6}$. Include Figure M2 (`figure_m2_smooth_l1_approximation.png`).
+  6. Write Section 2.6: Isotonic Calibration PAVA formulation $P(S > t) = 1 - f_{\text{iso}, t}(\eta)$. Include Figure M3 (`figure_m3_isotonic_calibration_curves.png`).
+  7. Write Section 2.7: Inverse Transform Monte Carlo Sampling $\Lambda_{\text{target}}^{(k)} = \frac{-\ln(U^{(k)})}{\exp(\eta_i)}$ and quantiles ($P10, P50, P90$). Include Figure M4 (`figure_m4_monte_carlo_trajectories.png`).
   8. Write Section 2.8: Closed-form PCA Back-Projection derivation $W_{\text{gene}} = V_{300 \times 50} \cdot \beta_{\text{pca}}$ and patient waterfall equation $\Delta \eta_{g, i} = Z_{g, i} \cdot W_{\text{gene}, g}$.
 
 ---
@@ -260,6 +265,6 @@ $$\eta_i = \sum_{j=1}^{9} X_{i, j}^{\text{clin}} \beta_j^{\text{clin}} + \sum_{g
 
 ## 🎯 Verification & Next Steps
 
-1. This updated document with formatted equations and team assignments is saved at:
+1. All 4 missing figure plots (Figures M1, M2, M3, and M4) have been generated and saved to `results/plots/`!
+2. The paper blueprint has been updated:
    [docs/Research_Paper_Structure_and_Work_Division.md](file:///home/illionar/Projects/ml_research/docs/Research_Paper_Structure_and_Work_Division.md)
-2. Suyash can directly copy-paste the LaTeX formulations in Section 2 into Overleaf / LaTeX manuscript!
