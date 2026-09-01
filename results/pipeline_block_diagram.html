@@ -3,362 +3,274 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Block Diagram - Multi-Omic Cox Elastic-Net</title>
+<title>Figure 1 - Multi-Omic Cox Elastic-Net System Architecture</title>
 <style>
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff;
-    color: #000000;
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
     margin: 0;
-    padding: 40px;
-    display: flex;
-    justify-content: center;
+    padding: 16px;
+    background: #ffffff;
+    color: #1a202c;
+    overflow: hidden;
+    width: 840px;
+    height: 540px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  }
+
+  .grid-2x2 {
+    display: grid;
+    grid-template-columns: 380px 50px 380px;
+    grid-template-rows: 235px 45px 235px;
     align-items: center;
-    min-height: 100vh;
+    background: #ffffff;
   }
 
-  .diagram-container {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    position: relative;
-  }
-
-  /* Basic Box Styles */
-  .box {
-    border: 1.5px solid #000;
-    border-radius: 12px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    position: relative;
-  }
-
-  .box-title {
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-
-  .sub-box {
-    border: 1px solid #000;
-    border-radius: 8px;
-    padding: 10px;
-    margin: 8px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    text-align: left;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
-  }
-
-  .sub-box-icon {
-    font-size: 18px;
-  }
-
-  /* Specific Colors */
-  .color-green { background-color: #e2f0d9; }
-  .color-yellow { background-color: #fff2cc; }
-  .color-orange { background-color: #fce4d6; }
-  .color-blue { background-color: #bde0fe; }
-  .color-purple { background-color: #e4d7f5; }
-
-  /* Columns */
-  .col {
+  /* Block Container Styles */
+  .block {
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: #ffffff;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    align-items: center;
-  }
-
-  /* Inner elements for input boxes */
-  .input-inner {
-    background: #fff;
-    border: 1px solid #000;
-    border-radius: 6px;
-    padding: 8px;
-    font-size: 12px;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .input-inner-icon {
-    background: #333;
-    color: white;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    border-radius: 4px;
-    font-size: 14px;
   }
 
-  .desc-text {
-    font-size: 11px;
-    color: #444;
+  .block-title {
+    font-weight: 800;
+    font-size: 17.5px;
+    margin-bottom: 4px;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .block-desc {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+    text-align: center;
     margin-bottom: 8px;
   }
 
-  /* Arrows */
-  .arrow-right {
-    width: 30px;
-    height: 2px;
-    background-color: #000;
-    position: relative;
-  }
-  .arrow-right::after {
-    content: '';
-    position: absolute;
-    right: -2px;
-    top: -4px;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-left: 8px solid #000;
-  }
-
-  .arrow-label {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
+  /* Sub-Boxes */
+  .sub-block {
+    border-radius: 7px;
+    padding: 8px 11px;
+    margin-top: 7px;
     font-size: 13px;
-    font-style: italic;
-    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
-  /* SVG for complex routing */
-  .routing-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
+  .sub-title {
+    font-weight: 700;
+    font-size: 14px;
+    display: block;
+    line-height: 1.25;
   }
 
-  /* Matrix / Math Vector */
-  .vector {
+  .sub-detail {
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.9;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Solid Border + Faded Fill Palette */
+  .style-green {
+    border: 2.5px solid #2f855a;
+    background-color: #f0fff4;
+  }
+  .style-green .block-title { color: #1c4532; }
+  .style-green .sub-block {
+    border: 1.8px solid #38a169;
+    background-color: #e6fffa;
+    color: #123824;
+  }
+
+  .style-blue {
+    border: 2.5px solid #3182ce;
+    background-color: #ebf8ff;
+  }
+  .style-blue .block-title { color: #1a365d; }
+  .style-blue .sub-block {
+    border: 1.8px solid #4299e1;
+    background-color: #bee3f8;
+    color: #0f294a;
+  }
+
+  .style-purple {
+    border: 2.5px solid #805ad5;
+    background-color: #faf5ff;
+  }
+  .style-purple .block-title { color: #322659; }
+  .style-purple .sub-block {
+    border: 1.8px solid #9f7aea;
+    background-color: #e9d8fd;
+    color: #211740;
+  }
+
+  .style-teal {
+    border: 2.5px solid #319795;
+    background-color: #e6fffa;
+  }
+  .style-teal .block-title { color: #1d4044; }
+  .style-teal .sub-block {
+    border: 1.8px solid #4fd1c5;
+    background-color: #b2f5ea;
+    color: #112a2d;
+  }
+
+  /* Connector Styles */
+  .connector {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 20px;
-    font-style: italic;
     position: relative;
-    padding: 0 15px;
-    gap: 10px;
+    width: 100%;
   }
-  .vector::before {
-    content: '[';
+
+  .arrow-svg {
+    width: 100%;
+    height: 28px;
+    overflow: visible;
+  }
+
+  .label-badge {
+    font-family: "Cambria Math", "Times New Roman", serif;
+    font-size: 14.5px;
+    font-weight: 700;
+    font-style: italic;
+    color: #1a202c;
+    background: #ffffff;
+    padding: 2px 7px;
+    border: 1.5px solid #a0aec0;
+    border-radius: 5px;
+    white-space: nowrap;
     position: absolute;
-    left: 0;
-    top: -5px;
-    bottom: -5px;
-    font-size: 80px;
-    font-weight: 300;
-    display: flex;
-    align-items: center;
-  }
-  .vector::after {
-    content: ']';
-    position: absolute;
-    right: 0;
-    top: -5px;
-    bottom: -5px;
-    font-size: 80px;
-    font-weight: 300;
-    display: flex;
-    align-items: center;
-  }
-  .vector-item {
-    line-height: 1.2;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
   }
 </style>
 </head>
 <body>
 
-<div class="diagram-container" id="container">
-  
-  <!-- Column 1: Inputs -->
-  <div class="col" id="col1">
-    <div class="box color-green" style="width: 220px;" id="box-clin">
-      <div class="box-title">Clinical Features</div>
-      <div class="desc-text">Age, Sex, Type, Mutation Burden</div>
-      <div class="input-inner">
-        <div class="input-inner-icon">🏥</div>
-        <div style="text-align: left;">Impute & Scale<br><span style="font-size:10px; color:#666;">(StandardScaler)</span></div>
+<div class="grid-2x2">
+
+  <!-- STEP 1 (TOP-LEFT): Data Ingestion & Preprocessing -->
+  <div class="block style-green">
+    <div class="block-title">01. Data Ingestion & Preprocessing</div>
+    <div class="block-desc">Multimodal Feature Standardization</div>
+    <div class="sub-block">
+      <div>
+        <span class="sub-title">Clinical Matrix X<sub>clin</sub></span>
+        <span class="sub-detail">Age, Sex, Stage, TMB → Impute & Scale</span>
       </div>
     </div>
-
-    <div class="box color-yellow" style="width: 220px;" id="box-gen">
-      <div class="box-title">Multi-Omic Observation</div>
-      <div class="desc-text">Top 300 high-variance genes</div>
-      <div class="input-inner">
-        <div class="input-inner-icon">🧬</div>
-        <div style="text-align: left;">Log Transform<br><span style="font-size:10px; color:#666;">log₂(x + 1)</span></div>
-      </div>
-      <div class="input-inner">
-        <div class="input-inner-icon">✂️</div>
-        <div style="text-align: left;">Gram-Schmidt Filter<br><span style="font-size:10px; color:#666;">(Cosine > 0.75)</span></div>
+    <div class="sub-block" style="background:#feebc8; border-color:#ed8936; color:#652b19;">
+      <div>
+        <span class="sub-title">Multi-Omic Corpus X<sub>gen</sub></span>
+        <span class="sub-detail">Log₂ Transform + Gram-Schmidt Filter</span>
       </div>
     </div>
   </div>
 
-  <!-- SVG for Connections -->
-  <svg class="routing-svg" id="svg-lines">
-    <!-- Lines will be drawn here via JS for precision, or fallback to fixed CSS -->
-  </svg>
-
-  <!-- Arrow from Inputs -->
-  <div style="display:flex; flex-direction:column; gap:80px;">
-    <div class="arrow-right" style="width:40px;"><div class="arrow-label">X<sub>clin</sub></div></div>
-    <div class="arrow-right" style="width:40px;"><div class="arrow-label">X<sub>gen</sub></div></div>
+  <!-- TOP CONNECTOR: 1 -> 2 (Left to Right) -->
+  <div class="connector">
+    <span class="label-badge">X<sub>gen</sub></span>
+    <svg class="arrow-svg">
+      <line x1="0" y1="14" x2="40" y2="14" stroke="#2d3748" stroke-width="2.5"/>
+      <polygon points="40,9 50,14 40,19" fill="#2d3748"/>
+    </svg>
   </div>
 
-  <!-- Column 2: Intermediate Preprocessing -->
-  <div class="col" id="col2">
-    <div class="box color-orange" style="width: 160px; margin-top: 90px;" id="box-prep">
-      <div class="box-title">Dimensionality<br>Reduction</div>
-      <div class="input-inner" style="justify-content: center; flex-direction: column;">
-        <span style="font-weight:bold;">PCA</span>
-        <span>50 Components</span>
+  <!-- STEP 2 (TOP-RIGHT): Latent Dimensionality Reduction -->
+  <div class="block style-blue">
+    <div class="block-title">02. Latent Dimensionality Reduction</div>
+    <div class="block-desc">Principal Component Subspace</div>
+    <div class="sub-block">
+      <div>
+        <span class="sub-title">Incremental PCA Projection</span>
+        <span class="sub-detail">K = 50 Components (98.4% Variance)</span>
+      </div>
+    </div>
+    <div class="sub-block">
+      <div>
+        <span class="sub-title">Eigenvector Loadings V</span>
+        <span class="sub-detail">Orthogonal Subspace [300 × 50]</span>
       </div>
     </div>
   </div>
 
-  <div class="arrow-right" style="width:40px;">
-    <div class="arrow-label" style="top:-25px;">X<sub>pca</sub></div>
+  <!-- MID ROW CONNECTORS -->
+  <div></div> <!-- Empty left cell -->
+  <div></div> <!-- Empty middle cell -->
+
+  <!-- DOWNWARD CONNECTOR: 2 -> 3 (Top Right to Bottom Right) -->
+  <div class="connector" style="grid-column: 3;">
+    <div style="display:flex; flex-direction:column; align-items:center; position:relative;">
+      <span class="label-badge" style="top:-8px;">X = [X<sub>c</sub>|X<sub>p</sub>]</span>
+      <svg width="28" height="32" overflow="visible">
+        <line x1="14" y1="0" x2="14" y2="22" stroke="#2d3748" stroke-width="2.5"/>
+        <polygon points="9,22 14,32 19,22" fill="#2d3748"/>
+      </svg>
+    </div>
   </div>
 
-  <!-- Column 3: Model -->
-  <div class="col">
-    <div class="box color-blue" style="width: 260px; padding: 20px;">
-      <div class="box-title" style="font-size: 16px; margin-bottom:15px;">Custom Cox Elastic-Net</div>
-      
-      <div class="sub-box color-purple">
-        <div class="sub-box-icon">🎯</div>
-        <div>
-          <strong style="display:block;">O(N) Dynamic Programming</strong>
-          Negative Log-Partial-Likelihood
-        </div>
+  <!-- STEP 4 (BOTTOM-LEFT): Inference & XAI Policy Core -->
+  <div class="block style-teal">
+    <div class="block-title">04. Inference & XAI Policy Core</div>
+    <div class="block-desc">Calibrated Risk & Explanation</div>
+    <div class="sub-block">
+      <div>
+        <span class="sub-title">PAVA Isotonic Calibration</span>
+        <span class="sub-detail">Monotonic P(S > t) [12m, 24m, 36m, 60m]</span>
       </div>
-
-      <div class="sub-box color-purple">
-        <div class="sub-box-icon">⚖️</div>
-        <div>
-          <strong style="display:block;">Elastic-Net Penalty</strong>
-          L1 Sparsity + L2 Grouping
-        </div>
-      </div>
-      
-      <div class="sub-box color-purple">
-        <div class="sub-box-icon">🔄</div>
-        <div>
-          <strong style="display:block;">Optimizer</strong>
-          L-BFGS-B (Bounded)
-        </div>
+    </div>
+    <div class="sub-block">
+      <div>
+        <span class="sub-title">Monte Carlo & PCA Back-Projection</span>
+        <span class="sub-detail">5,000 Draws [P10, P90] + Waterfall XAI</span>
       </div>
     </div>
   </div>
 
-  <div class="arrow-right" style="width:50px;">
-    <div class="arrow-label" style="top:-25px;">&beta;, &eta;<sub>i</sub></div>
+  <!-- BOTTOM CONNECTOR: 3 -> 4 (Right to Left) -->
+  <div class="connector">
+    <span class="label-badge">β, η<sub>i</sub></span>
+    <svg class="arrow-svg">
+      <line x1="40" y1="14" x2="0" y2="14" stroke="#2d3748" stroke-width="2.5"/>
+      <polygon points="10,9 0,14 10,19" fill="#2d3748"/>
+    </svg>
   </div>
 
-  <!-- Column 4: Outputs/Action Policy -->
-  <div class="col">
-    <div class="box color-blue" style="width: 250px; padding: 20px;">
-      <div class="box-title" style="font-size: 16px; margin-bottom:15px;">Inference & XAI Policy</div>
-      
-      <div class="sub-box color-purple">
-        <div class="sub-box-icon">📊</div>
-        <div>
-          <strong style="display:block;">Isotonic Calibration</strong>
-          Map &eta; &rarr; P(survive) @ 12-60m
-        </div>
-      </div>
-
-      <div class="sub-box color-purple">
-        <div class="sub-box-icon">🎲</div>
-        <div>
-          <strong style="display:block;">Monte Carlo Simulation</strong>
-          Breslow Baseline + Inv Transform
-        </div>
-      </div>
-
-      <div class="sub-box color-purple">
-        <div class="sub-box-icon">🔍</div>
-        <div>
-          <strong style="display:block;">PCA Back-Projection</strong>
-          Gene-level Risk Waterfall
-        </div>
+  <!-- STEP 3 (BOTTOM-RIGHT): Custom Cox Elastic-Net Model -->
+  <div class="block style-purple">
+    <div class="block-title">03. Custom Cox Elastic-Net Core</div>
+    <div class="block-desc">Dynamic Programming Optimization</div>
+    <div class="sub-block">
+      <div>
+        <span class="sub-title">O(N) DP Partial Log-Likelihood</span>
+        <span class="sub-detail">Dynamic Suffix Sums over Risk Set</span>
       </div>
     </div>
-  </div>
-
-  <div class="arrow-right" style="width:40px;">
-    <div class="arrow-label">Out</div>
-  </div>
-
-  <!-- Final Vector Output -->
-  <div class="vector">
-    <div class="vector-item">&eta;<sub>i</sub></div>
-    <div class="vector-item" style="font-size:16px;">P(S(t))</div>
-    <div class="vector-item" style="font-size:16px; white-space:nowrap;">[P10, P90]</div>
-    <div class="vector-item" style="font-size:16px;">XAI</div>
+    <div class="sub-block">
+      <div>
+        <span class="sub-title">Smooth Elastic-Net Regularization</span>
+        <span class="sub-detail">√(β² + 10⁻⁶) Differentiable Penalty</span>
+      </div>
+    </div>
   </div>
 
 </div>
 
-<script>
-  // Simple JS to draw connecting lines exactly as needed, 
-  // bypassing pure CSS layout limitations for arrows across grids.
-  // Actually, the CSS flex layout above handles the straight lines well enough.
-  // We'll just tweak the layout of Column 1 & 2 connections.
-  
-  const svg = document.getElementById('svg-lines');
-  const boxClin = document.getElementById('box-clin');
-  const boxGen = document.getElementById('box-gen');
-  const boxPrep = document.getElementById('box-prep');
-  const container = document.getElementById('container');
-
-  function drawLines() {
-    svg.innerHTML = '';
-    const rectContainer = container.getBoundingClientRect();
-    const rectClin = boxClin.getBoundingClientRect();
-    const rectGen = boxGen.getBoundingClientRect();
-    const rectPrep = boxPrep.getBoundingClientRect();
-
-    // Line from Clin to middle
-    const startX1 = rectClin.right - rectContainer.left;
-    const startY1 = rectClin.top + rectClin.height/2 - rectContainer.top;
-    
-    // Line from Gen to PCA
-    const startX2 = rectGen.right - rectContainer.left;
-    const startY2 = rectGen.top + rectGen.height/2 - rectContainer.top;
-    
-    const endX_PCA = rectPrep.left - rectContainer.left;
-    const endY_PCA = rectPrep.top + rectPrep.height/2 - rectContainer.top;
-
-    // Draw lines using SVG paths
-    const path1 = `<path d="M ${startX1} ${startY1} L ${startX1 + 110} ${startY1}" stroke="black" stroke-width="2" fill="none"/>
-                   <polygon points="${startX1 + 110},${startY1 - 4} ${startX1 + 118},${startY1} ${startX1 + 110},${startY1 + 4}" fill="black"/>`;
-                   
-    const path2 = `<path d="M ${startX2} ${startY2} L ${endX_PCA - 10} ${startY2} L ${endX_PCA - 10} ${endY_PCA} L ${endX_PCA} ${endY_PCA}" stroke="black" stroke-width="2" fill="none"/>
-                   <polygon points="${endX_PCA - 5},${endY_PCA - 4} ${endX_PCA + 3},${endY_PCA} ${endX_PCA - 5},${endY_PCA + 4}" fill="black"/>`;
-
-    // svg.innerHTML = path2; 
-    // We already have HTML arrows, so we'll just let CSS handle it to match the simple style.
-  }
-  
-  // window.addEventListener('resize', drawLines);
-  // drawLines();
-</script>
 </body>
 </html>

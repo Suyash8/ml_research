@@ -1,0 +1,275 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{17}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{} and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showURL #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[Bishop(2006)]%
+        {bishop2006pattern}
+\bibfield{author}{\bibinfo{person}{Christopher~M. Bishop}.}
+  \bibinfo{year}{2006}\natexlab{}.
+\newblock \showarticletitle{Pattern Recognition and Machine Learning}.
+\newblock \bibinfo{journal}{\emph{Journal of the Royal Statistical Society:
+  Series A}} (\bibinfo{year}{2006}).
+\newblock
+\href{https://doi.org/10.1111/j.1467-9868.2007.00699_13.x}{doi:\nolinkurl{10.1111/j.1467-9868.2007.00699_13.x}}
+
+
+\bibitem[Breslow(1972)]%
+        {breslow1972discussion}
+\bibfield{author}{\bibinfo{person}{Norman~E. Breslow}.}
+  \bibinfo{year}{1972}\natexlab{}.
+\newblock \showarticletitle{Discussion of the Paper by D. R. Cox}.
+\newblock \bibinfo{journal}{\emph{Journal of the Royal Statistical Society:
+  Series B}} \bibinfo{volume}{34}, \bibinfo{number}{2} (\bibinfo{year}{1972}),
+  \bibinfo{pages}{216--217}.
+\newblock
+
+
+\bibitem[Chalmers et~al\mbox{.}(2017)]%
+        {chalmers2017mutational}
+\bibfield{author}{\bibinfo{person}{Zachary~R. Chalmers},
+  \bibinfo{person}{Caitlin~F. Connelly}, \bibinfo{person}{David Fabrizio},
+  \bibinfo{person}{Laurie Gay}, \bibinfo{person}{Siraj~M. Ali},
+  \bibinfo{person}{Riley Ennis}, \bibinfo{person}{Alexa Schrock},
+  \bibinfo{person}{Brittany Campbell}, \bibinfo{person}{Adam Shlien},
+  \bibinfo{person}{Juliann Chmielecki}, \bibinfo{person}{Franklin Huang},
+  \bibinfo{person}{Yuting He}, \bibinfo{person}{James Sun},
+  \bibinfo{person}{Uri Tabori}, \bibinfo{person}{Mark Kennedy},
+  \bibinfo{person}{Daniel~S. Lieber}, \bibinfo{person}{Steven Roels},
+  \bibinfo{person}{Jared White}, \bibinfo{person}{Geoff~A. Otto},
+  \bibinfo{person}{Jeffrey~S. Ross}, \bibinfo{person}{Levi Garraway},
+  \bibinfo{person}{Vincent~A. Miller}, \bibinfo{person}{Philip~J. Stephens},
+  {and} \bibinfo{person}{Garrett~M. Frampton}.}
+  \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Analysis of 100,000 Human Cancer Genomes Reveals
+  the Landscape of Tumor Mutational Burden}.
+\newblock \bibinfo{journal}{\emph{Genome Medicine}} \bibinfo{volume}{9},
+  \bibinfo{number}{34} (\bibinfo{year}{2017}).
+\newblock
+\href{https://doi.org/10.1186/s13073-017-0424-2}{doi:\nolinkurl{10.1186/s13073-017-0424-2}}
+
+
+\bibitem[Giatromanolaki et~al\mbox{.}(2001)]%
+        {giatromanolaki2001ca9}
+\bibfield{author}{\bibinfo{person}{Alexandra Giatromanolaki},
+  \bibinfo{person}{Michael~I. Koukourakis}, \bibinfo{person}{Efthimios
+  Sivridis}, \bibinfo{person}{Jaromir Pastorek}, \bibinfo{person}{Charles~C.
+  Wykoff}, \bibinfo{person}{Kevin~C. Gatter}, {and} \bibinfo{person}{Adrian~L.
+  Harris}.} \bibinfo{year}{2001}\natexlab{}.
+\newblock \showarticletitle{Carbonic Anhydrase 9 Relates to Hypoxia Inducible
+  Factor and Vascular Endothelial Growth Factor Expression in Non-small Cell
+  Lung Cancer}.
+\newblock \bibinfo{journal}{\emph{Cancer Research}} \bibinfo{volume}{61},
+  \bibinfo{number}{19} (\bibinfo{year}{2001}), \bibinfo{pages}{7992--7998}.
+\newblock
+\urldef\tempurl%
+\url{https://aacrjournals.org/cancerres/article/61/19/7992/507419}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Hao et~al\mbox{.}(2018)]%
+        {hao2018coxpasnet}
+\bibfield{author}{\bibinfo{person}{Jie Hao}, \bibinfo{person}{Youngsoon Kim},
+  \bibinfo{person}{Tejaswini Mallavarapu}, \bibinfo{person}{Jung~Hun Oh}, {and}
+  \bibinfo{person}{Mingon Kang}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Interpretable Deep Neural Network for Cancer
+  Survival Analysis by Integrating Genomic and Clinical Data}.
+\newblock \bibinfo{journal}{\emph{BMC Medical Genomics}} \bibinfo{volume}{12},
+  \bibinfo{number}{189} (\bibinfo{year}{2018}).
+\newblock
+\href{https://doi.org/10.1186/s12920-019-0624-2}{doi:\nolinkurl{10.1186/s12920-019-0624-2}}
+
+
+\bibitem[Harrell et~al\mbox{.}(1982)]%
+        {harrell1982evaluating}
+\bibfield{author}{\bibinfo{person}{Frank~E. Harrell},
+  \bibinfo{person}{Robert~M. Califf}, \bibinfo{person}{David~B. Pryor},
+  \bibinfo{person}{Kerry~L. Lee}, {and} \bibinfo{person}{Robert~A. Rosati}.}
+  \bibinfo{year}{1982}\natexlab{}.
+\newblock \showarticletitle{Evaluating the Yield of Medical Tests}.
+\newblock \bibinfo{journal}{\emph{JAMA}} \bibinfo{volume}{247},
+  \bibinfo{number}{18} (\bibinfo{year}{1982}), \bibinfo{pages}{2543--2546}.
+\newblock
+\href{https://doi.org/10.1001/jama.1982.03320430047030}{doi:\nolinkurl{10.1001/jama.1982.03320430047030}}
+
+
+\bibitem[Hastie et~al\mbox{.}(2009)]%
+        {hastie2009elements}
+\bibfield{author}{\bibinfo{person}{Trevor Hastie}, \bibinfo{person}{Robert
+  Tibshirani}, {and} \bibinfo{person}{Jerome Friedman}.}
+  \bibinfo{year}{2009}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{The Elements of Statistical Learning: Data
+  Mining, Inference, and Prediction}}.
+\newblock \bibinfo{publisher}{Springer}.
+\newblock
+\href{https://doi.org/10.1007/978-0-387-84858-7}{doi:\nolinkurl{10.1007/978-0-387-84858-7}}
+
+
+\bibitem[Jain et~al\mbox{.}(2024)]%
+        {jain2024isotonic}
+\bibfield{author}{\bibinfo{person}{Anshul Jain} {et~al\mbox{.}}}
+  \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{Isotonic Survival Regression: Calibrated Survival
+  Distributions from Deep Cox Models}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2605.16571}}
+  (\bibinfo{year}{2024}).
+\newblock
+
+
+\bibitem[Katzman et~al\mbox{.}(2018)]%
+        {katzman2018deepsurv}
+\bibfield{author}{\bibinfo{person}{Jared~L. Katzman}, \bibinfo{person}{Uri
+  Shaham}, \bibinfo{person}{Alexander Cloninger}, \bibinfo{person}{Jonathan
+  Bates}, \bibinfo{person}{Tingting Jiang}, {and} \bibinfo{person}{Yuval
+  Kluger}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{DeepSurv: Personalized Treatment Recommender System
+  Using a Cox Proportional Hazards Deep Neural Network}.
+\newblock \bibinfo{journal}{\emph{BMC Medical Research Methodology}}
+  \bibinfo{volume}{18}, \bibinfo{number}{24} (\bibinfo{year}{2018}).
+\newblock
+\href{https://doi.org/10.1186/s12874-018-0482-1}{doi:\nolinkurl{10.1186/s12874-018-0482-1}}
+
+
+\bibitem[Schoenfeld(1982)]%
+        {schoenfeld1982partial}
+\bibfield{author}{\bibinfo{person}{David Schoenfeld}.}
+  \bibinfo{year}{1982}\natexlab{}.
+\newblock \showarticletitle{Partial Residuals for the Proportional Hazards
+  Regression Model}.
+\newblock \bibinfo{journal}{\emph{Biometrika}} \bibinfo{volume}{69},
+  \bibinfo{number}{1} (\bibinfo{year}{1982}), \bibinfo{pages}{239--241}.
+\newblock
+\href{https://doi.org/10.1093/biomet/69.1.239}{doi:\nolinkurl{10.1093/biomet/69.1.239}}
+
+
+\bibitem[Simon et~al\mbox{.}(2011)]%
+        {simon2011regularization}
+\bibfield{author}{\bibinfo{person}{Noah Simon}, \bibinfo{person}{Jerome
+  Friedman}, \bibinfo{person}{Trevor Hastie}, {and} \bibinfo{person}{Robert
+  Tibshirani}.} \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Regularization Paths for Cox's Proportional Hazards
+  Model via Coordinate Descent}.
+\newblock \bibinfo{journal}{\emph{Journal of Statistical Software}}
+  \bibinfo{volume}{39}, \bibinfo{number}{5} (\bibinfo{year}{2011}),
+  \bibinfo{pages}{1--13}.
+\newblock
+\href{https://doi.org/10.18637/jss.v039.i05}{doi:\nolinkurl{10.18637/jss.v039.i05}}
+
+
+\bibitem[Tibshirani(1997)]%
+        {tibshirani1997lasso}
+\bibfield{author}{\bibinfo{person}{Robert Tibshirani}.}
+  \bibinfo{year}{1997}\natexlab{}.
+\newblock \showarticletitle{The Lasso Method for Variable Selection in the Cox
+  Model}.
+\newblock \bibinfo{journal}{\emph{Statistics in Medicine}}
+  \bibinfo{volume}{16}, \bibinfo{number}{4} (\bibinfo{year}{1997}),
+  \bibinfo{pages}{385--395}.
+\newblock
+\href{https://doi.org/10.1002/(SICI)1097-0258(19970228)16:4<385::AID-SIM380>3.0.CO;2-3}{doi:\nolinkurl{10.1002/(SICI)1097-0258(19970228)16:4<385::AID-SIM380>3.0.CO;2-3}}
+
+
+\bibitem[van Houwelingen et~al\mbox{.}(2006)]%
+        {vanhouwelingen2006crossvalidated}
+\bibfield{author}{\bibinfo{person}{Hans~C. van Houwelingen},
+  \bibinfo{person}{Tako Bruinsma}, \bibinfo{person}{Ivo Simon},
+  \bibinfo{person}{Jan~H. van Tol}, {and} \bibinfo{person}{Lodewijk
+  Vermeulen}.} \bibinfo{year}{2006}\natexlab{}.
+\newblock \showarticletitle{Cross-Validated Cox Regression on Microarray Gene
+  Expression Data}.
+\newblock \bibinfo{journal}{\emph{Statistics in Medicine}}
+  \bibinfo{volume}{25}, \bibinfo{number}{18} (\bibinfo{year}{2006}),
+  \bibinfo{pages}{3201--3216}.
+\newblock
+\href{https://doi.org/10.1002/sim.2353}{doi:\nolinkurl{10.1002/sim.2353}}
+
+
+\bibitem[Weinstein et~al\mbox{.}(2013)]%
+        {weinstein2013cancer}
+\bibfield{author}{\bibinfo{person}{John~N. Weinstein}, \bibinfo{person}{Eric~A.
+  Collisson}, \bibinfo{person}{Gordon~B. Mills}, \bibinfo{person}{Kenna~R.
+  Shaw}, \bibinfo{person}{Brad~A. Ozenberger}, \bibinfo{person}{Kyle Ellrott},
+  \bibinfo{person}{Ilya Shmulevich}, \bibinfo{person}{Chris Sander}, {and}
+  \bibinfo{person}{Joshua~M. Stuart}.} \bibinfo{year}{2013}\natexlab{}.
+\newblock \showarticletitle{The Cancer Genome Atlas Pan-Cancer Analysis
+  Project}.
+\newblock \bibinfo{journal}{\emph{Nature Genetics}} \bibinfo{volume}{45},
+  \bibinfo{number}{10} (\bibinfo{year}{2013}), \bibinfo{pages}{1113--1120}.
+\newblock
+\href{https://doi.org/10.1038/ng.2764}{doi:\nolinkurl{10.1038/ng.2764}}
+
+
+\bibitem[Wu(2012)]%
+        {wu2012elastic}
+\bibfield{author}{\bibinfo{person}{Tong~Tong Wu}.}
+  \bibinfo{year}{2012}\natexlab{}.
+\newblock \showarticletitle{Elastic Net for Cox's Proportional Hazards Model
+  with a Solution Path Algorithm}.
+\newblock \bibinfo{journal}{\emph{Statistica Sinica}}  \bibinfo{volume}{22}
+  (\bibinfo{year}{2012}), \bibinfo{pages}{27--294}.
+\newblock
+\href{https://doi.org/10.5705/ss.2010.107}{doi:\nolinkurl{10.5705/ss.2010.107}}
+
+
+\bibitem[Zadrozny and Elkan(2002)]%
+        {zadrozny2002transforming}
+\bibfield{author}{\bibinfo{person}{Bianca Zadrozny} {and}
+  \bibinfo{person}{Charles Elkan}.} \bibinfo{year}{2002}\natexlab{}.
+\newblock \showarticletitle{Transforming Classifier Scores into Accurate
+  Multiclass Probability Estimates}. In \bibinfo{booktitle}{\emph{Proceedings
+  of the Eighth ACM SIGKDD International Conference on Knowledge Discovery and
+  Data Mining}}. \bibinfo{pages}{694--699}.
+\newblock
+\href{https://doi.org/10.1145/775047.775151}{doi:\nolinkurl{10.1145/775047.775151}}
+
+
+\bibitem[Zhou et~al\mbox{.}(2012)]%
+        {grunkin2011cxcl5}
+\bibfield{author}{\bibinfo{person}{Su-Lin Zhou}, \bibinfo{person}{Zhi Dai},
+  \bibinfo{person}{Zheng-Jun Zhou}, \bibinfo{person}{Xin-Yu Wang},
+  \bibinfo{person}{Guo-Huan Yang}, \bibinfo{person}{Zheng Wang},
+  \bibinfo{person}{Xiao-Wu Huang}, \bibinfo{person}{Jia Fan}, {and}
+  \bibinfo{person}{Jian Zhou}.} \bibinfo{year}{2012}\natexlab{}.
+\newblock \showarticletitle{Overexpression of CXCL5 Mediates Neutrophil
+  Infiltration and Indicates Poor Prognosis for Hepatocellular Carcinoma}.
+\newblock \bibinfo{journal}{\emph{Hepatology}} \bibinfo{volume}{56},
+  \bibinfo{number}{6} (\bibinfo{year}{2012}), \bibinfo{pages}{2242--2254}.
+\newblock
+\href{https://doi.org/10.1002/hep.25907}{doi:\nolinkurl{10.1002/hep.25907}}
+
+
+\end{thebibliography}
