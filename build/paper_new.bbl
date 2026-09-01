@@ -1,0 +1,147 @@
+\begin{thebibliography}{17}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[van Houwelingen et~al.(2006)van Houwelingen, Bruinsma, Simon, van Tol,
+  and Vermeulen]{vanhouwelingen2006crossvalidated}
+Hans~C. van Houwelingen, Tako Bruinsma, Ivo Simon, Jan~H. van Tol, and Lodewijk
+  Vermeulen.
+\newblock Cross-validated cox regression on microarray gene expression data.
+\newblock \emph{Statistics in Medicine}, 25\penalty0 (18):\penalty0 3201--3216,
+  2006.
+\newblock \doi{10.1002/sim.2353}.
+
+\bibitem[Zhou et~al.(2012)Zhou, Dai, Zhou, Wang, Yang, Wang, Huang, Fan, and
+  Zhou]{grunkin2011cxcl5}
+Su-Lin Zhou, Zhi Dai, Zheng-Jun Zhou, Xin-Yu Wang, Guo-Huan Yang, Zheng Wang,
+  Xiao-Wu Huang, Jia Fan, and Jian Zhou.
+\newblock Overexpression of cxcl5 mediates neutrophil infiltration and
+  indicates poor prognosis for hepatocellular carcinoma.
+\newblock \emph{Hepatology}, 56\penalty0 (6):\penalty0 2242--2254, 2012.
+\newblock \doi{10.1002/hep.25907}.
+
+\bibitem[Giatromanolaki et~al.(2001)Giatromanolaki, Koukourakis, Sivridis,
+  Pastorek, Wykoff, Gatter, and Harris]{giatromanolaki2001ca9}
+Alexandra Giatromanolaki, Michael~I. Koukourakis, Efthimios Sivridis, Jaromir
+  Pastorek, Charles~C. Wykoff, Kevin~C. Gatter, and Adrian~L. Harris.
+\newblock Carbonic anhydrase 9 relates to hypoxia inducible factor and vascular
+  endothelial growth factor expression in non-small cell lung cancer.
+\newblock \emph{Cancer Research}, 61\penalty0 (19):\penalty0 7992--7998, 2001.
+\newblock URL
+  \url{https://aacrjournals.org/cancerres/article/61/19/7992/507419}.
+
+\bibitem[Weinstein et~al.(2013)Weinstein, Collisson, Mills, Shaw, Ozenberger,
+  Ellrott, Shmulevich, Sander, and Stuart]{weinstein2013cancer}
+John~N. Weinstein, Eric~A. Collisson, Gordon~B. Mills, Kenna~R. Shaw, Brad~A.
+  Ozenberger, Kyle Ellrott, Ilya Shmulevich, Chris Sander, and Joshua~M.
+  Stuart.
+\newblock The cancer genome atlas pan-cancer analysis project.
+\newblock \emph{Nature Genetics}, 45\penalty0 (10):\penalty0 1113--1120, 2013.
+\newblock \doi{10.1038/ng.2764}.
+
+\bibitem[Tibshirani(1997)]{tibshirani1997lasso}
+Robert Tibshirani.
+\newblock The lasso method for variable selection in the cox model.
+\newblock \emph{Statistics in Medicine}, 16\penalty0 (4):\penalty0 385--395,
+  1997.
+\newblock
+  \doi{10.1002/(SICI)1097-0258(19970228)16:4<385::AID-SIM380>3.0.CO;2-3}.
+
+\bibitem[Katzman et~al.(2018)Katzman, Shaham, Cloninger, Bates, Jiang, and
+  Kluger]{katzman2018deepsurv}
+Jared~L. Katzman, Uri Shaham, Alexander Cloninger, Jonathan Bates, Tingting
+  Jiang, and Yuval Kluger.
+\newblock Deepsurv: Personalized treatment recommender system using a cox
+  proportional hazards deep neural network.
+\newblock \emph{BMC Medical Research Methodology}, 18\penalty0 (24), 2018.
+\newblock \doi{10.1186/s12874-018-0482-1}.
+
+\bibitem[Hao et~al.(2018)Hao, Kim, Mallavarapu, Oh, and Kang]{hao2018coxpasnet}
+Jie Hao, Youngsoon Kim, Tejaswini Mallavarapu, Jung~Hun Oh, and Mingon Kang.
+\newblock Interpretable deep neural network for cancer survival analysis by
+  integrating genomic and clinical data.
+\newblock \emph{BMC Medical Genomics}, 12\penalty0 (189), 2018.
+\newblock \doi{10.1186/s12920-019-0624-2}.
+
+\bibitem[Chalmers et~al.(2017)Chalmers, Connelly, Fabrizio, Gay, Ali, Ennis,
+  Schrock, Campbell, Shlien, Chmielecki, Huang, He, Sun, Tabori, Kennedy,
+  Lieber, Roels, White, Otto, Ross, Garraway, Miller, Stephens, and
+  Frampton]{chalmers2017mutational}
+Zachary~R. Chalmers, Caitlin~F. Connelly, David Fabrizio, Laurie Gay, Siraj~M.
+  Ali, Riley Ennis, Alexa Schrock, Brittany Campbell, Adam Shlien, Juliann
+  Chmielecki, Franklin Huang, Yuting He, James Sun, Uri Tabori, Mark Kennedy,
+  Daniel~S. Lieber, Steven Roels, Jared White, Geoff~A. Otto, Jeffrey~S. Ross,
+  Levi Garraway, Vincent~A. Miller, Philip~J. Stephens, and Garrett~M.
+  Frampton.
+\newblock Analysis of 100,000 human cancer genomes reveals the landscape of
+  tumor mutational burden.
+\newblock \emph{Genome Medicine}, 9\penalty0 (34), 2017.
+\newblock \doi{10.1186/s13073-017-0424-2}.
+
+\bibitem[Simon et~al.(2011)Simon, Friedman, Hastie, and
+  Tibshirani]{simon2011regularization}
+Noah Simon, Jerome Friedman, Trevor Hastie, and Robert Tibshirani.
+\newblock Regularization paths for cox's proportional hazards model via
+  coordinate descent.
+\newblock \emph{Journal of Statistical Software}, 39\penalty0 (5):\penalty0
+  1--13, 2011.
+\newblock \doi{10.18637/jss.v039.i05}.
+
+\bibitem[Wu(2012)]{wu2012elastic}
+Tong~Tong Wu.
+\newblock Elastic net for cox's proportional hazards model with a solution path
+  algorithm.
+\newblock \emph{Statistica Sinica}, 22:\penalty0 27--44, 2012.
+\newblock \doi{10.5705/ss.2010.107}.
+
+\bibitem[Bishop(2006)]{bishop2006pattern}
+Christopher~M. Bishop.
+\newblock \emph{Pattern Recognition and Machine Learning}.
+\newblock Springer, New York, 2006.
+
+\bibitem[Hastie et~al.(2009)Hastie, Tibshirani, and
+  Friedman]{hastie2009elements}
+Trevor Hastie, Robert Tibshirani, and Jerome Friedman.
+\newblock \emph{The Elements of Statistical Learning: Data Mining, Inference,
+  and Prediction}.
+\newblock Springer, 2009.
+\newblock \doi{10.1007/978-0-387-84858-7}.
+
+\bibitem[Zadrozny and Elkan(2002)]{zadrozny2002transforming}
+Bianca Zadrozny and Charles Elkan.
+\newblock Transforming classifier scores into accurate multiclass probability
+  estimates.
+\newblock In \emph{Proceedings of the Eighth ACM SIGKDD International
+  Conference on Knowledge Discovery and Data Mining}, pages 694--699, 2002.
+\newblock \doi{10.1145/775047.775151}.
+
+\bibitem[Jain et~al.(2024)]{jain2024isotonic}
+Anshul Jain et~al.
+\newblock Isotonic survival regression: Calibrated survival distributions from
+  deep cox models.
+\newblock \emph{arXiv preprint}, 2024.
+
+\bibitem[Breslow(1972)]{breslow1972discussion}
+Norman~E. Breslow.
+\newblock Discussion of the paper by d. r. cox.
+\newblock \emph{Journal of the Royal Statistical Society: Series B},
+  34\penalty0 (2):\penalty0 216--217, 1972.
+
+\bibitem[Harrell et~al.(1982)Harrell, Califf, Pryor, Lee, and
+  Rosati]{harrell1982evaluating}
+Frank~E. Harrell, Robert~M. Califf, David~B. Pryor, Kerry~L. Lee, and Robert~A.
+  Rosati.
+\newblock Evaluating the yield of medical tests.
+\newblock \emph{JAMA}, 247\penalty0 (18):\penalty0 2543--2546, 1982.
+\newblock \doi{10.1001/jama.1982.03320430047030}.
+
+\bibitem[Schoenfeld(1982)]{schoenfeld1982partial}
+David Schoenfeld.
+\newblock Partial residuals for the proportional hazards regression model.
+\newblock \emph{Biometrika}, 69\penalty0 (1):\penalty0 239--241, 1982.
+\newblock \doi{10.1093/biomet/69.1.239}.
+
+\end{thebibliography}

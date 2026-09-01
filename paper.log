@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.6.29)  31 JUL 2026 21:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.6.29)  31 JUL 2026 21:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1077,16 +1077,11 @@ LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
 (Font)              scaled to size 8.0pt on input line 69.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
 (Font)              scaled to size 6.0pt on input line 69.
-
-
-Package natbib Warning: Citation `jain2026isotonic' on page 1 undefined on inpu
-t line 79.
-
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 6.0pt on input line 80.
-[1.1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/f
-onts/enc/dvips/libertine/lbtn_76gpa5.enc}{/usr/share/texmf-dist/fonts/enc/dvips
-/libertine/lbtn_25tcsq.enc}
+ [1.1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/
+fonts/enc/dvips/libertine/lbtn_76gpa5.enc}{/usr/share/texmf-dist/fonts/enc/dvip
+s/libertine/lbtn_25tcsq.enc}
 
 {/usr/share/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/share/te
 xmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}{/usr/share/texmf-dist/fonts
@@ -1095,7 +1090,7 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 6.6pt on input line 90.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 5.5pt on input line 90.
-<images/fig1_unified_architecture.png, id=148, 1753.55125pt x 626.34pt>
+<images/fig1_unified_architecture.png, id=149, 1753.55125pt x 626.34pt>
 File: images/fig1_unified_architecture.png Graphic file (type png)
 <use images/fig1_unified_architecture.png>
 Package pdftex.def Info: images/fig1_unified_architecture.png  used on input li
@@ -1128,13 +1123,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3.3 <./images/fig1_unified_architecture.png>]
-<images/fig3a_collinearity_before.png, id=185, 295.5843pt x 300.1614pt>
+<images/fig3a_collinearity_before.png, id=187, 295.5843pt x 300.1614pt>
 File: images/fig3a_collinearity_before.png Graphic file (type png)
 <use images/fig3a_collinearity_before.png>
 Package pdftex.def Info: images/fig3a_collinearity_before.png  used on input li
 ne 159.
 (pdftex.def)             Requested size: 115.74976pt x 117.54338pt.
-<images/fig3b_collinearity_after.png, id=186, 295.5843pt x 300.1614pt>
+<images/fig3b_collinearity_after.png, id=188, 295.5843pt x 300.1614pt>
 File: images/fig3b_collinearity_after.png Graphic file (type png)
 <use images/fig3b_collinearity_after.png>
 Package pdftex.def Info: images/fig3b_collinearity_after.png  used on input lin
@@ -1146,14 +1141,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 167--167
 -ity prun-ing
  []
 
-<images/fig4_pca_gene_loadings.png, id=187, 671.8701pt x 413.6253pt>
+<images/fig4_pca_gene_loadings.png, id=189, 671.8701pt x 413.6253pt>
 File: images/fig4_pca_gene_loadings.png Graphic file (type png)
 <use images/fig4_pca_gene_loadings.png>
 Package pdftex.def Info: images/fig4_pca_gene_loadings.png  used on input line 
 177.
 (pdftex.def)             Requested size: 241.14749pt x 148.45688pt.
 [4.4]
-<images/fig5_isotonic_calibration_curves.png, id=206, 714.5094pt x 607.068pt>
+<images/fig5_isotonic_calibration_curves.png, id=207, 714.5094pt x 607.068pt>
 File: images/fig5_isotonic_calibration_curves.png Graphic file (type png)
 <use images/fig5_isotonic_calibration_curves.png>
 Package pdftex.def Info: images/fig5_isotonic_calibration_curves.png  used on i
@@ -1161,19 +1156,19 @@ nput line 224.
 (pdftex.def)             Requested size: 241.14749pt x 204.88124pt.
  [5.5 <./images/fig3a_collinearity_before.png> <./images/fig3b_collinearity_aft
 er.png> <./images/fig4_pca_gene_loadings.png>]
-<images/fig6_monte_carlo_trajectories.png, id=216, 750.4035pt x 296.307pt>
+<images/fig6_monte_carlo_trajectories.png, id=217, 750.4035pt x 296.307pt>
 File: images/fig6_monte_carlo_trajectories.png Graphic file (type png)
 <use images/fig6_monte_carlo_trajectories.png>
 Package pdftex.def Info: images/fig6_monte_carlo_trajectories.png  used on inpu
 t line 238.
 (pdftex.def)             Requested size: 241.14749pt x 95.21805pt.
-<images/fig7a_global_gene_importance.png, id=219, 469.755pt x 245.718pt>
+<images/fig7a_global_gene_importance.png, id=220, 469.755pt x 245.718pt>
 File: images/fig7a_global_gene_importance.png Graphic file (type png)
 <use images/fig7a_global_gene_importance.png>
 Package pdftex.def Info: images/fig7a_global_gene_importance.png  used on input
  line 254.
 (pdftex.def)             Requested size: 229.08937pt x 119.82921pt.
-<images/fig7b_patient_risk_waterfall.png, id=220, 469.755pt x 245.718pt>
+<images/fig7b_patient_risk_waterfall.png, id=221, 469.755pt x 245.718pt>
 File: images/fig7b_patient_risk_waterfall.png Graphic file (type png)
 <use images/fig7b_patient_risk_waterfall.png>
 Package pdftex.def Info: images/fig7b_patient_risk_waterfall.png  used on input
@@ -1185,9 +1180,6 @@ _patient_risk_waterfall.png>] [7.7] (./paper.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 )
-
-Package natbib Warning: There were undefined citations.
-
 
 Package balance Warning: You have called \balance in second column
 (balance)                Columns might not be balanced.
@@ -1208,7 +1200,7 @@ Package rerunfilecheck Info: File `paper.out' has not changed.
 Here is how much of TeX's memory you used:
  21590 strings out of 469515
  349710 string characters out of 5470807
- 855170 words of memory out of 5000000
+ 856127 words of memory out of 5000000
  49145 multiletter control sequences out of 15000+600000
  805704 words of font info for 451 fonts, out of 8000000 for 9000
  175 hyphenation exceptions out of 8191
@@ -1225,10 +1217,10 @@ neTB.pfb></usr/share/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb
 dist/fonts/type1/public/newtx/txexs.pfb></usr/share/texmf-dist/fonts/type1/publ
 ic/newtx/txmiaX.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txsym.pfb><
 /usr/share/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on paper.pdf (8 pages, 2170058 bytes).
+Output written on paper.pdf (8 pages, 2169913 bytes).
 PDF statistics:
- 349 PDF objects out of 1000 (max. 8388607)
- 287 compressed objects within 3 object streams
+ 350 PDF objects out of 1000 (max. 8388607)
+ 288 compressed objects within 3 object streams
  64 named destinations out of 1000 (max. 500000)
  94969 words of extra memory for PDF output out of 106986 (max. 10000000)
 
