@@ -1,17 +1,101 @@
-@book{bishop2006pattern,
-  author    = {Bishop, Christopher M.},
-  title     = {Pattern Recognition and Machine Learning},
-  year      = {2006},
-  publisher = {Springer},
-  address   = {New York}
+% ============================================================================
+% Master bibliography.
+%
+% Every entry below was checked against the publisher record, PubMed, or the
+% indexing service noted in manuscript/shared/REFERENCE_AUDIT.md. Author
+% lists, years, volumes and page ranges were confirmed individually, because
+% those are the fields where errors survive unnoticed.
+%
+% Do not add an entry without verifying it first. Do not copy an entry from a
+% previous version of this file: two of the entries in the v1/v2 snapshots had
+% invented co-authors.
+% ============================================================================
+
+
+% ---------------------------------------------------------------------------
+% Survival analysis foundations
+% ---------------------------------------------------------------------------
+
+@article{cox1972regression,
+  author  = {Cox, David R.},
+  title   = {Regression Models and Life-Tables},
+  journal = {Journal of the Royal Statistical Society: Series B (Methodological)},
+  year    = {1972},
+  volume  = {34},
+  number  = {2},
+  pages   = {187--202},
+  doi     = {10.1111/j.2517-6161.1972.tb00899.x}
 }
 
-@book{hastie2009elements,
-  author    = {Hastie, Trevor and Tibshirani, Robert and Friedman, Jerome},
-  title     = {The Elements of Statistical Learning: Data Mining, Inference, and Prediction},
-  year      = {2009},
-  publisher = {Springer},
-  doi       = {10.1007/978-0-387-84858-7}
+@article{breslow1972discussion,
+  author  = {Breslow, Norman E.},
+  title   = {Discussion of the Paper by D. R. Cox},
+  journal = {Journal of the Royal Statistical Society: Series B (Methodological)},
+  year    = {1972},
+  volume  = {34},
+  number  = {2},
+  pages   = {216--217},
+  doi     = {10.1111/j.2517-6161.1972.tb00900.x}
+}
+
+@article{kaplan1958nonparametric,
+  author  = {Kaplan, Edward L. and Meier, Paul},
+  title   = {Nonparametric Estimation from Incomplete Observations},
+  journal = {Journal of the American Statistical Association},
+  year    = {1958},
+  volume  = {53},
+  number  = {282},
+  pages   = {457--481},
+  doi     = {10.1080/01621459.1958.10501452}
+}
+
+@article{schoenfeld1982partial,
+  author  = {Schoenfeld, David},
+  title   = {Partial Residuals for the Proportional Hazards Regression Model},
+  journal = {Biometrika},
+  year    = {1982},
+  volume  = {69},
+  number  = {1},
+  pages   = {239--241},
+  doi     = {10.1093/biomet/69.1.239}
+}
+
+@article{suissa2008immortal,
+  author  = {Suissa, Samy},
+  title   = {Immortal Time Bias in Pharmacoepidemiology},
+  journal = {American Journal of Epidemiology},
+  year    = {2008},
+  volume  = {167},
+  number  = {4},
+  pages   = {492--499},
+  doi     = {10.1093/aje/kwm324}
+}
+
+
+% ---------------------------------------------------------------------------
+% Penalised regression
+% ---------------------------------------------------------------------------
+
+@article{tibshirani1997lasso,
+  author  = {Tibshirani, Robert},
+  title   = {The Lasso Method for Variable Selection in the Cox Model},
+  journal = {Statistics in Medicine},
+  year    = {1997},
+  volume  = {16},
+  number  = {4},
+  pages   = {385--395},
+  doi     = {10.1002/(SICI)1097-0258(19970228)16:4<385::AID-SIM380>3.0.CO;2-3}
+}
+
+@article{zou2005regularization,
+  author  = {Zou, Hui and Hastie, Trevor},
+  title   = {Regularization and Variable Selection via the Elastic Net},
+  journal = {Journal of the Royal Statistical Society: Series B (Statistical Methodology)},
+  year    = {2005},
+  volume  = {67},
+  number  = {2},
+  pages   = {301--320},
+  doi     = {10.1111/j.1467-9868.2005.00503.x}
 }
 
 @article{simon2011regularization,
@@ -35,19 +119,10 @@
   doi     = {10.5705/ss.2010.107}
 }
 
-@article{tibshirani1997lasso,
-  author  = {Tibshirani, Robert},
-  title   = {The Lasso Method for Variable Selection in the Cox Model},
-  journal = {Statistics in Medicine},
-  year    = {1997},
-  volume  = {16},
-  number  = {4},
-  pages   = {385--395},
-  doi     = {10.1002/(SICI)1097-0258(19970228)16:4<385::AID-SIM380>3.0.CO;2-3}
-}
-
+% Author list corrected. The v1/v2 snapshots of this entry listed three
+% co-authors who do not appear on the paper. Verified against PubMed 16143967.
 @article{vanhouwelingen2006crossvalidated,
-  author  = {van Houwelingen, Hans C. and Bruinsma, Tako and Simon, Ivo and van Tol, Jan H. and Vermeulen, Lodewijk},
+  author  = {van Houwelingen, Hans C. and Bruinsma, Tako and Hart, Augustinus A. M. and van't Veer, Laura J. and Wessels, Lodewyk F. A.},
   title   = {Cross-Validated Cox Regression on Microarray Gene Expression Data},
   journal = {Statistics in Medicine},
   year    = {2006},
@@ -57,53 +132,102 @@
   doi     = {10.1002/sim.2353}
 }
 
-@article{breslow1972discussion,
-  author  = {Breslow, Norman E.},
-  title   = {Discussion of the Paper by D. R. Cox},
-  journal = {Journal of the Royal Statistical Society: Series B},
-  year    = {1972},
-  volume  = {34},
-  number  = {2},
-  pages   = {216--217}
+@book{hastie2009elements,
+  author    = {Hastie, Trevor and Tibshirani, Robert and Friedman, Jerome},
+  title     = {The Elements of Statistical Learning: Data Mining, Inference, and Prediction},
+  edition   = {2},
+  year      = {2009},
+  publisher = {Springer},
+  address   = {New York},
+  doi       = {10.1007/978-0-387-84858-7}
 }
 
-@article{jain2024isotonic,
-  author  = {Jain, Anshul and others},
-  title   = {Isotonic Survival Regression: Calibrated Survival Distributions from Deep Cox Models},
-  journal = {arXiv preprint},
-  year    = {2024}
+
+% ---------------------------------------------------------------------------
+% Dimensionality reduction and optimisation
+% ---------------------------------------------------------------------------
+
+@article{hotelling1933analysis,
+  author  = {Hotelling, Harold},
+  title   = {Analysis of a Complex of Statistical Variables into Principal Components},
+  journal = {Journal of Educational Psychology},
+  year    = {1933},
+  volume  = {24},
+  number  = {6},
+  pages   = {417--441},
+  doi     = {10.1037/h0071325}
 }
 
-@article{katzman2018deepsurv,
-  author  = {Katzman, Jared L. and Shaham, Uri and Cloninger, Alexander and Bates, Jonathan and Jiang, Tingting and Kluger, Yuval},
-  title   = {DeepSurv: Personalized Treatment Recommender System Using a Cox Proportional Hazards Deep Neural Network},
-  journal = {BMC Medical Research Methodology},
-  year    = {2018},
-  volume  = {18},
-  number  = {24},
-  doi     = {10.1186/s12874-018-0482-1}
+@article{jolliffe2016principal,
+  author  = {Jolliffe, Ian T. and Cadima, Jorge},
+  title   = {Principal Component Analysis: A Review and Recent Developments},
+  journal = {Philosophical Transactions of the Royal Society A},
+  year    = {2016},
+  volume  = {374},
+  number  = {2065},
+  pages   = {20150202},
+  doi     = {10.1098/rsta.2015.0202}
 }
 
-@article{hao2018coxpasnet,
-  author  = {Hao, Jie and Kim, Youngsoon and Mallavarapu, Tejaswini and Oh, Jung Hun and Kang, Mingon},
-  title   = {Interpretable Deep Neural Network for Cancer Survival Analysis by Integrating Genomic and Clinical Data},
-  journal = {BMC Medical Genomics},
-  year    = {2018},
+@article{byrd1995limited,
+  author  = {Byrd, Richard H. and Lu, Peihuang and Nocedal, Jorge and Zhu, Ciyou},
+  title   = {A Limited Memory Algorithm for Bound Constrained Optimization},
+  journal = {SIAM Journal on Scientific Computing},
+  year    = {1995},
+  volume  = {16},
+  number  = {5},
+  pages   = {1190--1208},
+  doi     = {10.1137/0916069}
+}
+
+@article{pedregosa2011scikit,
+  author  = {Pedregosa, Fabian and Varoquaux, Ga{\"e}l and Gramfort, Alexandre and Michel, Vincent and Thirion, Bertrand and Grisel, Olivier and Blondel, Mathieu and Prettenhofer, Peter and Weiss, Ron and Dubourg, Vincent and Vanderplas, Jake and Passos, Alexandre and Cournapeau, David and Brucher, Matthieu and Perrot, Matthieu and Duchesnay, {\'E}douard},
+  title   = {Scikit-learn: Machine Learning in Python},
+  journal = {Journal of Machine Learning Research},
+  year    = {2011},
   volume  = {12},
-  number  = {189},
-  doi     = {10.1186/s12920-019-0624-2}
+  pages   = {2825--2830},
+  url     = {https://jmlr.org/papers/v12/pedregosa11a.html}
 }
 
-@article{weinstein2013cancer,
-  author  = {Weinstein, John N. and Collisson, Eric A. and Mills, Gordon B. and Shaw, Kenna R. and Ozenberger, Brad A. and Ellrott, Kyle and Shmulevich, Ilya and Sander, Chris and Stuart, Joshua M.},
-  title   = {The Cancer Genome Atlas Pan-Cancer Analysis Project},
-  journal = {Nature Genetics},
-  year    = {2013},
-  volume  = {45},
-  number  = {10},
-  pages   = {1113--1120},
-  doi     = {10.1038/ng.2764}
+
+% ---------------------------------------------------------------------------
+% Probability calibration
+% ---------------------------------------------------------------------------
+
+@article{ayer1955empirical,
+  author  = {Ayer, Miriam and Brunk, H. D. and Ewing, G. M. and Reid, W. T. and Silverman, Edward},
+  title   = {An Empirical Distribution Function for Sampling with Incomplete Information},
+  journal = {The Annals of Mathematical Statistics},
+  year    = {1955},
+  volume  = {26},
+  number  = {4},
+  pages   = {641--647},
+  doi     = {10.1214/aoms/1177728423}
 }
+
+@inproceedings{zadrozny2002transforming,
+  author    = {Zadrozny, Bianca and Elkan, Charles},
+  title     = {Transforming Classifier Scores into Accurate Multiclass Probability Estimates},
+  booktitle = {Proceedings of the Eighth ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  year      = {2002},
+  pages     = {694--699},
+  doi       = {10.1145/775047.775151}
+}
+
+@inproceedings{niculescu2005predicting,
+  author    = {Niculescu-Mizil, Alexandru and Caruana, Rich},
+  title     = {Predicting Good Probabilities with Supervised Learning},
+  booktitle = {Proceedings of the 22nd International Conference on Machine Learning},
+  year      = {2005},
+  pages     = {625--632},
+  doi       = {10.1145/1102351.1102430}
+}
+
+
+% ---------------------------------------------------------------------------
+% Evaluation metrics
+% ---------------------------------------------------------------------------
 
 @article{harrell1982evaluating,
   author  = {Harrell, Frank E. and Califf, Robert M. and Pryor, David B. and Lee, Kerry L. and Rosati, Robert A.},
@@ -127,62 +251,203 @@
   doi     = {10.1002/sim.4154}
 }
 
-@inproceedings{zadrozny2002transforming,
-  author    = {Zadrozny, Bianca and Elkan, Charles},
-  title     = {Transforming Classifier Scores into Accurate Multiclass Probability Estimates},
-  booktitle = {Proceedings of the Eighth ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
-  year      = {2002},
-  pages     = {694--699},
-  doi       = {10.1145/775047.775151}
-}
-
-@article{chalmers2017mutational,
-  author  = {Chalmers, Zachary R. and Connelly, Caitlin F. and Fabrizio, David and Gay, Laurie and Ali, Siraj M. and Ennis, Riley and Schrock, Alexa and Campbell, Brittany and Shlien, Adam and Chmielecki, Juliann and Huang, Franklin and He, Yuting and Sun, James and Tabori, Uri and Kennedy, Mark and Lieber, Daniel S. and Roels, Steven and White, Jared and Otto, Geoff A. and Ross, Jeffrey S. and Garraway, Levi and Miller, Vincent A. and Stephens, Philip J. and Frampton, Garrett M.},
-  title   = {Analysis of 100,000 Human Cancer Genomes Reveals the Landscape of Tumor Mutational Burden},
-  journal = {Genome Medicine},
-  year    = {2017},
-  volume  = {9},
-  number  = {34},
-  doi     = {10.1186/s13073-017-0424-2}
-}
-
-@article{grunkin2011cxcl5,
-  author  = {Zhou, Su-Lin and Dai, Zhi and Zhou, Zheng-Jun and Wang, Xin-Yu and Yang, Guo-Huan and Wang, Zheng and Huang, Xiao-Wu and Fan, Jia and Zhou, Jian},
-  title   = {Overexpression of CXCL5 Mediates Neutrophil Infiltration and Indicates Poor Prognosis for Hepatocellular Carcinoma},
-  journal = {Hepatology},
-  year    = {2012},
-  volume  = {56},
-  number  = {6},
-  pages   = {2242--2254},
-  doi     = {10.1002/hep.25907}
-}
-
-@article{giatromanolaki2001ca9,
-  author  = {Giatromanolaki, Alexandra and Koukourakis, Michael I. and Sivridis, Efthimios and Pastorek, Jaromir and Wykoff, Charles C. and Gatter, Kevin C. and Harris, Adrian L.},
-  title   = {Carbonic Anhydrase 9 Relates to Hypoxia Inducible Factor and Vascular Endothelial Growth Factor Expression in Non-small Cell Lung Cancer},
-  journal = {Cancer Research},
-  year    = {2001},
+@article{heagerty2005survival,
+  author  = {Heagerty, Patrick J. and Zheng, Yingye},
+  title   = {Survival Model Predictive Accuracy and ROC Curves},
+  journal = {Biometrics},
+  year    = {2005},
   volume  = {61},
-  number  = {19},
-  pages   = {7992--7998},
-  url     = {https://aacrjournals.org/cancerres/article/61/19/7992/507419}
+  number  = {1},
+  pages   = {92--105},
+  doi     = {10.1111/j.0006-341X.2005.030814.x}
 }
 
-@article{schoenfeld1982partial,
-  author  = {Schoenfeld, David},
-  title   = {Partial Residuals for the Proportional Hazards Regression Model},
-  journal = {Biometrika},
-  year    = {1982},
-  volume  = {69},
-  number  = {1},
-  pages   = {239--241},
-  doi     = {10.1093/biomet/69.1.239}
+@article{graf1999assessment,
+  author  = {Graf, Erika and Schmoor, Claudia and Sauerbrei, Willi and Schumacher, Martin},
+  title   = {Assessment and Comparison of Prognostic Classification Schemes for Survival Data},
+  journal = {Statistics in Medicine},
+  year    = {1999},
+  volume  = {18},
+  number  = {17-18},
+  pages   = {2529--2545},
+  doi     = {10.1002/(SICI)1097-0258(19990915/30)18:17/18<2529::AID-SIM274>3.0.CO;2-5}
 }
+
+@article{royston2013restricted,
+  author  = {Royston, Patrick and Parmar, Mahesh K. B.},
+  title   = {Restricted Mean Survival Time: An Alternative to the Hazard Ratio for the Design and Analysis of Randomized Trials with a Time-to-Event Outcome},
+  journal = {BMC Medical Research Methodology},
+  year    = {2013},
+  volume  = {13},
+  pages   = {152},
+  doi     = {10.1186/1471-2288-13-152}
+}
+
+
+% ---------------------------------------------------------------------------
+% Statistical testing
+% ---------------------------------------------------------------------------
+
+@article{mann1947test,
+  author  = {Mann, Henry B. and Whitney, Donald R.},
+  title   = {On a Test of Whether One of Two Random Variables is Stochastically Larger than the Other},
+  journal = {The Annals of Mathematical Statistics},
+  year    = {1947},
+  volume  = {18},
+  number  = {1},
+  pages   = {50--60},
+  doi     = {10.1214/aoms/1177730491}
+}
+
+@article{spearman1904proof,
+  author  = {Spearman, Charles},
+  title   = {The Proof and Measurement of Association Between Two Things},
+  journal = {The American Journal of Psychology},
+  year    = {1904},
+  volume  = {15},
+  number  = {1},
+  pages   = {72--101},
+  doi     = {10.2307/1412159}
+}
+
+@article{benjamini1995controlling,
+  author  = {Benjamini, Yoav and Hochberg, Yosef},
+  title   = {Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing},
+  journal = {Journal of the Royal Statistical Society: Series B (Methodological)},
+  year    = {1995},
+  volume  = {57},
+  number  = {1},
+  pages   = {289--300},
+  doi     = {10.1111/j.2517-6161.1995.tb02031.x}
+}
+
+
+% ---------------------------------------------------------------------------
+% Data sources: The Cancer Genome Atlas and cBioPortal
+% ---------------------------------------------------------------------------
+
+@article{weinstein2013cancer,
+  author  = {Weinstein, John N. and Collisson, Eric A. and Mills, Gordon B. and Shaw, Kenna R. Mills and Ozenberger, Brad A. and Ellrott, Kyle and Shmulevich, Ilya and Sander, Chris and Stuart, Joshua M.},
+  title   = {The Cancer Genome Atlas Pan-Cancer Analysis Project},
+  journal = {Nature Genetics},
+  year    = {2013},
+  volume  = {45},
+  number  = {10},
+  pages   = {1113--1120},
+  doi     = {10.1038/ng.2764}
+}
+
+@article{cerami2012cbio,
+  author  = {Cerami, Ethan and Gao, Jianjiong and Dogrusoz, Ugur and Gross, Benjamin E. and Sumer, Selcuk Onur and Aksoy, B{\"u}lent Arman and Jacobsen, Anders and Byrne, Caitlin J. and Heuer, Michael L. and Larsson, Erik and Antipin, Yevgeniy and Reva, Boris and Goldberg, Arthur P. and Sander, Chris and Schultz, Nikolaus},
+  title   = {The cBio Cancer Genomics Portal: An Open Platform for Exploring Multidimensional Cancer Genomics Data},
+  journal = {Cancer Discovery},
+  year    = {2012},
+  volume  = {2},
+  number  = {5},
+  pages   = {401--404},
+  doi     = {10.1158/2159-8290.CD-12-0095}
+}
+
+@article{gao2013integrative,
+  author  = {Gao, Jianjiong and Aksoy, B{\"u}lent Arman and Dogrusoz, Ugur and Dresdner, Gideon and Gross, Benjamin and Sumer, S. Onur and Sun, Yichao and Jacobsen, Anders and Sinha, Rileen and Larsson, Erik and Cerami, Ethan and Sander, Chris and Schultz, Nikolaus},
+  title   = {Integrative Analysis of Complex Cancer Genomics and Clinical Profiles Using the cBioPortal},
+  journal = {Science Signaling},
+  year    = {2013},
+  volume  = {6},
+  number  = {269},
+  pages   = {pl1},
+  doi     = {10.1126/scisignal.2004088}
+}
+
+@article{brennan2013somatic,
+  author  = {Brennan, Cameron W. and Verhaak, Roel G. W. and McKenna, Aaron and Campos, Benito and Noushmehr, Houtan and Salama, Sofie R. and Zheng, Siyuan and Chakravarty, Debyani and Sanborn, J. Zachary and Berman, Samuel H. and Beroukhim, Rameen and Bernard, Brady and Wu, Chang-Jiun and Genovese, Giannicola and Shmulevich, Ilya and Barnholtz-Sloan, Jill and Zou, Lihua and Vegesna, Rahulsimham and Shukla, Sachet A. and Ciriello, Giovanni and Yung, W. K. and Zhang, Wei and Sougnez, Carrie and Mikkelsen, Tom and Aldape, Kenneth and Bigner, Darell D. and Van Meir, Erwin G. and Prados, Michael and Sloan, Andrew and Black, Keith L. and Eschbacher, Jennifer and Finocchiaro, Gaetano and Friedman, William and Andrews, David W. and Guha, Abhijit and Iacocca, Mary and O'Neill, Brian P. and Foltz, Greg and Myers, Jerome and Weisenberger, Daniel J. and Penny, Robert and Kucherlapati, Raju and Perou, Charles M. and Hayes, D. Neil and Gibbs, Richard and Marra, Marco and Mills, Gordon B. and Lander, Eric and Spellman, Paul and Wilson, Richard and Sander, Chris and Weinstein, John and Meyerson, Matthew and Gabriel, Stacey and Laird, Peter W. and Haussler, David and Getz, Gad and Chin, Lynda},
+  title   = {The Somatic Genomic Landscape of Glioblastoma},
+  journal = {Cell},
+  year    = {2013},
+  volume  = {155},
+  number  = {2},
+  pages   = {462--477},
+  doi     = {10.1016/j.cell.2013.09.034}
+}
+
+@article{tcga2017hepatocellular,
+  author  = {{The Cancer Genome Atlas Research Network}},
+  title   = {Comprehensive and Integrative Genomic Characterization of Hepatocellular Carcinoma},
+  journal = {Cell},
+  year    = {2017},
+  volume  = {169},
+  number  = {7},
+  pages   = {1327--1341},
+  doi     = {10.1016/j.cell.2017.05.046}
+}
+
+@article{tcga2017pancreatic,
+  author  = {{The Cancer Genome Atlas Research Network}},
+  title   = {Integrated Genomic Characterization of Pancreatic Ductal Adenocarcinoma},
+  journal = {Cancer Cell},
+  year    = {2017},
+  volume  = {32},
+  number  = {2},
+  pages   = {185--203},
+  doi     = {10.1016/j.ccell.2017.07.007}
+}
+
+@article{tcga2015melanoma,
+  author  = {{The Cancer Genome Atlas Network}},
+  title   = {Genomic Classification of Cutaneous Melanoma},
+  journal = {Cell},
+  year    = {2015},
+  volume  = {161},
+  number  = {7},
+  pages   = {1681--1696},
+  doi     = {10.1016/j.cell.2015.05.044}
+}
+
+@book{amin2017ajcc,
+  editor    = {Amin, Mahul B. and Edge, Stephen B. and Greene, Frederick L. and Byrd, David R. and Brookland, Robert K. and Washington, Mary Kay and Gershenwald, Jeffrey E. and Compton, Carolyn C. and Hess, Kenneth R. and Sullivan, Daniel C. and Jessup, J. Milburn and Brierley, James D. and Gaspar, Laurie E. and Schilsky, Richard L. and Balch, Charles M. and Winchester, David P. and Asare, Elliot A. and Madera, Martin and Gress, Donna M. and Meyer, Laura R.},
+  title     = {AJCC Cancer Staging Manual},
+  edition   = {8},
+  year      = {2017},
+  publisher = {Springer},
+  address   = {Cham},
+  doi       = {10.1007/978-3-319-40618-3}
+}
+
+
+% ---------------------------------------------------------------------------
+% Gene expression quantification
+% ---------------------------------------------------------------------------
+
+@article{li2011rsem,
+  author  = {Li, Bo and Dewey, Colin N.},
+  title   = {RSEM: Accurate Transcript Quantification from RNA-Seq Data with or without a Reference Genome},
+  journal = {BMC Bioinformatics},
+  year    = {2011},
+  volume  = {12},
+  pages   = {323},
+  doi     = {10.1186/1471-2105-12-323}
+}
+
+@article{love2014moderated,
+  author  = {Love, Michael I. and Huber, Wolfgang and Anders, Simon},
+  title   = {Moderated Estimation of Fold Change and Dispersion for RNA-Seq Data with DESeq2},
+  journal = {Genome Biology},
+  year    = {2014},
+  volume  = {15},
+  number  = {12},
+  pages   = {550},
+  doi     = {10.1186/s13059-014-0550-8}
+}
+
+
+% ---------------------------------------------------------------------------
+% Machine learning and deep learning survival models
+% ---------------------------------------------------------------------------
 
 @article{ishwaran2008random,
   author  = {Ishwaran, Hemant and Kogalur, Udaya B. and Blackstone, Eugene H. and Lauer, Michael S.},
   title   = {Random Survival Forests},
-  journal = {Annals of Applied Statistics},
+  journal = {The Annals of Applied Statistics},
   year    = {2008},
   volume  = {2},
   number  = {3},
@@ -190,15 +455,38 @@
   doi     = {10.1214/08-AOAS169}
 }
 
+@article{katzman2018deepsurv,
+  author  = {Katzman, Jared L. and Shaham, Uri and Cloninger, Alexander and Bates, Jonathan and Jiang, Tingting and Kluger, Yuval},
+  title   = {DeepSurv: Personalized Treatment Recommender System Using a Cox Proportional Hazards Deep Neural Network},
+  journal = {BMC Medical Research Methodology},
+  year    = {2018},
+  volume  = {18},
+  pages   = {24},
+  doi     = {10.1186/s12874-018-0482-1}
+}
+
 @article{ching2018coxnnet,
   author  = {Ching, Travers and Zhu, Xun and Garmire, Lana X.},
-  title   = {Cox-nnet: An Artificial Neural Network Method for Prognosis Prediction of High-throughput Omics Data},
+  title   = {Cox-nnet: An Artificial Neural Network Method for Prognosis Prediction of High-Throughput Omics Data},
   journal = {PLoS Computational Biology},
   year    = {2018},
   volume  = {14},
   number  = {4},
   pages   = {e1006076},
   doi     = {10.1371/journal.pcbi.1006076}
+}
+
+% Year corrected from 2018 to 2019. The DOI resolves to a 2019 BMC Medical
+% Genomics article; the v1/v2 snapshots dated it 2018.
+@article{hao2019coxpasnet,
+  author  = {Hao, Jie and Kim, Youngsoon and Mallavarapu, Tejaswini and Oh, Jung Hun and Kang, Mingon},
+  title   = {Interpretable Deep Neural Network for Cancer Survival Analysis by Integrating Genomic and Clinical Data},
+  journal = {BMC Medical Genomics},
+  year    = {2019},
+  volume  = {12},
+  number  = {Suppl 10},
+  pages   = {189},
+  doi     = {10.1186/s12920-019-0624-2}
 }
 
 @article{chaudhary2018deep,
@@ -213,22 +501,82 @@
 }
 
 @article{poirion2021deepprog,
-  author  = {Poirion, Olivier B. and Jing, Zixiao and Chaudhary, Kumardeep and Huang, Sijia and Garmire, Lana X.},
+  author  = {Poirion, Olivier B. and Jing, Zheng and Chaudhary, Kumardeep and Huang, Sijia and Garmire, Lana X.},
   title   = {DeepProg: An Ensemble of Deep-Learning and Machine-Learning Models for Prognosis Prediction Using Multi-Omics Data},
   journal = {Genome Medicine},
   year    = {2021},
   volume  = {13},
-  number  = {112},
+  pages   = {112},
   doi     = {10.1186/s13073-021-00930-x}
 }
 
-@article{lee2019dynamic,
-  author  = {Lee, Changhee and Zame, William R. and Yoon, Jinsung and van der Schaar, Mihaela},
-  title   = {Dynamic-DeepHit: A Deep Learning Approach for Dynamic Survival Analysis With Competing Risks Based on Longitudinal Data},
+% Author list corrected. The v1/v2 snapshots listed William R. Zame, who is
+% an author on DeepHit but not on Dynamic-DeepHit. Verified against
+% PubMed 30951460.
+@article{lee2020dynamic,
+  author  = {Lee, Changhee and Yoon, Jinsung and van der Schaar, Mihaela},
+  title   = {Dynamic-DeepHit: A Deep Learning Approach for Dynamic Survival Analysis with Competing Risks Based on Longitudinal Data},
   journal = {IEEE Transactions on Biomedical Engineering},
-  year    = {2019},
+  year    = {2020},
   volume  = {67},
   number  = {1},
   pages   = {122--133},
   doi     = {10.1109/TBME.2019.2909027}
 }
+
+
+% ---------------------------------------------------------------------------
+% Post-hoc explanation methods
+% ---------------------------------------------------------------------------
+
+@inproceedings{lundberg2017unified,
+  author    = {Lundberg, Scott M. and Lee, Su-In},
+  title     = {A Unified Approach to Interpreting Model Predictions},
+  booktitle = {Advances in Neural Information Processing Systems 30},
+  year      = {2017},
+  pages     = {4765--4774},
+  url       = {https://proceedings.neurips.cc/paper_files/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-Abstract.html}
+}
+
+@inproceedings{ribeiro2016why,
+  author    = {Ribeiro, Marco Tulio and Singh, Sameer and Guestrin, Carlos},
+  title     = {``Why Should I Trust You?'': Explaining the Predictions of Any Classifier},
+  booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  year      = {2016},
+  pages     = {1135--1144},
+  doi       = {10.1145/2939672.2939778}
+}
+
+
+% ---------------------------------------------------------------------------
+% Cancer biology of specific genes
+% ---------------------------------------------------------------------------
+
+% Key renamed from grunkin2011cxcl5 to match the actual first author and year.
+@article{zhou2012overexpression,
+  author  = {Zhou, Su-Lin and Dai, Zhi and Zhou, Zheng-Jun and Wang, Xin-Yu and Yang, Guo-Huan and Wang, Zheng and Huang, Xiao-Wu and Fan, Jia and Zhou, Jian},
+  title   = {Overexpression of CXCL5 Mediates Neutrophil Infiltration and Indicates Poor Prognosis for Hepatocellular Carcinoma},
+  journal = {Hepatology},
+  year    = {2012},
+  volume  = {56},
+  number  = {6},
+  pages   = {2242--2254},
+  doi     = {10.1002/hep.25907}
+}
+
+@article{giatromanolaki2001carbonic,
+  author  = {Giatromanolaki, Alexandra and Koukourakis, Michael I. and Sivridis, Efthimios and Pastorek, Jaromir and Wykoff, Charles C. and Gatter, Kevin C. and Harris, Adrian L.},
+  title   = {Expression of Hypoxia-Inducible Carbonic Anhydrase-9 Relates to Angiogenic Pathways and Independently to Poor Outcome in Non-Small Cell Lung Cancer},
+  journal = {Cancer Research},
+  year    = {2001},
+  volume  = {61},
+  number  = {21},
+  pages   = {7992--7998},
+  url     = {https://aacrjournals.org/cancerres/article/61/21/7992/508977}
+}
+
+% Removed: chalmers2017mutational (tumour mutational burden).
+% The v2 draft cited it to support a claim that tumour mutational burden reached
+% nominal significance in this cohort (p = 0.028, q = 0.044, effect 0.075). No
+% such column exists in data/analysis_reports/univariate_tests_vs_os_event.csv,
+% so the claim and its citation were both removed rather than reworded.

@@ -1,0 +1,155 @@
+# Uppercase tokens that are not acronyms and so do not need an expansion.
+# One per line, '#' starts a comment, matching is case-insensitive.
+#
+# Gene and protein symbols are the main source of false positives: they look
+# exactly like acronyms to a regex. Add project-specific symbols here rather
+# than loosening the acronym check, so a genuinely new acronym still gets caught.
+
+# --- structural / LaTeX artefacts -------------------------------------------
+CITE
+REF
+MATH
+ABSTRACT
+KEYWORDS
+OK
+
+# --- gene and protein symbols used in this project -------------------------
+CD24
+CXCL5
+CXCL14
+GPRC5A
+PPP1R1B
+SYT13
+SERPINA3
+CA9
+ADAM6
+FGFR2
+ACSM2A
+ACSM2B
+FGA
+FGB
+FGG
+HEPACAM
+AQP4
+ABCB5
+ESRP1
+TCN1
+FDCSP
+NEU4
+EDM1
+CTNND2
+CACNG4
+ORM1
+ORM2
+CTRB1
+CTRB2
+SERPINC1
+PLG
+APOA2
+APOC3
+FHR2
+BDK
+GFAP
+MLANA
+SST
+CLDN10
+PRSS3
+PDZK1IP1
+TRIM29
+GDA
+CDH19
+MMP7
+TYR
+S100P
+DKFZ
+DFNB18
+KRAS
+TP53
+CDKN2A
+SMAD4
+BRAF
+NF1
+EGFR
+PDGFRA
+IDH
+
+# --- dataset and column identifiers ----------------------------------------
+TCGA
+GBM
+LIHC
+PAAD
+SKCM
+OV
+BRCA
+HCC
+LUSC
+OS_EVENT
+OS_MONTHS
+OS_STATUS
+DFS_STATUS
+AGE
+SEX
+RACE
+ETHNICITY
+CANCER_TYPE
+AGE_GROUP
+PRIMARY_MELANOMA_SKIN_TYPE
+AJCC_PATHOLOGIC_TUMOR_STAGE
+EXPR
+PC01
+PC02
+PC04
+PC08
+PC19
+PC33
+PC38
+PC47
+
+# --- units and conventional notation ----------------------------------------
+# Only genuinely non-expandable notation belongs here.
+NA
+SD
+PPI
+DPI
+MB
+KB
+GB
+
+# AUC, ROC, RMST, HR and CI are acronyms and are deliberately absent, so that
+# the check still demands their expansion at first use.
+
+# --- appears only inside a journal-mandated section heading -----------------
+# "Declaration of generative AI use" is fixed wording required by publishers,
+# so AI is not expanded there. Expand it if it is used in the body text.
+AI
+
+# --- clone and probe identifiers --------------------------------------------
+DKFZp547D155
+DKFZ
+
+# --- patient identifiers appearing as worked examples -----------------------
+# TCGA barcodes are dataset identifiers, not acronyms.
+TCGA-DD-AACJ
+TCGA-08-0348
+TCGA-ZP-A9D0
+
+# --- model and software names ------------------------------------------------
+# Capitalised model names are proper nouns, not acronyms, so they carry no
+# expansion. Cite the paper that introduced them instead.
+Cox-PASNet
+Cox-nnet
+PASNet
+DeepSurv
+DeepProg
+DeepHit
+Dynamic-DeepHit
+CoxPASNet
+DeepLIFT
+DESeq2
+PyArrow
+Snappy
+
+# Deliberately NOT listed here, because they are real acronyms and must carry an
+# expansion at first use: SHAP, LIME, L-BFGS-B, RSEM, PCA, TNM, AUC, RMST.
+# Do not add an acronym to this file just to silence the check. If the check
+# fires on one of these, the paper is missing the expansion.

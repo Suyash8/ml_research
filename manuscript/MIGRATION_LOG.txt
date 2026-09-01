@@ -1,0 +1,34 @@
+git mv  images/fig1_unified_architecture.png -> manuscript/shared/figures/fig1_unified_architecture.png
+git mv  images/fig2_inference_xai_architecture.png -> manuscript/shared/figures/fig2_inference_xai_architecture.png
+git mv  images/fig3a_collinearity_before.png -> manuscript/shared/figures/fig3a_collinearity_before.png
+git mv  images/fig3b_collinearity_after.png -> manuscript/shared/figures/fig3b_collinearity_after.png
+git mv  images/fig4_pca_gene_loadings.png -> manuscript/shared/figures/fig4_pca_gene_loadings.png
+git mv  images/fig5_isotonic_calibration_curves.png -> manuscript/shared/figures/fig5_isotonic_calibration_curves.png
+git mv  images/fig6_monte_carlo_trajectories.png -> manuscript/shared/figures/fig6_monte_carlo_trajectories.png
+git mv  images/fig7a_global_gene_importance.png -> manuscript/shared/figures/fig7a_global_gene_importance.png
+git mv  images/fig7b_patient_risk_waterfall.png -> manuscript/shared/figures/fig7b_patient_risk_waterfall.png
+rmdir   images/
+git mv  paper.tex -> manuscript/v1-cox-enet-pipeline/paper.tex
+git mv  paper.pdf -> manuscript/v1-cox-enet-pipeline/paper.pdf
+git mv  paper.docx -> manuscript/v1-cox-enet-pipeline/paper.docx
+git mv  paper.md -> manuscript/v1-cox-enet-pipeline/paper.md
+git mv  paper.aux -> manuscript/v1-cox-enet-pipeline/build/paper.aux
+git mv  paper.bbl -> manuscript/v1-cox-enet-pipeline/build/paper.bbl
+git mv  paper.blg -> manuscript/v1-cox-enet-pipeline/build/paper.blg
+git mv  paper.log -> manuscript/v1-cox-enet-pipeline/build/paper.log
+git mv  paper.out -> manuscript/v1-cox-enet-pipeline/build/paper.out
+git mv  paper_new.tex -> manuscript/v2-multiomic-tcga/paper.tex
+git mv  paper_new.pdf -> manuscript/v2-multiomic-tcga/paper.pdf
+git mv  paper_new.aux -> manuscript/v2-multiomic-tcga/build/paper_new.aux
+git mv  paper_new.bbl -> manuscript/v2-multiomic-tcga/build/paper_new.bbl
+git mv  paper_new.blg -> manuscript/v2-multiomic-tcga/build/paper_new.blg
+git mv  paper_new.log -> manuscript/v2-multiomic-tcga/build/paper_new.log
+git mv  paper_new.out -> manuscript/v2-multiomic-tcga/build/paper_new.out
+copy    references.bib -> manuscript/v1-cox-enet-pipeline/references.bib
+copy    references.bib -> manuscript/v2-multiomic-tcga/references.bib
+git mv  references.bib -> manuscript/shared/references.bib
+symlink manuscript/v1-cox-enet-pipeline/images -> ../shared/figures
+symlink manuscript/v2-multiomic-tcga/images -> ../shared/figures
+symlink manuscript/v3-simplified/images -> ../shared/figures
+symlink manuscript/v3-simplified/references.bib -> ../shared/references.bib
+symlink images -> manuscript/shared/figures

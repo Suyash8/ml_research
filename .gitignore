@@ -8,3 +8,12 @@ data/*
 !data/model_outputs/
 
 __pycache__/
+
+# LaTeX intermediates. Files already tracked under manuscript/v1 and v2 stay
+# tracked, because git ignores this rule for files it is already following.
+manuscript/*/build/
+!manuscript/*/build/*.log
+
+# Regenerable verifier output: page rasters, extracted text, per-stage JSON.
+# Re-create with .kiro/skills/paper-verifier/scripts/verify.py
+manuscript/*/verification/
