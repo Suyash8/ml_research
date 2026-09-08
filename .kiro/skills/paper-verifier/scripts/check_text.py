@@ -23,8 +23,12 @@ from _common import (  # noqa: E402
     split_sentences, sections, section_text, load_wordlist,
 )
 
-MAX_SENTENCE_WORDS = 25
 TARGET_MEAN_WORDS = 16
+
+# Overridden by --max-sentence, or by max_sentence_words in a --style-bands file.
+# 25 suits a plain-language brief. Published work in most fields runs longer; see
+# references/style-bands.json.
+MAX_SENTENCE_WORDS = 25
 
 FIRST_PERSON = [
     r"\bwe\b", r"\bour\b", r"\bours\b", r"\bus\b", r"\bourselves\b",
@@ -742,12 +746,120 @@ def check_formatting_consistency(rep: Report, raw: str) -> None:
     rep.stats["\\texttt spans"] = len(re.findall(r"\\texttt\{", raw))
 
 
+def check_style_bands(rep: Report, prose: str, bands_path: Path) -> None:
+    """
+    Compare measured prose style against bands taken from published work.
+
+    This exists because "the writing feels robotic" is otherwise unactionable.
+    Two metrics carry most of that feeling: sd_len, when every sentence is the
+    same length, and commas_per_sent, when every sentence is a single clause.
+    Both are invisible to a rule that only caps sentence length.
+    """
+    import json
+    import statistics as stat
+
+    try:
+        cfg = json.loads(bands_path.read_text())
+    except (OSError, json.JSONDecodeError) as e:
+        rep.add("style", "INFO", f"could not read style bands: {e}")
+        return
+
+    sents = split_sentences(prose)
+    lens = [len(s.split()) for s in sents]
+    words = len(prose.split())
+    if len(lens) < 20:
+        return
+    low = prose.lower()
+    commas = [s.count(",") for s in sents]
+    starts = Counter(s.split()[0].strip(",.;:").lower() for s in sents)
+
+    def rate(terms: list[str]) -> float:
+        return 1000.0 * sum(len(re.findall(rf"\b{t}\b", low)) for t in terms) / words
+
+    SUB = ["because", "although", "though", "while", "whereas", "since", "unless",
+           "whether", "if", "when", "where", "which", "whose", "given that",
+           "so that", "rather than", "thereby", "whereby", "despite"]
+    CON = ["however", "therefore", "thus", "hence", "moreover", "furthermore",
+           "in contrast", "by contrast", "in addition", "consequently",
+           "nevertheless", "accordingly", "importantly", "notably", "specifically",
+           "in particular", "overall", "taken together", "conversely", "similarly",
+           "for instance", "for example", "indeed"]
+    HDG = ["may", "might", "could", "suggest", "suggests", "indicate", "indicates",
+           "appear", "appears", "likely", "potentially", "possibly", "seem", "seems"]
+
+    measured = {
+        "mean_len": round(stat.mean(lens), 1),
+        "median_len": round(stat.median(lens), 1),
+        "sd_len": round(stat.pstdev(lens), 1),
+        "p90_len": sorted(lens)[int(len(lens) * 0.9)],
+        "pct_under_10": round(100 * sum(1 for n in lens if n < 10) / len(lens)),
+        "pct_10_20": round(100 * sum(1 for n in lens if 10 <= n <= 20) / len(lens)),
+        "pct_over_25": round(100 * sum(1 for n in lens if n > 25) / len(lens)),
+        "pct_over_30": round(100 * sum(1 for n in lens if n > 30) / len(lens)),
+        "commas_per_sent": round(stat.mean(commas), 2),
+        "pct_sent_0_commas": round(100 * sum(1 for c in commas if c == 0) / len(commas)),
+        "subord_per_1k": round(rate(SUB), 1),
+        "connect_per_1k": round(rate(CON), 1),
+        "hedge_per_1k": round(rate(HDG), 1),
+        "paren_per_1k": round(1000.0 * prose.count("(") / words, 1),
+        "start_concentration": round(
+            100 * sum(c for _, c in starts.most_common(5)) / len(sents)),
+    }
+
+    out_of_band = []
+    for name, spec in cfg.get("bands", {}).items():
+        if not spec.get("enforce", True) or name not in measured:
+            continue
+        v = measured[name]
+        lo, hi = spec["lo"], spec["hi"]
+        flag = "" if lo <= v <= hi else ("LOW" if v < lo else "HIGH")
+        rep.stats[f"style {name}"] = \
+            f"{v}  (band {lo}-{hi}, target {spec['target']}) {flag}"
+        if flag:
+            out_of_band.append(
+                f"{name}: {v} is {flag}, band is {lo} to {hi}, target {spec['target']}")
+
+    if out_of_band:
+        rep.add("style", "MINOR",
+                f"{len(out_of_band)} style metric(s) outside the published band",
+                "\n".join(out_of_band) +
+                "\n\nsd_len LOW and commas_per_sent LOW together are what reads as "
+                "robotic: every sentence the same length and a single clause. Fix by "
+                "merging adjacent short sentences with a subordinate clause, not by "
+                "padding. paren_per_1k LOW usually means qualifications that belong "
+                "in parentheses were promoted to their own sentences.")
+    else:
+        passes.append("all enforced style metrics within the published band")
+
+
+passes: list[str] = []
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("tex")
     ap.add_argument("--json")
     ap.add_argument("--allow", help="allowlist of tokens that are not acronyms")
+    ap.add_argument("--max-sentence", type=int,
+                    help="word ceiling per sentence (default 25)")
+    ap.add_argument("--style-bands",
+                    help="JSON of target style bands; use references/style-bands.json "
+                         "to check against published work in the field")
     args = ap.parse_args()
+
+    global MAX_SENTENCE_WORDS, TARGET_MEAN_WORDS
+    bands_path = Path(args.style_bands).resolve() if args.style_bands else None
+    if bands_path and bands_path.exists():
+        import json as _json
+        try:
+            _cfg = _json.loads(bands_path.read_text())
+            MAX_SENTENCE_WORDS = _cfg.get("max_sentence_words", MAX_SENTENCE_WORDS)
+            TARGET_MEAN_WORDS = _cfg.get("bands", {}).get(
+                "mean_len", {}).get("hi", TARGET_MEAN_WORDS)
+        except (OSError, _json.JSONDecodeError):
+            pass
+    if args.max_sentence:
+        MAX_SENTENCE_WORDS = args.max_sentence
 
     tex = Path(args.tex).resolve()
     raw = read_tex(tex)
@@ -774,8 +886,13 @@ def main() -> int:
     check_tense(rep, raw)
     check_floats(rep, raw)
     check_citation_hygiene(rep, raw)
+    if bands_path:
+        check_style_bands(rep, prose, bands_path)
 
-    return emit(rep, args.json)
+    status = emit(rep, args.json)
+    for p in passes:
+        print(f"  {p}")
+    return status
 
 
 if __name__ == "__main__":

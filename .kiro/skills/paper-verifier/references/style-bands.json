@@ -1,0 +1,43 @@
+{
+  "_comment": [
+    "Prose style bands measured from published papers in the survival-prediction",
+    "and cancer-genomics literature. Regenerate for a different field: extract",
+    "10-12 papers with pdftotext, then profile them. The band is the 25th to 75th",
+    "percentile across the set, and the median is the target.",
+    "",
+    "These bands exist because 'the writing feels robotic' is otherwise",
+    "unactionable. The two metrics that carry most of that feeling are sd_len",
+    "(uniform sentence length) and commas_per_sent (no subordinate clauses).",
+    "",
+    "first_person is recorded but deliberately NOT enforced: published work in",
+    "this field averages 3.1 per 1000 words, while a supervisor may require",
+    "impersonal voice. Where they conflict, the supervisor wins."
+  ],
+  "_source_papers": 10,
+  "_field": "cancer survival prediction, machine learning, TCGA",
+  "bands": {
+    "mean_len":          {"lo": 22.9, "hi": 24.6, "target": 23.6, "enforce": true},
+    "median_len":        {"lo": 18.5, "hi": 23.0, "target": 21.0, "enforce": true},
+    "sd_len":            {"lo": 12.1, "hi": 17.4, "target": 13.3, "enforce": true},
+    "p90_len":           {"lo": 36,   "hi": 42,   "target": 39,   "enforce": true},
+    "pct_under_10":      {"lo": 6,    "hi": 23,   "target": 11,   "enforce": true},
+    "pct_10_20":         {"lo": 34,   "hi": 42,   "target": 37,   "enforce": true},
+    "pct_over_25":       {"lo": 22,   "hi": 38,   "target": 34,   "enforce": true},
+    "pct_over_30":       {"lo": 13,   "hi": 26,   "target": 23,   "enforce": true},
+    "commas_per_sent":   {"lo": 1.48, "hi": 2.01, "target": 1.60, "enforce": true},
+    "pct_sent_0_commas": {"lo": 19,   "hi": 49,   "target": 36,   "enforce": true},
+    "subord_per_1k":     {"lo": 3.2,  "hi": 10.4, "target": 6.9,  "enforce": true},
+    "connect_per_1k":    {"lo": 2.7,  "hi": 5.2,  "target": 3.1,  "enforce": true},
+    "hedge_per_1k":      {"lo": 1.4,  "hi": 3.4,  "target": 2.2,  "enforce": true},
+    "paren_per_1k":      {"lo": 26.5, "hi": 57.3, "target": 34.7, "enforce": true},
+    "start_concentration": {"lo": 30, "hi": 58,   "target": 35,   "enforce": true},
+    "first_person_per_1k": {"lo": 1.8, "hi": 5.4, "target": 3.1,  "enforce": false}
+  },
+  "max_sentence_words": 45,
+  "_max_sentence_note": [
+    "45 words is roughly three typeset lines. The benchmark set runs to 83-118",
+    "words at the maximum, but a supervisor objecting to sentences that 'continue",
+    "for 5 lines' is objecting to about 65 words and above. 45 keeps the field's",
+    "90th percentile while staying clear of that complaint."
+  ]
+}

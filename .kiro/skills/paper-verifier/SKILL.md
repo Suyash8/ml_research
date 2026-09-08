@@ -217,6 +217,34 @@ given name; articles missing locator fields; implausible years; a key whose year
 surname disagrees with the entry; duplicate keys, titles and DOIs; keys cited but
 undefined; entries never cited; recency balance; preprint share.
 
+## Checking prose style against published work
+
+"The writing feels robotic" is a real defect and an unactionable note. Make it
+measurable:
+
+```bash
+python3 .kiro/skills/paper-verifier/scripts/check_text.py paper.tex \
+    --style-bands .kiro/skills/paper-verifier/references/style-bands.json
+```
+
+This compares fifteen prose metrics against bands taken from ten published papers
+in the field, and reports each as in band, LOW or HIGH.
+
+Two metrics carry most of the robotic feeling, and neither is caught by a sentence
+length cap. **sd_len** low means every sentence is the same length. **commas per
+sentence** low means every sentence is a single clause with no subordination.
+A draft can pass every other rule and still read mechanically on those two alone.
+
+Setting the bands for a different field takes about ten minutes: extract 10-12
+papers from the target venue with `pdftotext`, profile them, and take the 25th to
+75th percentile per metric. The shipped bands are for cancer survival prediction
+and are not universal.
+
+The file also sets `max_sentence_words`, which overrides the default 25-word
+ceiling. 25 suits a plain-language brief; published work in most fields runs to a
+39-word 90th percentile, so a hard 25 will fight the style bands. Decide which
+target applies before running, and record the choice.
+
 ## Configuration
 
 `references/not-acronyms.txt` lists tokens that look like acronyms but are not,

@@ -147,6 +147,13 @@ def to_prose(text: str) -> str:
     # Drop section titles entirely. Keeping them would make "Method." count as
     # a one-word sentence and skew every sentence-length statistic.
     text = re.sub(r"\\(?:sub)*section\*?\{[^}]*\}", " ", text)
+    # Spacing and sizing commands must be dropped whole. Keeping the argument
+    # would leave "1em" in the text, which blocks the sentence splitter and
+    # silently fuses the sentences either side of a \vspace into one.
+    text = re.sub(
+        r"\\(?:v|h)space\*?\{[^}]*\}|\\(?:setlength|addvspace|vskip|hskip|"
+        r"rule|includegraphics|label|graphicspath)\s*(?:\[[^\]]*\])?\{[^}]*\}",
+        " ", text)
     text = re.sub(r"\\[a-zA-Z]+\*?\{([^{}]*)\}", r"\1", text)
     text = re.sub(r"\\[a-zA-Z]+\*?", " ", text)
     text = text.replace("~", " ").replace("\\", " ")

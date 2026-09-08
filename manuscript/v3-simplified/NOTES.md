@@ -154,3 +154,40 @@ age at +0.328. v3 states the ordering as it appears in the file.
   before submission.
 - The proportional hazards assumption is still untested. Schoenfeld residuals are
   cheap to compute and would close the largest methodological gap.
+
+## Section structure aligned to v2
+
+The top-level headings now match v2 exactly, so v3 and v4 can be compared against
+the version the reviewer already saw without structure being a confound:
+
+```
+Abstract          (unnumbered)
+1  Introduction
+2  Literature Survey
+3  Proposed Method
+4  Results
+5  Discussion
+6  Conclusion
+   Acknowledgement (unnumbered)
+   References
+```
+
+Two headings were renamed: "Related Work" became "Literature Survey" and "Method"
+became "Proposed Method". Subsections were left alone, as agreed.
+
+**Four back-matter sections were deleted**: Disclosure of interest, Funding,
+Declaration of generative AI use, and Data availability statement. That was an
+explicit instruction ("this should be the exact structure and nothing else"), and
+it is worth knowing that most journals require all four. Taylor & Francis, which
+this template resembles, mandates funding and competing-interests declarations at
+submission. Restore them from `../v2-multiomic-tcga/paper.tex` before submitting
+anywhere that asks.
+
+Deleting the data availability statement removed the only citations to
+`cerami2012cbio` and `gao2013integrative` from the back matter. Both are still
+cited in Proposed Method, so the bibliography is unaffected: 47 entries, 47 cited,
+zero orphaned.
+
+Because those three declarations are now absent, `check_text.py` reports three
+MINOR structure findings for them on every run. Those are expected and correct;
+the check is right in general and the omission is deliberate here.
