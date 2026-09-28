@@ -121,6 +121,14 @@ declarations, and the mislabelled colorbars in Figure 2, which still read "Cosin
 Similarity" and need the figures regenerated. See
 `../v3-simplified/NOTES.md`.
 
+## Clinical terminology correction (HCC / LIHC)
+
+Corrected the disease name and acronym distinction in Section 3.1 and Table 8:
+- HCC (hepatocellular carcinoma) is the conventional clinical disease abbreviation for cancer originating from hepatocytes (liver cells).
+- LIHC is the TCGA dataset code rather than a clinical abbreviation.
+- Phrased as: `hepatocellular carcinoma (HCC; TCGA study code LIHC), a cancer of liver cells (hepatocytes)`.
+- Table 8 cancer type updated to `Hepatocellular carcinoma (HCC)`.
+
 ## Which version to submit
 
 v4 if the reviewer's objection was that the writing felt flat or unlike published

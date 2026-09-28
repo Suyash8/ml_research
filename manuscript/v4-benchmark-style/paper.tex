@@ -353,12 +353,14 @@ version drawing on repeated measurements is left for future work.
 \subsection{Cohort assembly}
 
 Patients were drawn from four TCGA cohorts: glioblastoma multiforme (study code
-GBM), a brain cancer \citep{brennan2013somatic}; liver hepatocellular carcinoma
-(LIHC) \citep{tcga2017hepatocellular}; pancreatic adenocarcinoma (PAAD)
+GBM), a brain cancer \citep{brennan2013somatic}; hepatocellular carcinoma (HCC;
+TCGA study code LIHC), a cancer of liver cells (hepatocytes)
+\citep{tcga2017hepatocellular}; pancreatic adenocarcinoma (PAAD)
 \citep{tcga2017pancreatic}; and skin cutaneous melanoma (SKCM)
-\citep{tcga2015melanoma}. These four codes are dataset identifiers used by TCGA,
-not standard clinical abbreviations, a distinction worth stating because LIHC in
-particular is easily read as a disease abbreviation. Clinical records and RNA-Seq
+\citep{tcga2015melanoma}. These four codes are dataset identifiers used by TCGA
+rather than conventional clinical abbreviations; in particular, LIHC is a TCGA
+dataset code rather than a conventional clinical abbreviation, whereas HCC is
+the conventional clinical abbreviation for hepatocellular carcinoma. Clinical records and RNA-Seq
 gene activity values were downloaded in the file format published by cBioPortal
 \citep{cerami2012cbio, gao2013integrative}, then merged into a single table of
 1,620 patients ($N = 1{,}620$).
@@ -804,7 +806,7 @@ Cancer type & TCGA code & $n$ & Death rate & Median survival (months) \\
 \midrule
 Glioblastoma multiforme      & GBM  & 595 & 0.827 & 12.16 \\
 Pancreatic adenocarcinoma    & PAAD & 184 & 0.543 & 15.34 \\
-Liver hepatocellular carcinoma & LIHC & 372 & 0.355 & 19.76 \\
+Hepatocellular carcinoma (HCC) & LIHC & 372 & 0.355 & 19.76 \\
 Skin cutaneous melanoma      & SKCM & 469 & 0.475 & 35.78 \\
 \bottomrule
 \end{tabular}
