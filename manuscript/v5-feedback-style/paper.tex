@@ -1,0 +1,795 @@
+% =============================================================================
+% Version 4. Same structure, same numbers, same claims as v3.
+% Prose rewritten to match the measured style of published work in this field.
+% Target bands, the paper set they came from, and the achieved figures are all
+% recorded in NOTES.md.
+%
+% Build:  bash scripts/build_paper.sh manuscript/v4-benchmark-style
+% =============================================================================
+
+\documentclass[10pt,a4paper]{article}
+
+% ---------------------------------------------------------------- packages ---
+\usepackage[top=2.2cm,bottom=2.2cm,left=2.3cm,right=2.3cm]{geometry}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage{graphicx}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+
+% ---------------------------------------------------------------- layout -----
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.4em}
+\pagestyle{plain}
+
+\begin{document}
+
+% ---------------------------------------------------------------- title ------
+{\LARGE\bfseries
+Explainable Survival Prediction from Gene Expression and Clinical Data
+\par}
+
+\vspace{1em}
+
+{\large
+xyz$^{a}$,
+xyz$^{b}$,
+xyz$^{a,*}$,
+xyz$^{a}$,
+xyz$^{a}$,
+xyz$^{b}$,
+xyz$^{a}$
+\par}
+
+\vspace{0.8em}
+
+{\small
+$^{a}$ Department of Computer Science and Engineering,
+Amity University Kolkata, Kolkata, West Bengal, India
+
+$^{b}$ Department of Computational Biology,
+Indraprastha Institute of Information Technology Delhi,
+New Delhi, India
+
+$^{*}$ Corresponding author.
+}
+
+% ---------------------------------------------------------------- abstract ---
+\vspace{1.2em}
+
+{\bfseries ABSTRACT\par}
+
+Survival estimates in oncology are usually built from the size and spread of the
+tumour, yet patients placed in the same stage live for very different lengths of
+time. Measurements of gene activity explain part of that spread, although models
+built on them are rarely readable at the level of individual genes. A survival
+model that stays inspectable at every stage was therefore assembled from clinical
+records and gene activity for 1,620 patients ($N = 1{,}620$), drawn from four
+public cohorts covering brain, liver, pancreatic and skin cancer. Redundant genes
+were removed first, which reduced 500 candidates to 59, and those were compressed
+into 50 summary variables by principal component analysis (PCA). A Cox
+proportional hazards model was then fitted with an elastic-net penalty, reaching a
+concordance index of 0.736 on a held-out test set of 324 patients; the concordance
+index measures how often two patients are ordered correctly. Because a relative
+risk score cannot be read as a probability, isotonic regression was fitted on a
+separate split to convert scores into survival probabilities, giving Brier scores
+between 0.132 and 0.178 across the four horizons (12, 24, 36 and 60 months).
+Uncertainty for each patient was estimated from 5,000 simulated survival times,
+not from a single point prediction, yielding pessimistic, median and optimistic
+bounds ($P10$, $P50$, $P90$). Reversing the compression by one matrix
+multiplication then recovered an exact risk weight for each of the 59 genes, so no
+approximate explanation method was required at any point.
+
+% ---------------------------------------------------------------- keywords ---
+\vspace{1em}
+{\bfseries KEYWORDS\par}
+
+Survival analysis; gene expression; Cox proportional hazards; elastic net;
+probability calibration; model explainability
+
+\vspace{3pt}
+
+% =============================================================================
+\section{Introduction}
+\label{sec:introduction}
+% =============================================================================
+
+Treatment decisions in oncology rely on estimating patient survival. That estimate is usually built from the tumour, node and metastasis (TNM) staging system, which groups patients by tumour size and disease spread \citep{amin2017ajcc}. Staging describes anatomy. It says nothing about the molecular activity inside the tumour, so two patients placed in the same stage often survive for very different lengths of time. Part of that spread can be traced to differences in gene activity, which ribonucleic acid sequencing (RNA-Seq) measures directly from a tissue sample \citep{li2011rsem}. Several genes measured this way already carry prognostic weight: high activity of CXCL5 is associated with shorter survival in liver cancer \citep{zhou2012overexpression}, and CA9 marks tumour regions starved of oxygen \citep{giatromanolaki2001carbonic}. Since The Cancer Genome Atlas (TCGA) began releasing matched clinical records and gene activity measurements across dozens of cancer types \citep{weinstein2013cancer}, a direct question has become answerable. Can staging information and gene activity be combined into one model that predicts survival better than staging alone, while remaining transparent enough for a clinician to inspect?
+
+The standard tool for this task remains the Cox proportional hazards model
+\citep{cox1972regression}, which works with a hazard (the instantaneous risk of
+dying at a given moment, for a patient who is still alive). Rather than assume a
+shape for how that baseline risk changes over time, it assumes only that each
+patient's hazard is the baseline hazard multiplied by a fixed factor, derived from
+a weighted sum of their measurements. Right censoring is handled naturally, since
+a patient still alive when the study closes contributes the information that they
+survived at least that long. One important limit comes with this flexibility: the
+number of measurements ($P$) must stay well below the number of patients ($N$). As
+the two approach each other the fitted weights are no longer uniquely determined
+\citep{tibshirani1997lasso}, and gene activity data breaches the limit immediately,
+since a single experiment measures thousands of genes for a few hundred patients.
+
+Three families of methods have been developed to work around that limit, of which
+the first adds a penalty term to the Cox model that pushes weights towards zero.
+The lasso penalty does so aggressively enough to set some weights exactly to zero,
+thereby selecting a subset of genes \citep{tibshirani1997lasso}. Elastic-net
+regularisation adds a second term to that behaviour \citep{zou2005regularization,
+wu2012elastic}. The second term shrinks correlated genes together instead of picking
+one representative from each group at random \citep{simon2011regularization,
+hastie2009elements}. The second family
+reduces the number of variables before fitting, most often through PCA. That
+replaces many correlated measurements with a few summary variables capturing most
+of the variation \citep{hotelling1933analysis, jolliffe2016principal}, and
+cross-validated penalised Cox models on gene activity data follow exactly this
+pattern \citep{vanhouwelingen2006crossvalidated}. The third family corrects the
+probabilities a model reports, and isotonic regression does so without assuming any
+shape for the mapping, while preserving the ordering of patients that the model
+already established \citep{ayer1955empirical, zadrozny2002transforming}. Neural
+network models take a different route altogether. DeepSurv
+\citep{katzman2018deepsurv}, Cox-nnet \citep{ching2018coxnnet} and Cox-PASNet
+\citep{hao2019coxpasnet} replace the weighted sum with a flexible function that
+captures effects a linear predictor cannot. They also require more patients than a
+single cancer cohort usually provides, and their internal weights no longer map onto
+named genes.
+
+Four problems persist when these methods are combined. First, groups of genes
+acting in the same biological pathway are frequently left in the model together,
+and because their measurements are almost identical, the fitted weights become
+unstable across repeated fits \citep{simon2011regularization}. Second, the Cox
+model reports a relative risk score, from which no clinician can read a one-year or
+five-year survival probability without a separate conversion step that many
+pipelines omit. Third, a single predicted number conveys nothing about the range of
+outcomes plausible for one patient, which is precisely what surgical and palliative
+care planning requires. Fourth, PCA solves the variable-count problem but
+introduces a readability problem in its place, because the fitted weights attach to
+summary variables, not to named genes. Post-hoc methods such as SHapley Additive
+exPlanations (SHAP) \citep{lundberg2017unified} and Local Interpretable
+Model-agnostic Explanations (LIME) \citep{ribeiro2016why} estimate gene-level
+importance by sampling, and therefore approximate the answer instead of recovering
+it.
+
+All four problems are addressed here within a single model, through five
+contributions:
+\begin{itemize}
+    \item \textbf{Training-only correlation filter:} A correlation filter fitted on the training split removes redundant genes, reducing 500 candidates to 59 without data leakage.
+    \item \textbf{Smooth elastic-net Cox optimisation:} A Cox model with an elastic-net penalty is fitted on 50 principal components using a smoothed objective ($\sqrt{\beta^2 + \epsilon}$) that keeps the gradient stable.
+    \item \textbf{Horizon-specific isotonic probability calibration:} Separate isotonic regression models, fitted on a dedicated calibration split, convert relative risk scores into survival probabilities at 12, 24, 36, and 60 months while preserving patient order.
+    \item \textbf{Patient-specific trajectory simulation:} A simulation draws 5,000 survival times per patient from the Breslow baseline hazard, producing pessimistic, median, and optimistic bounds ($P10$, $P50$, $P90$).
+    \item \textbf{Exact linear reversal for explainability:} The principal component compression is reversed by one matrix multiplication, returning an exact risk weight for each of the 59 genes and an exact additive breakdown per patient.
+\end{itemize}
+
+The remainder of this paper is structured as follows. Section~\ref{sec:literature_survey} surveys related work across clinical staging, statistical models, and neural networks, noting their current limits. Section~\ref{sec:proposed_method} details cohort assembly, correlation filtering, model formulation, calibration, simulation, and exact explanation. Section~\ref{sec:results} presents findings on feature reduction, discrimination, probability calibration, simulated bounds, and gene rankings. Section~\ref{sec:discussion} discusses each contribution against the empirical findings, clinical utility, and study limits. Section~\ref{sec:conclusion} concludes the paper with future research directions. The resulting data flow is traced in Figure~\ref{fig:unified_architecture}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/fig1_unified_architecture.png}
+    \caption{Overall data flow. Raw clinical records and gene activity
+    measurements enter on the left, then pass through the correlation filter, the
+    compression step, the penalised Cox model, the probability calibrator and the
+    simulation stage, with gene-level explanations leaving on the right.}
+    \label{fig:unified_architecture}
+\end{figure}
+
+% =============================================================================
+\section{Literature Survey}
+% =============================================================================
+
+\label{sec:literature_survey}
+
+Survival models in oncology help guide clinical choices, from surgical options to palliative care planning. This section reviews existing approaches to survival prediction, grouped into clinical staging methods, statistical and machine learning models, and the limitations of these tools.
+
+\subsection{Clinical and staging approaches}
+\label{sec:lit_clinical}
+
+In clinical practice, survival estimates depend on macroscopic criteria. The primary tool is the American Joint Committee on Cancer (AJCC) tumour, node and metastasis (TNM) staging system \citep{amin2017ajcc}. Staging assigns patients to ordinal groups based on tumour size and anatomical spread. Clinical routines also record age at diagnosis, sex, performance status on Eastern Cooperative Oncology Group (ECOG) or Karnofsky scales, and histological grade. Classical survival analyses on these records evaluate Kaplan-Meier curves \citep{kaplan1958nonparametric} or multivariable Cox proportional hazards models \citep{cox1972regression}.
+
+These clinical criteria offer useful population baselines, but they struggle with patient heterogeneity. Two patients placed in the same anatomical stage often follow very different survival trajectories. Clinical staging describes tumour spread rather than internal molecular processes. Key biological drivers, such as cellular hypoxia, metabolic changes, and angiogenic signals, go unmeasured by physical examination. While targeted gene tests exist for select cancers, standard clinical staging lacks the molecular resolution needed for individualized survival prediction.
+
+\subsection{Statistical and machine learning models}
+\label{sec:lit_ml_statistical}
+
+High-throughput transcriptomic profiling via RNA-Seq captures detailed cellular activity \citep{li2011rsem}. Early survival studies adapted the Cox model to high dimensions by adding shrinkage penalties. The lasso penalty drives uninformative weights to zero for feature selection \citep{tibshirani1997lasso}. Ridge regularisation handles correlated variables by shrinking weights together. The elastic net combines both penalties to select features while keeping correlated groups intact \citep{zou2005regularization, wu2012elastic, simon2011regularization}. In addition, principal component analysis (PCA) has been applied before model fitting to compress correlated gene measurements into summary variables \citep{hotelling1933analysis, jolliffe2016principal, vanhouwelingen2006crossvalidated}. Non-linear approaches include random survival forests \citep{ishwaran2008random}, which build decision-tree ensembles without proportional hazards assumptions.
+
+Neural networks have also been adapted to survival analysis. Katzman et al. introduced DeepSurv \citep{katzman2018deepsurv}, using deep networks to model non-linear effects in clinical cohorts. Ching et al. developed Cox-nnet for gene expression data across ten TCGA cohorts \citep{ching2018coxnnet}. Hao et al. incorporated biological pathways into network structure with Cox-PASNet \citep{hao2019coxpasnet}, retaining interpretability in brain and ovarian cancers. Autoencoders have also compressed multi-omic data, including RNA-Seq, microRNA, and deoxyribonucleic acid (DNA) methylation, for liver cancer prognosis \citep{chaudhary2018deep}. Poirion et al. constructed DeepProg, an ensemble model tested across 32 TCGA cancer types and independent cohorts \citep{poirion2021deepprog}. For longitudinal records, Dynamic-DeepHit updates survival predictions as repeated measurements arrive \citep{lee2020dynamic}. Table~\ref{tab:comparative_models} summarises these studies alongside the present work.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of related survival prediction studies.}
+\label{tab:comparative_models}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{p{2.2cm} p{2.4cm} p{2.4cm} p{2.2cm} p{2.6cm}}
+\toprule
+\textbf{Study} &
+\textbf{Cohort} &
+\textbf{Input data} &
+\textbf{Model} &
+\textbf{Validation and metric} \\
+\midrule
+
+van Houwelingen et al. \citep{vanhouwelingen2006crossvalidated} &
+Breast cancer, microarray &
+Gene expression &
+Penalised Cox &
+Cross-validation \\
+
+Ishwaran et al. \citep{ishwaran2008random} &
+General survival data &
+Clinical and mixed &
+Random survival forest &
+Out-of-bag error \\
+
+Katzman et al. \citep{katzman2018deepsurv} &
+Clinical cohorts &
+Clinical data &
+DeepSurv &
+Concordance index \\
+
+Ching et al. \citep{ching2018coxnnet} &
+Ten TCGA cohorts &
+Gene expression &
+Cox-nnet &
+Concordance index \\
+
+Hao et al. \citep{hao2019coxpasnet} &
+TCGA brain and ovarian &
+Expression, clinical, pathway &
+Cox-PASNet &
+Concordance index \\
+
+Chaudhary et al. \citep{chaudhary2018deep} &
+TCGA liver, $n = 360$ &
+Expression, microRNA, methylation &
+Autoencoder &
+Concordance index 0.68; independent cohorts \\
+
+Poirion et al. \citep{poirion2021deepprog} &
+32 TCGA cancers &
+Multiple data types &
+DeepProg &
+Concordance index; independent cohorts \\
+
+Lee et al. \citep{lee2020dynamic} &
+Cystic fibrosis registry, $n = 5{,}883$ &
+Repeated clinical measurements &
+Dynamic-DeepHit &
+Time-dependent discrimination \\
+
+\midrule
+This work &
+Four TCGA cancers, $n = 1{,}620$ &
+Expression and clinical &
+Cox elastic net &
+Held-out test split; concordance index, area under the curve, Brier score \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Limitations of existing models}
+\label{sec:lit_limitations}
+
+Existing survival models have several practical limits. Hundreds of co-expressed genes display extreme collinearity, which causes coefficient estimates to destabilise across splits \citep{simon2011regularization}. Deep models model non-linear interactions at the expense of transparency, since internal weights cannot be tied to named genes \citep{chaudhary2018deep}. Post-hoc explainers like SHAP \citep{lundberg2017unified} and LIME \citep{ribeiro2016why} approximate importance by sampling, introducing stochastic variation into explanations. Similarly, PCA compresses variables effectively but obscures original gene identities unless inverted explicitly. In addition, most studies report only rank discrimination, omitting probability calibration entirely \citep{niculescu2005predicting, zadrozny2002transforming}. An uncalibrated risk score does not inform clinicians of actual survival odds at specific time horizons. Most models also produce single point predictions, omitting pessimistic and optimistic survival bounds. Finally, models requiring repeated measurements cannot run on single-timepoint biopsy data without introducing immortal time bias \citep{suissa2008immortal}.
+
+To address these gaps, this work develops a pipeline combining training-only correlation filtering, PCA compression, smooth elastic-net Cox regression, exact linear reversal for gene explainability, post-hoc isotonic probability calibration, and Monte Carlo uncertainty intervals.
+
+% =============================================================================
+\section{Proposed Method}
+\label{sec:proposed_method}
+% =============================================================================
+
+\subsection{Cohort assembly}
+
+Patients were drawn from four TCGA cohorts: glioblastoma multiforme (study code
+GBM), a brain cancer \citep{brennan2013somatic}; hepatocellular carcinoma (HCC;
+TCGA study code LIHC), a cancer of liver cells (hepatocytes)
+\citep{tcga2017hepatocellular}; pancreatic adenocarcinoma (PAAD)
+\citep{tcga2017pancreatic}; and skin cutaneous melanoma (SKCM)
+\citep{tcga2015melanoma}. These four codes are dataset identifiers used by TCGA
+rather than conventional clinical abbreviations; in particular, LIHC is a TCGA
+dataset code rather than a conventional clinical abbreviation, whereas HCC is
+the conventional clinical abbreviation for hepatocellular carcinoma. Clinical records and RNA-Seq
+gene activity values were downloaded in the file format published by cBioPortal
+\citep{cerami2012cbio, gao2013integrative}, then merged into a single table of
+1,620 patients ($N = 1{,}620$).
+
+Clinical fields present in only one cohort were removed, the melanoma skin type
+field being the clearest example. That field is missing for every patient in three
+of the four cohorts, and filling those gaps with a single value would create an
+artificial cluster of identical entries.
+
+The cohort was split into training ($n = 972$), calibration ($n = 324$) and test
+($n = 324$) subsets, stratified on whether a death was observed rather than on
+survival time. Stratifying on survival time under right censoring shifts the
+distribution between splits, whereas stratifying on the observed event held the
+death rate nearly constant, at 58.4\% (training), 58.6\% (calibration) and 58.3\%
+(test).
+
+\subsection{Removing redundant genes}
+
+The 500 candidate gene activity columns were screened before any scaling or
+compression took place, with absolute Pearson correlations computed between every
+pair of those columns using the training split alone. The columns were then
+examined in a fixed order, and any column correlating above 0.75 with an earlier
+column was discarded, so that the rule keeps the first member of each correlated
+group and drops the rest.
+
+On this cohort 36,205 gene pairs exceeded the threshold, and the filter discarded
+441 of the 500 genes while keeping 59. Those discards were not arbitrary. The
+strongest pairs were genes already known to act together: the two acyl-coenzyme A
+synthetase genes (ACSM2A, ACSM2B) correlated at $r = 0.996$, and the three
+fibrinogen chain genes (FGA, FGB, FGG) correlated above $r = 0.98$ with one
+another. That pattern indicates the filter removed genuine biological redundancy,
+not random noise. One correlation matrix is the whole cost, which avoids the
+repeated matrix inversions a full variance inflation factor (VIF) audit would
+require.
+Correlation structure before and after this step is shown for a representative gene
+subset in Figure~\ref{fig:gram_schmidt_collinearity}.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/fig3a_collinearity_before.png}
+        \caption{Before filtering}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/fig3b_collinearity_after.png}
+        \caption{After filtering}
+    \end{subfigure}
+    \caption{\small Pairwise correlation between a representative subset of genes,
+    measured on the training split. Dark cells on the left mark groups of genes
+    that move together, such as the fibrinogen chain genes; on the right the
+    discarded genes are marked and only weakly correlated genes remain.}
+    \label{fig:gram_schmidt_collinearity}
+\end{figure}
+
+\subsection{Scaling and compression}
+
+Because a small number of genes dominate any sequencing library, RNA-Seq counts
+follow a heavily right-skewed distribution \citep{love2014moderated}, so a base-two
+logarithm with a pseudocount of one, $\log_2(x + 1)$, was applied to the 59
+surviving columns. The pseudocount both shortens that tail and keeps the transform
+defined where activity is zero.
+
+Transformed values were then scaled to zero mean and unit variance, producing the
+matrix $Z_{\text{gene}} \in \mathbb{R}^{N \times 59}$, with the scaling computed
+inside each cross-validation training fold only. Computing it on all data first
+would leak information from the validation fold into training.
+
+Scaling has to precede compression. Because PCA finds the directions of largest
+variation \citep{hotelling1933analysis, jolliffe2016principal}, an unscaled gene
+whose numbers simply span a wider range would dominate the first direction
+regardless of its biological role. The loading matrix
+$V \in \mathbb{R}^{59 \times 50}$ (satisfying $V^{T} V = I_{50}$) was computed by
+singular value decomposition, and the scaled genes were then projected onto
+$K = 50$ summary variables, giving
+$X_{\text{pca}} = Z_{\text{gene}} V \in \mathbb{R}^{N \times 50}$. How the surviving
+genes map onto the leading summary variables is shown in
+Figure~\ref{fig:pca_gene_loadings}.
+
+\subsection{Model input and objective}
+
+Clinical fields were processed on a separate branch, where sex, race, ethnicity,
+cancer type and age group were one-hot encoded (turning each category into its own
+binary column) and age was filled with the median where missing, then scaled. The
+result was a clinical block $X_{\text{clin}} \in \mathbb{R}^{N \times 20}$, joined
+to the 50 summary variables and rescaled to give the model input
+$X = [X_{\text{clin}} \mid X_{\text{pca}}] \in \mathbb{R}^{N \times 70}$.
+
+The Cox model assigns each patient $i$ a risk score $\eta_i = X_i \beta$ with
+hazard $h(t \mid X_i) = h_0(t) \exp(\eta_i)$ \citep{cox1972regression}, the weights
+being $\beta = [\beta_{\text{clin}} \mid \beta_{\text{pca}}] \in \mathbb{R}^{70}$.
+Fitting requires the Breslow partial log-likelihood
+\citep{breslow1972discussion}, which if evaluated directly needs a nested loop over
+patients at every observed death, at a cost of $O(N^2)$ operations. Death times
+were instead sorted in descending order and running totals of the exponentiated
+risk scores accumulated in a single pass, reducing the cost to $O(N)$. An
+elastic-net penalty was then added to the negative partial log-likelihood
+\citep{zou2005regularization, wu2012elastic}: its absolute-value term drives
+weights of uninformative variables to zero, while its squared term shrinks
+correlated variables together.
+
+\subsection{Optimisation}
+
+The objective was minimised with the limited-memory
+Broyden-Fletcher-Goldfarb-Shanno algorithm with bound constraints (L-BFGS-B)
+\citep{byrd1995limited}, which requires a gradient everywhere. The absolute-value term has no
+gradient at zero, and it produced undefined values during development. It was
+therefore replaced by the smooth approximation $\sqrt{\beta^2 + \epsilon}$ with
+$\epsilon = 10^{-6}$. That value is small enough to preserve the sparsifying
+behaviour near zero, yet far enough above double-precision rounding error to keep
+the gradient stable. The risk score $\eta_i$ was
+additionally clipped to $[-40, 40]$ before exponentiation, since the upper bound
+already represents an extreme relative risk
+($\exp(40) \approx 2.35 \times 10^{17}$) while remaining well below the
+double-precision overflow point ($\exp(709)$).
+
+Two hyperparameters were tuned by grid search under five-fold nested
+cross-validation, with the penalty strength $\alpha$ searched over
+$\{0.1, 0.3, 0.8, 1.5, 3.0\}$ and the balance between the two penalty terms
+($l1\_ratio$) over $\{0.0, 0.1, 0.3, 0.5, 0.7\}$. The search selected
+$\alpha = 3.0$ and $l1\_ratio = 0.7$, the final fit converged after 51 iterations,
+and preprocessing and cross-validation were implemented with scikit-learn
+\citep{pedregosa2011scikit}. How the fitted weights and loadings feed the later
+stages is shown in Figure~\ref{fig:inference_xai_architecture}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/fig2_inference_xai_architecture.png}
+    \caption{Flow through the prediction and explanation stages. Fitted weights
+    and compression loadings feed the risk score, the probability calibrator and
+    the reversal step that produces gene-level and patient-level explanations.}
+    \label{fig:inference_xai_architecture}
+\end{figure}
+
+\subsection{Converting risk scores into probabilities}
+
+The risk score $\eta_i$ is meaningful only relative to other patients, so it does
+not answer the question a patient actually asks, which is the chance of surviving
+past a given date. The calibration split ($n = 324$) was held out before any
+filtering or scaling took place, and isotonic regression was fitted on it
+\citep{ayer1955empirical, zadrozny2002transforming, niculescu2005predicting}.
+Because isotonic regression fits a step function that never decreases, it cannot
+reverse the ordering the Cox model already produced. Separate calibrators were
+fitted at 12, 24, 36 and 60 months, each mapping a risk score to a survival
+probability against the observed survival fractions from the Kaplan-Meier estimator
+\citep{kaplan1958nonparametric}. The four fitted mappings are plotted in
+Figure~\ref{fig:isotonic_calibration_curves}.
+
+\subsection{Estimating uncertainty by simulation}
+
+A single predicted number conveys nothing about the spread of possible outcomes, so
+individual survival times were simulated against the Breslow cumulative baseline
+hazard $\Lambda_0(t)$ estimated from the training split
+\citep{breslow1972discussion}. For each patient, 5,000 independent values
+$U^{(k)} \sim \mathrm{Uniform}(0, 1)$ were drawn and converted to a target hazard,
+$\Lambda_{\text{target}} = -\ln(U^{(k)}) / \exp(\eta_i)$, with the matching month
+located by binary search over the baseline hazard step function (an $O(\log E)$
+lookup, where $E = 461$ is the number of distinct observed death times).
+
+The 5,000 draws per patient were summarised as a pessimistic bound ($P10$), a
+median ($P50$) and an optimistic bound ($P90$), and the simulated survival curve
+was integrated to 60 months to give the restricted mean survival time
+\citep{royston2013restricted}. Integration was capped at the longest observed
+follow-up in the cohort (218.4 months), so that the simulation never extrapolates
+beyond the data. Example bands are shown in
+Figure~\ref{fig:monte_carlo_trajectories}.
+
+\subsection{Recovering gene-level weights exactly}
+
+PCA reduced 59 genes to 50 summary variables, so the fitted weights attach to those
+summary variables, not to individual genes. Both the compression and the Cox risk
+score are linear operations, however, so the compression can be reversed exactly.
+The sub-vector of weights attached to the summary variables is
+$\beta_{\text{pca}} \in \mathbb{R}^{50}$, and multiplying the loading matrix by
+this sub-vector gives a risk weight for every surviving gene:
+
+\begin{equation}
+W_{\text{gene}} = V \cdot \beta_{\text{pca}} \in \mathbb{R}^{59}.
+\end{equation}
+
+For patient $i$ and gene $g$, the contribution to the risk score follows directly
+from the scaled activity value $Z_{g,i}$ that entered the compression step:
+
+\begin{equation}
+\Delta \eta_{g,i} = Z_{g,i} \cdot W_{\text{gene},g}.
+\end{equation}
+
+This is exact linear algebra, not an estimate, so the contributions of all 70 model
+inputs add up to the patient's risk score with no residual. Sorting them by
+size produces a breakdown that can be checked term by term
+(Figure~\ref{fig:xai_plots}). Sampling-based methods such as SHAP
+\citep{lundberg2017unified} and LIME \citep{ribeiro2016why} estimate the same
+quantity, but only approximately.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{images/fig4_pca_gene_loadings.png}
+    \caption{Loadings of a representative subset of the 59 surviving genes on the
+    first ten summary variables. Cell values give the size of each gene's
+    contribution to the corresponding summary variable.}
+    \label{fig:pca_gene_loadings}
+\end{figure}
+
+% =============================================================================
+\section{Results}
+\label{sec:results}
+% =============================================================================
+
+\subsection{Feature reduction}
+
+The model input shrank in stages, beginning with 506 candidate columns (500 gene
+activity columns and 6 clinical fields). The correlation filter left 65 columns, of
+which 59 were genes and 6 clinical. One-hot encoding then expanded the 6 clinical
+fields into 20 columns, and PCA compressed the 59 genes into 50 summary variables,
+giving a final model input of 70 columns (Table~\ref{tab:dim_progression}).
+
+Removing 441 of 500 genes amounts to discarding most of the panel (88.2\%). An
+unfiltered 500-gene panel therefore carries largely repeated information, not
+independent signal. That supports filtering before compressing, instead of relying
+on PCA alone to absorb the redundancy.
+
+\begin{table}[H]
+\centering
+\caption{Number of columns at each stage of the pipeline.}
+\label{tab:dim_progression}
+\begin{tabular}{lc}
+\toprule
+Stage & Columns \\
+\midrule
+Candidate gene activity columns & 500 \\
+Clinical fields, before encoding & 6 \\
+Gene columns after correlation filter & 59 \\
+Clinical fields after correlation filter & 6 \\
+Summary variables after compression & 50 \\
+Clinical columns after one-hot encoding & 20 \\
+Final model input $X$ & 70 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Model performance}
+
+Five-fold nested cross-validation on the training split selected $\alpha = 3.0$ and
+$l1\_ratio = 0.7$, with a mean cross-validated concordance index of
+$0.722 \pm 0.021$ across folds. The concordance index measures how often the model
+ranks two patients in the correct survival order \citep{harrell1982evaluating},
+where 0.5 matches random ordering and 1.0 perfect ordering; censoring-adjusted
+variants of the statistic have also been proposed \citep{uno2011c}.
+
+The final model reached a concordance index of 0.749 on the training split and
+0.746 on the calibration split, falling to 0.736 on the held-out test split
+($n = 324$; Table~\ref{tab:cindex}). A gap of only 0.013 between training and test
+performance indicates limited overfitting, which is consistent with the aggressive
+filtering and shrinkage applied upstream.
+
+\begin{table}[!htbp]
+\centering
+\caption{Concordance index by data split.}
+\label{tab:cindex}
+\begin{tabular}{lc}
+\toprule
+Split & Concordance index \\
+\midrule
+Training ($n = 972$) & 0.749 \\
+Calibration ($n = 324$) & 0.746 \\
+Test ($n = 324$) & 0.736 \\
+Five-fold nested cross-validation (mean $\pm$ s.d.) & $0.722 \pm 0.021$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Inspection of the fitted weights showed which inputs mattered most. Cancer type
+carried the largest clinical effect, with membership of the brain cancer cohort
+giving the largest risk-increasing weight ($\beta = 0.772$) and membership of the
+melanoma cohort the largest protective weight ($\beta = -0.322$). That ordering
+matches the observed survival in these cohorts
+(Table~\ref{tab:cancer_outcomes}). Patient age gave the third-largest clinical
+weight ($\beta = 0.293$, risk increasing). Among the compressed gene variables, the
+first summary variable gave the largest weight ($\beta = 0.304$).
+
+The two blocks contributed comparable amounts. Summed across all 50 summary
+variables, the absolute weights of the gene block totalled 2.814, against 2.086 for
+the 20 clinical columns. Both blocks were scaled the same way, so these totals are
+directly comparable. By this measure the compressed gene signal carried slightly
+more weight than the full clinical panel. The ten largest weights across both
+blocks are ranked in Figure~\ref{fig:xai_plots}(a).
+
+\subsection{Calibration at fixed time horizons}
+
+The calibrators were evaluated on the test split ($n = 324$), restricted at each
+horizon to patients whose outcome at that horizon is known after accounting for
+right censoring. That left 289, 247, 228 and 218 patients at 12, 24, 36 and 60
+months respectively (Table~\ref{tab:horizon_metrics}).
+
+Area under the curve measures discrimination at a fixed time point
+\citep{heagerty2005survival}, and it rose from 0.759 at 12 months to a peak of
+0.860 at 24 months before settling near 0.847 at 36 and 60 months. The Brier score
+measures the squared difference between the predicted probability and the observed
+outcome, and is therefore better when lower \citep{graf1999assessment}; it fell
+steadily from 0.178 at 12 months to 0.132 at 60 months.
+
+The 60-month horizon carried both the lowest error and the highest observed death
+rate (78.4\%), and that the death rate rises with horizon length has a mechanical
+cause. As the window extends, fewer patients remain who were censored before the
+horizon, so more of the uncertainty at 12 months comes from patients last seen
+alive and event-free. The fitted mapping at each horizon is plotted in
+Figure~\ref{fig:isotonic_calibration_curves}, where each curve rises without ever
+falling, confirming that the calibrator preserved the ordering the Cox model
+produced.
+
+\begin{table}[!htbp]
+\centering
+\caption{Calibration results on the held-out test split.}
+\label{tab:horizon_metrics}
+\begin{tabular}{ccccc}
+\toprule
+Horizon (months) & Patients with known outcome & Death rate & Area under curve & Brier score \\
+\midrule
+12 & 289 & 0.284 & 0.759 & 0.178 \\
+24 & 247 & 0.543 & 0.860 & 0.152 \\
+36 & 228 & 0.662 & 0.847 & 0.150 \\
+60 & 218 & 0.784 & 0.847 & 0.132 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{images/fig5_isotonic_calibration_curves.png}
+    \caption{Fitted calibration curves at (a) 12 months, (b) 24 months, (c) 36
+    months and (d) 60 months, each comparing the uncalibrated Cox risk score with
+    the calibrated survival probability on the test split. The diagonal marks
+    perfect calibration.}
+    \label{fig:isotonic_calibration_curves}
+\end{figure}
+
+\subsection{Simulated uncertainty}
+
+The simulation produced individual $P10$, $P50$ and $P90$ survival bounds for all
+324 test patients, with a mean interval width between $P10$ and $P90$ of 107.8
+months and a median width of 103.0 months. Intervals this wide reflect the
+difficulty of projecting a single tissue sample forward across a follow-up window
+reaching 218.4 months.
+
+Interval width varied systematically with risk. One high-risk test patient
+($\eta_i = +0.965$) received bounds of $P10 = 3.3$, $P50 = 13.6$ and $P90 = 38.1$
+months, with a 60-month restricted mean survival time of 16.9 months. One low-risk
+patient ($\eta_i = -1.578$) received far wider bounds of $P10 = 20.8$ and
+$P50 = 152.2$ months. That patient's $P90$ reached the 218.4-month cap set by the
+longest observed follow-up, and the restricted mean survival time was 52.3 months.
+
+The asymmetry follows from the exponential form of the hazard. A large positive
+risk score compresses the simulated death times towards the present, whatever value
+$U^{(k)}$ takes. A large negative score spreads the same distribution across the
+whole follow-up range (Figure~\ref{fig:monte_carlo_trajectories}). In practice the
+$P10$ bound supplies a
+worst-case timeline for planning aggressive treatment, and the $P90$ bound a
+best-case ceiling limited by the cohort's own follow-up (218.4 months), not by
+unbounded extrapolation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{images/fig6_monte_carlo_trajectories.png}
+    \caption{Simulated survival probability over a 60-month window for one
+    high-risk and one low-risk test patient.}
+    \label{fig:monte_carlo_trajectories}
+\end{figure}
+
+\subsection{Gene-level and patient-level explanations}
+
+Reversing the compression resolved the first summary variable into its constituent
+genes, the ten loading most strongly being CD24, CXCL14, GPRC5A, PPP1R1B, SYT13,
+SERPINA3, CA9, ADAM6, FGFR2 and CXCL5. Two of these carry documented links to
+low-oxygen tumour regions and to spread beyond the original site: CA9
+\citep{giatromanolaki2001carbonic} and CXCL5 \citep{zhou2012overexpression}.
+
+At the level of one patient, the breakdown splits the risk score across all 70
+model inputs with no residual. A representative test patient (TCGA-DD-AACJ) is
+shown in Figure~\ref{fig:xai_plots}(b), still alive at last contact after 69.0
+months of follow-up. The largest single term for this patient was protective, not
+belonging to the brain cancer cohort contributing $-0.616$, while the two largest
+risk-increasing terms were patient age ($+0.328$) and one summary variable
+($+0.321$). All 70 terms summed to the patient's risk score of $-0.028$, and
+because the decomposition is exact matrix algebra, each of those numbers can be
+audited individually.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/fig7a_global_gene_importance.png}
+        \caption{Largest fitted weights}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/fig7b_patient_risk_waterfall.png}
+        \caption{Risk breakdown for one patient}
+    \end{subfigure}
+    \caption{Explanations produced by reversing the compression step.
+    (a) Inputs ranked by fitted weight across the whole cohort.
+    (b) Additive breakdown of one patient's risk score.}
+    \label{fig:xai_plots}
+\end{figure}
+
+\subsection{Independent statistical screen}
+
+The raw clinical and gene activity columns were also tested for association with
+mortality independently of the model. Two tests were applied: a two-sided
+Mann-Whitney U test against whether a death was observed \citep{mann1947test}, and a
+Spearman rank correlation against survival time in months
+\citep{spearman1904proof}. Both were corrected for
+multiple testing across all 1,049 evaluated columns of the 1,620-patient cohort by
+the Benjamini-Hochberg procedure \citep{benjamini1995controlling}. Since both tests
+examine one variable at a time, they show association rather than an effect
+independent of the other variables.
+
+Cancer type was strongly associated with mortality ($p = 1.09 \times 10^{-53}$,
+corrected $q = 1.36 \times 10^{-51}$, rank-biserial effect size 0.392), which
+matches the median survival across the pooled cohort, ranging from 12.16 months for
+brain cancer to 35.78 months for melanoma
+(Table~\ref{tab:cancer_outcomes}). Tumour stage recorded under the American Joint
+Committee on Cancer system was also strongly associated
+($p = 8.74 \times 10^{-45}$, corrected $q = 5.15 \times 10^{-43}$), so stage
+retains predictive value even inside a pooled analysis of four cancer types.
+
+Among individual gene activity columns, DKFZp547D155 showed the strongest
+correlation with survival time ($\rho = -0.346$, corrected
+$q = 7.57 \times 10^{-31}$). Several genes recovered by reversing the compression
+also passed this screen independently, with CA9 at $\rho = -0.338$ (corrected
+$q = 7.23 \times 10^{-30}$) and CXCL5 at $\rho = -0.308$ (corrected
+$q = 4.33 \times 10^{-25}$). Because the screen makes no use of the fitted model,
+that agreement provides a check on the model-derived gene ranking.
+
+\begin{table}[!htbp]
+\centering
+\caption{Outcome by cancer type across the pooled cohort ($N = 1{,}620$).}
+\label{tab:cancer_outcomes}
+\begin{tabular}{llccc}
+\toprule
+Cancer type & TCGA code & $n$ & Death rate & Median survival (months) \\
+\midrule
+Glioblastoma multiforme      & GBM  & 595 & 0.827 & 12.16 \\
+Pancreatic adenocarcinoma    & PAAD & 184 & 0.543 & 15.34 \\
+Hepatocellular carcinoma (HCC) & LIHC & 372 & 0.355 & 19.76 \\
+Skin cutaneous melanoma      & SKCM & 469 & 0.475 & 35.78 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =============================================================================
+\section{Discussion}
+\label{sec:discussion}
+% =============================================================================
+
+\subsection{Discussion of contributions and empirical findings}
+\label{sec:discussion_contributions}
+
+The empirical results from this study support the proposed pipeline across each of its five contributions.
+
+First, the correlation filter eliminated redundant transcriptomic variables before regularisation took place. In high-dimensional gene expression arrays, tightly co-expressed genes destabilise regression coefficients across random splits. On the training split ($n = 972$), filtering candidate genes with pairwise Pearson correlation exceeding 0.75 pruned 500 genes to 59, removing 36,205 collinear pairs (Table~\ref{tab:dim_progression}). Correlated gene clusters known to function together, including the fibrinogen cluster $FGA$, $FGB$, and $FGG$ ($r > 0.98$), were compressed to single representative variables (Figure~\ref{fig:gram_schmidt_collinearity}). Because this unsupervised filter runs on the training split alone, it prevents data leakage while reducing dimensionality before model fitting.
+
+Second, the combination of PCA compression and smooth elastic-net regularisation addressed the high-dimensionality challenge ($P \approx N$) without requiring deep network parameters. Compressing 59 genes to 50 principal components and joining 20 clinical indicators produced a compact 70-variable input matrix. The penalised Cox objective, smoothed with $\sqrt{\beta^2 + \epsilon}$ for L-BFGS-B optimisation, achieved a test concordance index of 0.736 ($n = 324$; Table~\ref{tab:cindex}). This aligns with five-fold cross-validation performance ($0.722 \pm 0.021$) and training performance (0.749). The small drop of 0.013 between training and test concordance indices shows that regularisation controlled overfitting, matching published deep models such as Chaudhary et al. (0.68 on liver cancer) \citep{chaudhary2018deep}.
+
+Third, post-hoc isotonic calibration translated relative hazard scores into absolute survival probabilities. Uncalibrated Cox risk scores rank patients but cannot provide time-specific survival chances. Fitting separate isotonic regressors on a held-out calibration partition ($n = 324$) preserved the rank ordering produced by the Cox model while mapping risk scores to survival probabilities at 12, 24, 36, and 60 months (Figure~\ref{fig:isotonic_calibration_curves}). On the held-out test split, calibrated probabilities achieved Brier scores between 0.178 (12 months) and 0.132 (60 months), alongside time-dependent area under the curve (AUC) values between 0.759 and 0.860 (Table~\ref{tab:horizon_metrics}). These calibrated outputs give oncology clinicians readable risk percentages for treatment planning.
+
+Fourth, simulating survival times from the Breslow baseline hazard supplied individual uncertainty bounds rather than single deterministic point estimates. Cancer prognosis carries substantial individual variation that point predictions conceal. By drawing 5,000 survival trajectories per patient, the pipeline established pessimistic ($P10$), median ($P50$), and optimistic ($P90$) survival bounds (Figure~\ref{fig:monte_carlo_trajectories}). High-risk test patients received narrow prognostic intervals ($P10 = 3.3$, $P50 = 13.6$, $P90 = 38.1$ months), whereas low-risk patients displayed wide intervals ($P10 = 20.8$, $P50 = 152.2$, $P90 = 218.4$ months). This asymmetry reflects the exponential structure of the hazard function, providing informative worst-case and best-case timelines without extrapolating past the longest observed follow-up.
+
+Fifth, exact linear reversal restored gene-level transparency from PCA representations without resorting to stochastic approximations. Deep neural networks and black-box dimensionality reduction conceal gene identities behind hidden layer activations. Multiplying the PCA loading matrix by the summary weights ($W_{\text{gene}} = V \cdot \beta_{\text{pca}}$) yielded exact hazard weights for all 59 filtered genes. On test patient TCGA-DD-AACJ, the additive waterfall decomposition summed to the exact risk score ($\eta_i = -0.028$) with zero residual error (Figure~\ref{fig:xai_plots}(b)). Key prognostic genes identified by this reversal, including $CA9$ ($\rho = -0.338$, $q = 7.23 \times 10^{-30}$) and $CXCL5$ ($\rho = -0.308$, $q = 4.33 \times 10^{-25}$), were independently validated by the univariable non-parametric screen (Table~\ref{tab:cancer_outcomes}).
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+Six limitations should be stated. First, the proportional hazards assumption was not tested using Schoenfeld residuals \citep{schoenfeld1982partial}, and the diverse disease courses across the four cancer types suggest it may be violated. Second, both hyperparameters sat at the edge of their search grids ($\alpha = 3.0$ and $l1\_ratio = 0.7$), so stronger regularisation was not explored. Third, pooling four distinct cancer types into one weight vector averages gene effects across tissues, potentially obscuring tumour-specific biology. Fourth, the model has not been evaluated outside TCGA, leaving transportability across independent clinical sequencing platforms unverified \citep{poirion2021deepprog}. Fifth, each patient contributed one tissue biopsy at diagnosis, precluding longitudinal modelling of tumour progression over time \citep{lee2020dynamic}. Finally, the independent statistical screen tested variables individually, measuring univariable association rather than conditional prognostic independence.
+
+% =============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% =============================================================================
+
+Survival prediction in oncology demands accurate discrimination, reliable probability calibration, and transparent explanations for individual patients. In this work, an explainable survival pipeline was developed for matched clinical and transcriptomic data across 1,620 patients from four TCGA cohorts. The approach addressed the high-dimensionality problem by applying an unsupervised correlation filter on the training split, pruning 500 candidate genes down to 59 non-redundant biomarkers. PCA compression to 50 summary components, combined with an elastic-net Cox model optimised with a smoothed objective, yielded a test concordance index of 0.736 with minimal overfitting relative to cross-validation ($0.722 \pm 0.021$).
+
+The pipeline provides several clinical tools beyond relative risk rankings. Isotonic calibration converted relative risk scores into multi-year survival probabilities, achieving Brier scores as low as 0.132 and time-dependent AUC values up to 0.860 on held-out test data. Simulating 5,000 survival trajectories against the Breslow baseline hazard provided patient-specific pessimistic, median, and optimistic bounds, reflecting the asymmetric spread of clinical outcomes. By reversing the PCA transformation with a single matrix multiplication, the method produced exact gene-level hazard weights and additive waterfall breakdowns with zero mathematical residual, confirming established prognostic biomarkers such as CA9 and CXCL5 without sampling approximations.
+
+Future research can build on these findings in three ways. First, introducing cancer-specific interaction terms would capture tissue-specific biology within pooled cohorts. Second, testing the pipeline on prospective multi-institutional cohorts outside TCGA will test its resilience to technical batch variation. Third, adapting the mathematical framework to accommodate longitudinal biopsies and time-varying covariates will support dynamic risk updating over the course of treatment. These extensions will further advance transparent, calibrated survival prediction models for clinical oncology.
+
+% =============================================================================
+\section*{Acknowledgement}
+
+[Insert acknowledgement here.]
+
+% ---------------------------------------------------------------- refs -------
+\vspace{1em}
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+
+\end{document}

@@ -41,8 +41,8 @@ figures to that path.
 |---|---|---|
 | v1 | A Calibrated, Explainable Cox Elastic-Net Pipeline for Pan-Cancer Survival Prediction from Multi-Omic TCGA Data | superseded |
 | v2 | same title, expanded literature survey | returned with comments |
-| v3 | Explainable Survival Prediction from Gene Expression and Clinical Data | superseded |
-| v4 | same title, prose restyled to match published work in the field | active |
+| v4 | same title, prose restyled to match published work in the field | superseded |
+| v5 | same title, feedback-aligned structure and contributions | active |
 
 v3 and v4 carry identical content: same sections, numbers, claims and citations.
 They differ only in prose. v3 uses short single-clause sentences (mean 13.7 words)
